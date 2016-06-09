@@ -1,0 +1,18 @@
+extends layout
+
+mixin row(items)
+    tr
+        each item, index in items
+            td= item
+//      avgMaxDps: 'average Max DPS for each cage', - доделать подсчёт на кол-во эффективных клеток
+
+
+mixin table(tableData)
+    table(class='table')
+        +row({id: 'id', x: 'x', y: 'y', resType: 'resType', oasis: 'oasis', landscape: 'landscape', kingdomId: 'kingdomId'})
+        each row, index in tableData
+            +row(row)
+
+block content
+    h1= title
+    +table(JSON.parse(crop))
