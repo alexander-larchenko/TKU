@@ -49,16 +49,16 @@ var listPayload = {
       "listIds":[227],
       "villageId":537444357
     },
-    "session":"d565f89be5849b0ef935"
+    "session":"98a6abda2f11c377cbb6"
   },
   Wahlberg2: {
     "controller":"troops",
     "action":"startFarmListRaid",
     "params":{
-      "listIds":[863],
+      "listIds":[863,1877],
       "villageId":536559615
     },
-    "session":"d565f89be5849b0ef935"
+    "session":"98a6abda2f11c377cbb6"
   },
   Greedy: {
     "controller":"troops",
@@ -67,7 +67,16 @@ var listPayload = {
       "listIds": [1714,1716,2533],
       "villageId": 536330262
     },
-    "session":"d1b700e7c1808cb08ef6"
+    "session":"3e491dd6a67f78fb8c13"
+  },
+  GreedyKs1: {
+    "controller":"troops",
+    "action":"startFarmListRaid",
+    "params":{
+      "listIds":[1876],
+      "villageId":537313293
+    },
+    "session":"a0ab63a042ef10e3eb12"
   },
   GROM: {
     "controller":"troops",
@@ -76,7 +85,7 @@ var listPayload = {
       "listIds": [416],
       "villageId": 537214997
     },
-    "session":"ca778640127a0d200c49"
+    "session":"8bffbb5a738a057021e2"
   }
 };
 
@@ -583,13 +592,17 @@ function autoFarmFinder(xCor, yCor, name){
                     var allVillages = JSON.parse(body);
                     var allGreyVillages = [];
                     allVillages.cache.forEach(function(item, i, arr){
-                      if (item.data.active == 0){
+                      // if (item.data.active == 0){
+                      if (item.data.active == 0 && item.data.population < 50){
                         for (var j = 0; j < item.data.villages.length; j++) {
                           var obj = item.data.villages[j];
+                          // console.log(obj);
                           allGreyVillages.push(obj);
                         }
                       }
                     });
+
+                    // return false;
 
                     var sortedAllGreyVillages = _.sortBy(allGreyVillages, function(villages){
                       var len = Math.sqrt(Math.pow(villages.coordinates.x - xCor, 2) + Math.pow(villages.coordinates.y - yCor, 2));
@@ -600,7 +613,8 @@ function autoFarmFinder(xCor, yCor, name){
 
                     var listLength = Math.ceil(sortedAllGreyVillages.length/100);
 
-
+                    // Если нужен только первые 100 целей
+                    listLength = 1;
                     var listIndex = 0;
                     var listId = [];
 
@@ -615,6 +629,8 @@ function autoFarmFinder(xCor, yCor, name){
                         "session":token
                       };
 
+                      // console.log(listObj);
+
                       request
                           .post({
                             headers: {'content-type' : 'application/x-www-form-urlencoded'},
@@ -622,6 +638,8 @@ function autoFarmFinder(xCor, yCor, name){
                             body:    JSON.stringify(listObj)
                           }, function(error, response, body)
                           {
+                            // console.log(body);
+                            // Если возникает ошибка, значит не оплачен травиан плюс
                             listId.push(JSON.parse(body).cache[0].data.cache[0].data.listId);
                             count++;
 
@@ -680,14 +698,15 @@ function autoFarmFinder(xCor, yCor, name){
 
 
 var timeForGame = 't' + Date.now();
-var token = '15b77dd401e8e1869082';
+var token = '98a6abda2f11c377cbb6';
 var serverDomain = 'ks1-com';
 
-//autoFarmFinder('22', '-17', 'new');
+// autoFarmFinder('21', '10', 'farm');
 
-autoFarmList(1500, 300, listPayload.Greedy, 'kx3-com', false);
-autoFarmList(1500, 600, listPayload.GROM, 'ks1-com', false);
-autoFarmList(1500, 600, listPayload.Wahlberg2, 'ks1-com', false);
+// autoFarmList(1500, 300, listPayload.Greedy, 'kx3-com', true);
+// autoFarmList(1500, 300, listPayload.GreedyKs1, 'ks1-com', true);
+// autoFarmList(1500, 600, listPayload.GROM, 'ks1-com', true);
+// autoFarmList(1500, 600, listPayload.Wahlberg2, 'ks1-com', true);
 
 var repeatFn = function(){
   getMapInfo('animal');
@@ -695,7 +714,7 @@ var repeatFn = function(){
 };
 
 //getMapInfo('animal');
-//setTimeout(repeatFn, 600000);
+setTimeout(repeatFn, 600000);
 
 
 
