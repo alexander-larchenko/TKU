@@ -372,7 +372,7 @@ var fixedTimeGenerator = function (seconds) {
           console.log(response);
         });
     },
-    getMapInfo = function (type) {
+    getMapInfo = function (type, token, serverDomain, timeForGame) {
       type = type || 'animal';
       request
           .get({
@@ -709,7 +709,7 @@ var serverDomain = 'ks1-com';
 // autoFarmList(1500, 600, listPayload.Wahlberg2, 'ks1-com', true);
 
 var repeatFn = function(){
-  getMapInfo('animal');
+  getMapInfo('animal', token, serverDomain, timeForGame);
   setTimeout(repeatFn, 600000);
 };
 
