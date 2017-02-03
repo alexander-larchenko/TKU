@@ -700,6 +700,22 @@ function searchEnemy(xCor, yCor) {
                                             };
                                             // http://rux3.kingdoms.com/api/?c=troops&a=send&t1486071488668
 
+                                            var lastReportPayload = {
+                                                "controller":"reports",
+                                                "action":"getLastReports",
+                                                "params":{
+                                                    "collection":"search",
+                                                    "start":0,
+                                                    "count":10,
+                                                    "filters":[
+                                                        "15","16","17",
+                                                        {"villageId":villageId}
+                                                    ],
+                                                    "alsoGetTotalNumber":true
+                                                },
+                                                "session":token
+                                            };
+
                                             request
                                                 .post({
                                                     headers: {
@@ -711,18 +727,55 @@ function searchEnemy(xCor, yCor) {
                                                         'Referer': 'http://'+serverDomain+'.kingdoms.com',
                                                         'User-Agent':'Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36'
                                                     },
-                                                    url:     'http://'+serverDomain+'.kingdoms.com/api/?c=troops&a=send&'+timeForGame,
-                                                    body:    JSON.stringify(requestPayload)
+                                                    url:     'http://'+serverDomain+'.kingdoms.com/api/?c=reports&a=getLastReports&'+timeForGame,
+                                                    body:    JSON.stringify(lastReportPayload)
                                                 }, function(error, response, body) {
-
-                                                    var timeGen = randomTimeGenerator(3);
-                                                    setTimeout(function(){
-                                                        console.log('Рандомное время ' + i + ': ' + timeGen)
+                                                    body = JSON.parse(body);
+                                                    //15 - чистый лог
+                                                    //16 - с потерями
+                                                    //17 - всё проёбано блеать :(
+                                                    if (body.response && body.response.reports && body.response.reports.length > 0 && body.response.reports[0].notificationType == 15){
+                                                        scanNow();
+                                                        // console.log('body.response.reports > 0');
+                                                        // console.log(body.response.reports[0]);
+                                                    } else if (body.response && body.response.reports && body.response.reports.length === 0) {
+                                                        // console.log('body.response.reports === 0')
+                                                        scanNow();
+                                                    } else {
+                                                        if (body.response && body.response.reports){
+                                                            console.log(body.response.reports[0].notificationType);
+                                                        } else {
+                                                            console.log(body.response)
+                                                        }
                                                         loop.next();
-                                                    }, randomTimeGenerator(timeGen))
-                                                    //console.log(body);
+                                                    }
+
                                                 });
 
+                                            function scanNow(){
+
+                                                request
+                                                    .post({
+                                                        headers: {
+                                                            'content-type' : 'application/x-www-form-urlencoded',
+                                                            'Cookie' : 't5mu=YBnM550V5tEbE9UM; gl5SessionKey=%7B%22key%22%3A%221a936d1acfe5bac9f4a5%22%2C%22id%22%3A%22166540%22%7D; gl5PlayerId=166540; t5SessionKey=%7B%22key%22%3A%22e0a9610f253ef9814ada%22%2C%22id%22%3A%22124%22%7D; _ga=GA1.2.1502737351.1484125044; _gat=1; t5socket=%22client588d54d17b8f4%22; village=536723453; msid=ci7d1tr76t4br93dqodgu4c3h5',
+                                                            'Host': serverDomain+'.kingdoms.com',
+                                                            'Origin': 'http://'+serverDomain+'.kingdoms.com',
+                                                            'Pragma':'no-cache',
+                                                            'Referer': 'http://'+serverDomain+'.kingdoms.com',
+                                                            'User-Agent':'Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36'
+                                                        },
+                                                        url:     'http://'+serverDomain+'.kingdoms.com/api/?c=troops&a=send&'+timeForGame,
+                                                        body:    JSON.stringify(requestPayload)
+                                                    }, function(error, response, body) {
+                                                        var rand = fixedTimeGenerator(6) + randomTimeGenerator(3);
+                                                        setTimeout(function(){
+                                                            console.log('Рандомное время ' + i + ': ' + rand);
+                                                            loop.next();
+                                                        }, rand);
+                                                        //console.log(body);
+                                                    });
+                                            }
                                         }, 
                                         function(){console.log('Search ended')}
                                     );

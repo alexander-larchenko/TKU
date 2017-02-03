@@ -2,15 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b7a70d1c-58d6-4c52-9d8d-a4d298e78538" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/TKutils_node_modules.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/TKutils.iml" afterPath="$PROJECT_DIR$/.idea/TKutils.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/runConfigurations/bin_www.xml" afterPath="$PROJECT_DIR$/.idea/runConfigurations/bin_www.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/www" afterPath="$PROJECT_DIR$/bin/www" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/index.js" afterPath="$PROJECT_DIR$/routes/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/animal.jade" afterPath="$PROJECT_DIR$/views/animal.jade" />
     </list>
     <ignored path="TKutils.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -43,8 +36,8 @@
       <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/routes/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="712" column="54" lean-forward="true" selection-start-line="712" selection-start-column="54" selection-end-line="712" selection-end-column="54" />
+            <state relative-caret-position="238">
+              <caret line="739" column="97" lean-forward="true" selection-start-line="739" selection-start-column="97" selection-end-line="739" selection-end-column="97" />
               <folding>
                 <element signature="e#330#876#0" expanded="false" />
                 <element signature="e#1494#1581#0" expanded="false" />
@@ -52,17 +45,25 @@
                 <element signature="e#3384#3670#0" expanded="false" />
                 <element signature="e#3680#3682#0" expanded="false" />
                 <element signature="e#3981#5302#0" expanded="false" />
-                <element signature="e#5342#13338#0" expanded="false" />
                 <element signature="e#7725#9058#0" expanded="false" />
                 <element signature="e#9120#10547#0" expanded="false" />
                 <element signature="e#10608#11311#0" expanded="false" />
                 <element signature="e#13403#14574#0" expanded="false" />
                 <element signature="e#14643#24494#0" expanded="false" />
                 <element signature="e#15914#23050#0" expanded="false" />
-                <element signature="n#!!block;n#autoFarmFinder#0" expanded="false" />
-                <element signature="e#38666#38703#0" expanded="false" />
-                <element signature="e#38993#41770#0" expanded="false" />
+                <element signature="e#43206#43243#0" expanded="false" />
+                <element signature="e#43533#46310#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/node_modules/request/index.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="277">
+              <caret line="61" column="26" lean-forward="true" selection-start-line="61" selection-start-column="26" selection-end-line="61" selection-end-column="26" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -119,9 +120,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>фарм лист</find>
-      <find>sessi</find>
-      <find>Получили то</find>
       <find>фармл</find>
       <find>lastDataFromList</find>
       <find>httpRequest</find>
@@ -136,7 +134,6 @@
       <find>headers</find>
       <find>Host</find>
       <find>serverDomain</find>
-      <find>response</find>
       <find>listPayload</find>
       <find>536920052</find>
       <find>Wahlberg</find>
@@ -149,6 +146,10 @@
       <find>loop.iteration</find>
       <find>searchEnemy</find>
       <find>sorted</find>
+      <find>response</find>
+      <find>randomTimeGenerator</find>
+      <find>fixedTime</find>
+      <find>body</find>
     </findStrings>
     <replaceStrings>
       <replace>kingdoms.com</replace>
@@ -388,12 +389,20 @@
       <workItem from="1484848293960" duration="1642000" />
       <workItem from="1485657171270" duration="7344000" />
       <workItem from="1485896014548" duration="4714000" />
-      <workItem from="1486071404552" duration="2759000" />
+      <workItem from="1486071404552" duration="5511000" />
     </task>
+    <task id="LOCAL-00001" summary="Ебашим скрипты, что бы аменочка дрочила">
+      <created>1486074191367</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1486074191367</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="49328000" />
+    <option name="totallyTimeSpent" value="52080000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="54" y="-8" width="2514" height="1096" extended-state="6" />
@@ -435,12 +444,16 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Ебашим скрипты, что бы аменочка дрочила" />
+    <option name="LAST_COMMIT_MESSAGE" value="Ебашим скрипты, что бы аменочка дрочила" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/routes/index.js</url>
-          <line>743</line>
+          <line>796</line>
           <option name="timeStamp" value="12" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
@@ -497,16 +510,14 @@
             <element signature="e#3384#3670#0" expanded="false" />
             <element signature="e#3680#3682#0" expanded="false" />
             <element signature="e#3981#5302#0" expanded="false" />
-            <element signature="e#5342#13338#0" expanded="false" />
             <element signature="e#7725#9058#0" expanded="false" />
             <element signature="e#9120#10547#0" expanded="false" />
             <element signature="e#10608#11311#0" expanded="false" />
             <element signature="e#13403#14574#0" expanded="false" />
             <element signature="e#14643#24494#0" expanded="false" />
             <element signature="e#15914#23050#0" expanded="false" />
-            <element signature="n#!!block;n#autoFarmFinder#0" expanded="false" />
-            <element signature="e#38666#38703#0" expanded="false" />
-            <element signature="e#38993#41770#0" expanded="false" />
+            <element signature="e#43206#43243#0" expanded="false" />
+            <element signature="e#43533#46310#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -554,16 +565,14 @@
             <element signature="e#3384#3670#0" expanded="false" />
             <element signature="e#3680#3682#0" expanded="false" />
             <element signature="e#3981#5302#0" expanded="false" />
-            <element signature="e#5342#13338#0" expanded="false" />
             <element signature="e#7725#9058#0" expanded="false" />
             <element signature="e#9120#10547#0" expanded="false" />
             <element signature="e#10608#11311#0" expanded="false" />
             <element signature="e#13403#14574#0" expanded="false" />
             <element signature="e#14643#24494#0" expanded="false" />
             <element signature="e#15914#23050#0" expanded="false" />
-            <element signature="n#!!block;n#autoFarmFinder#0" expanded="false" />
-            <element signature="e#38666#38703#0" expanded="false" />
-            <element signature="e#38993#41770#0" expanded="false" />
+            <element signature="e#43206#43243#0" expanded="false" />
+            <element signature="e#43533#46310#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -603,16 +612,14 @@
             <element signature="e#3384#3670#0" expanded="false" />
             <element signature="e#3680#3682#0" expanded="false" />
             <element signature="e#3981#5302#0" expanded="false" />
-            <element signature="e#5342#13338#0" expanded="false" />
             <element signature="e#7725#9058#0" expanded="false" />
             <element signature="e#9120#10547#0" expanded="false" />
             <element signature="e#10608#11311#0" expanded="false" />
             <element signature="e#13403#14574#0" expanded="false" />
             <element signature="e#14643#24494#0" expanded="false" />
             <element signature="e#15914#23050#0" expanded="false" />
-            <element signature="n#!!block;n#autoFarmFinder#0" expanded="false" />
-            <element signature="e#38666#38703#0" expanded="false" />
-            <element signature="e#38993#41770#0" expanded="false" />
+            <element signature="e#43206#43243#0" expanded="false" />
+            <element signature="e#43533#46310#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -667,80 +674,14 @@
             <element signature="e#3384#3670#0" expanded="false" />
             <element signature="e#3680#3682#0" expanded="false" />
             <element signature="e#3981#5302#0" expanded="false" />
-            <element signature="e#5342#13338#0" expanded="false" />
             <element signature="e#7725#9058#0" expanded="false" />
             <element signature="e#9120#10547#0" expanded="false" />
             <element signature="e#10608#11311#0" expanded="false" />
             <element signature="e#13403#14574#0" expanded="false" />
             <element signature="e#14643#24494#0" expanded="false" />
             <element signature="e#15914#23050#0" expanded="false" />
-            <element signature="n#!!block;n#autoFarmFinder#0" expanded="false" />
-            <element signature="e#38666#38703#0" expanded="false" />
-            <element signature="e#38993#41770#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/underscore/underscore.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="373" column="2" lean-forward="false" selection-start-line="373" selection-start-column="2" selection-end-line="373" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/animal.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="45" column="13" lean-forward="false" selection-start-line="45" selection-start-column="13" selection-end-line="46" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bin/www">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="6" column="28" lean-forward="false" selection-start-line="6" selection-start-column="28" selection-end-line="6" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="21" column="56" lean-forward="false" selection-start-line="21" selection-start-column="56" selection-end-line="21" selection-end-column="56" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#330#876#0" expanded="false" />
-            <element signature="e#1494#1581#0" expanded="false" />
-            <element signature="e#1908#3196#0" expanded="false" />
-            <element signature="e#3384#3670#0" expanded="false" />
-            <element signature="e#3680#3682#0" expanded="false" />
-            <element signature="e#3981#5302#0" expanded="false" />
-            <element signature="e#5342#13338#0" expanded="false" />
-            <element signature="e#7725#9058#0" expanded="false" />
-            <element signature="e#9120#10547#0" expanded="false" />
-            <element signature="e#10608#11311#0" expanded="false" />
-            <element signature="e#13403#14574#0" expanded="false" />
-            <element signature="e#14643#24494#0" expanded="false" />
-            <element signature="e#15914#23050#0" expanded="false" />
-            <element signature="n#!!block;n#autoFarmFinder#0" expanded="false" />
-            <element signature="e#38666#38703#0" expanded="false" />
-            <element signature="e#38993#41770#0" expanded="false" />
+            <element signature="e#43206#43243#0" expanded="false" />
+            <element signature="e#43533#46310#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -795,16 +736,76 @@
             <element signature="e#3384#3670#0" expanded="false" />
             <element signature="e#3680#3682#0" expanded="false" />
             <element signature="e#3981#5302#0" expanded="false" />
-            <element signature="e#5342#13338#0" expanded="false" />
             <element signature="e#7725#9058#0" expanded="false" />
             <element signature="e#9120#10547#0" expanded="false" />
             <element signature="e#10608#11311#0" expanded="false" />
             <element signature="e#13403#14574#0" expanded="false" />
             <element signature="e#14643#24494#0" expanded="false" />
             <element signature="e#15914#23050#0" expanded="false" />
-            <element signature="n#!!block;n#autoFarmFinder#0" expanded="false" />
-            <element signature="e#38666#38703#0" expanded="false" />
-            <element signature="e#38993#41770#0" expanded="false" />
+            <element signature="e#43206#43243#0" expanded="false" />
+            <element signature="e#43533#46310#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/underscore/underscore.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="373" column="2" lean-forward="false" selection-start-line="373" selection-start-column="2" selection-end-line="373" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/animal.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="45" column="13" lean-forward="false" selection-start-line="45" selection-start-column="13" selection-end-line="46" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bin/www">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="6" column="28" lean-forward="false" selection-start-line="6" selection-start-column="28" selection-end-line="6" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="21" column="56" lean-forward="false" selection-start-line="21" selection-start-column="56" selection-end-line="21" selection-end-column="56" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#330#876#0" expanded="false" />
+            <element signature="e#1494#1581#0" expanded="false" />
+            <element signature="e#1908#3196#0" expanded="false" />
+            <element signature="e#3384#3670#0" expanded="false" />
+            <element signature="e#3680#3682#0" expanded="false" />
+            <element signature="e#3981#5302#0" expanded="false" />
+            <element signature="e#7725#9058#0" expanded="false" />
+            <element signature="e#9120#10547#0" expanded="false" />
+            <element signature="e#10608#11311#0" expanded="false" />
+            <element signature="e#13403#14574#0" expanded="false" />
+            <element signature="e#14643#24494#0" expanded="false" />
+            <element signature="e#15914#23050#0" expanded="false" />
+            <element signature="e#43206#43243#0" expanded="false" />
+            <element signature="e#43533#46310#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -922,13 +923,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/request/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="69" column="0" lean-forward="false" selection-start-line="69" selection-start-column="0" selection-end-line="69" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="901">
@@ -937,10 +931,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/request/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="277">
+          <caret line="61" column="26" lean-forward="true" selection-start-line="61" selection-start-column="26" selection-end-line="61" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/routes/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="712" column="54" lean-forward="true" selection-start-line="712" selection-start-column="54" selection-end-line="712" selection-end-column="54" />
+        <state relative-caret-position="238">
+          <caret line="739" column="97" lean-forward="true" selection-start-line="739" selection-start-column="97" selection-end-line="739" selection-end-column="97" />
           <folding>
             <element signature="e#330#876#0" expanded="false" />
             <element signature="e#1494#1581#0" expanded="false" />
@@ -948,16 +950,14 @@
             <element signature="e#3384#3670#0" expanded="false" />
             <element signature="e#3680#3682#0" expanded="false" />
             <element signature="e#3981#5302#0" expanded="false" />
-            <element signature="e#5342#13338#0" expanded="false" />
             <element signature="e#7725#9058#0" expanded="false" />
             <element signature="e#9120#10547#0" expanded="false" />
             <element signature="e#10608#11311#0" expanded="false" />
             <element signature="e#13403#14574#0" expanded="false" />
             <element signature="e#14643#24494#0" expanded="false" />
             <element signature="e#15914#23050#0" expanded="false" />
-            <element signature="n#!!block;n#autoFarmFinder#0" expanded="false" />
-            <element signature="e#38666#38703#0" expanded="false" />
-            <element signature="e#38993#41770#0" expanded="false" />
+            <element signature="e#43206#43243#0" expanded="false" />
+            <element signature="e#43533#46310#0" expanded="false" />
           </folding>
         </state>
       </provider>
