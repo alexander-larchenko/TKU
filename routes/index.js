@@ -734,7 +734,7 @@ function searchEnemy(xCor, yCor) {
                                                     //15 - чистый лог
                                                     //16 - с потерями
                                                     //17 - всё проёбано блеать :(
-                                                    if (body.response && body.response.reports && body.response.reports.length > 0 && body.response.reports[0].notificationType == 15){
+                                                    if (body.response && body.response.reports && body.response.reports.length > 0 && body.response.reports[0].notificationType === 15){
                                                         scanNow();
                                                         // console.log('body.response.reports > 0');
                                                         // console.log(body.response.reports[0]);
@@ -742,11 +742,11 @@ function searchEnemy(xCor, yCor) {
                                                         // console.log('body.response.reports === 0')
                                                         scanNow();
                                                     } else {
-                                                        if (body.response && body.response.reports){
-                                                            console.log(body.response.reports[0].notificationType);
-                                                        } else {
-                                                            console.log(body.response)
-                                                        }
+                                                        // if (body.response && body.response.reports){
+                                                        //     console.log(body.response.reports[0].notificationType);
+                                                        // } else {
+                                                        //     console.log(body.response)
+                                                        // }
                                                         loop.next();
                                                     }
 
@@ -957,9 +957,11 @@ function autoFarmFinder(xCor, yCor, name){
                                                         body:    JSON.stringify(farmListPayload)
                                                     }, function(error, response, body) {
 
-                                                        console.log(i);
-                                                        loop.next();
-                                                        //console.log(body);
+                                                        var rand = fixedTimeGenerator(6) + randomTimeGenerator(3);
+                                                        setTimeout(function(){
+                                                            console.log('Рандомное время ' + i + ': ' + rand);
+                                                            loop.next();
+                                                        }, rand);
                                                     });
                                             },
                                             function(){console.log('cycle ended')}
@@ -978,11 +980,11 @@ function autoFarmFinder(xCor, yCor, name){
 }
 
 var timeForGame = 't' + Date.now();
-var token = '2fa5dd7110f4fab9abc6';
+var token = '218e0c814a068f6461db';
 var serverDomain = 'rux3';
 
-// autoFarmFinder('-21', '-3', 'Мертвячина');
-searchEnemy('-2', '-5');
+autoFarmFinder('-3', '-5', 'Мертвые');
+// searchEnemy('-2', '-5');
 
 // autoFarmList(3600, 300, listPayload.Sobol, 'rux3', false);
 // autoFarmList(1500, 300, listPayload.GreedyKs1, 'ks1-com', true);
