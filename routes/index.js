@@ -41,9 +41,13 @@ var troops = {
     },
     "session": token
 };
+
 var listPayload = {
-    Wahlberg: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[1929],"villageId":536920052},"session":"596ac03e8e8a1699301a"},
-    Wahlberg2: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[1929],"villageId":536723453},"session":"596ac03e8e8a1699301a"}
+    Wahlberg:  {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[1929],"villageId":536920052},"session":"596ac03e8e8a1699301a"},
+    Wahlberg2: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[1929],"villageId":536723453},"session":"596ac03e8e8a1699301a"},
+    cheetah_1: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2184,2185,2186],"villageId":536887285},"session":"add658b5ae0f9aa35a11"},
+    cheetah_2: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2185],"villageId":536887285},"session":"add658b5ae0f9aa35a11"},
+    cheetah_3: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2186],"villageId":536887285},"session":"add658b5ae0f9aa35a11"}
     // Sobol: {
     //     "controller":"troops",
     //     "action":"startFarmListRaid",
@@ -59,36 +63,38 @@ var fixedTimeGenerator = function (seconds) {
         //Точное кол-во seconds секунд
         return parseInt(1000 * seconds);
     },
+
     getRandomInt = function (min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     },
+
     randomTimeGenerator = function (seconds) {
         //Рандом число в пределах seconds секунд
         return parseInt(getRandomInt(-1000, 1000) * seconds);
     },
+
     httpRequest = function (obj, serverDomain){
         console.log('http://' + serverDomain + '.kingdoms.com/api/?c='+ obj.controller +'&a='+ obj.action +'&' + timeForGame)
         console.log(JSON.stringify(obj));
         return rp({
             headers: {
                 'content-type' : 'application/x-www-form-urlencoded',
-                'Cookie' : 't5mu=YBnM550V5tEbE9UM; gl5SessionKey=%7B%22key%22%3A%221a936d1acfe5bac9f4a5%22%2C%22id%22%3A%22166540%22%7D; gl5PlayerId=166540; t5SessionKey=%7B%22key%22%3A%22e0a9610f253ef9814ada%22%2C%22id%22%3A%22124%22%7D; _ga=GA1.2.1502737351.1484125044; _gat=1; t5socket=%22client588d54d17b8f4%22; village=536723453; msid=ci7d1tr76t4br93dqodgu4c3h5',
+                'Cookie' : 'optimizelyEndUserId=oeu1483022429340r0.5058971660807878; zarget_user_id=1484139929928r0.5542546391271013; t5mu=4skeC5WZnVlW1hUM; desktopNotifications=%7B%22action%22%3A%22accept%22%2C%22timestamp%22%3A1484144302234%7D; optimizelySegments=%7B%227502571397%22%3A%22referral%22%2C%227527560310%22%3A%22false%22%2C%227527342140%22%3A%22true%22%2C%227504900734%22%3A%22none%22%2C%227502401695%22%3A%220%22%2C%227524975010%22%3A%220%22%2C%227535741642%22%3A%223%22%2C%227529072853%22%3A%22ru%22%7D; optimizelyBuckets=%7B%7D; gl5SessionKey=%7B%22key%22%3A%229a51521ec8a3a3151742%22%2C%22id%22%3A%221229510%22%7D; gl5PlayerId=1229510; t5SessionKey=%7B%22key%22%3A%2264084c89e9f70688cb2e%22%2C%22id%22%3A%22138%22%7D; _gat=1; _ga=GA1.2.207116386.1483022340; t5socket=%22client589a5629a6629%22; zarget_visitor_info=%7B%224251525756514A415B575C55454C5E585F565F59%22%3A245058%7D; village=536887285; msid=np1r3k0f4883j40drm03t395i1',
                 'Host': serverDomain+'.kingdoms.com',
                 'Origin': 'http://'+serverDomain+'.kingdoms.com',
                 'Pragma':'no-cache',
                 'Referer': 'http://'+serverDomain+'.kingdoms.com',
-                'User-Agent':'Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36'
+                'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
             },
             uri: 'http://' + serverDomain + '.kingdoms.com/api/?c='+ obj.controller +'&a='+ obj.action +'&' + timeForGame,
             body: JSON.stringify(obj),
             json: true // Automatically parses the JSON string in the response
         })
     },
+
     //fixedTime - фиксированное время
     //randomTime - разброс
     autoFarmList = function (fixedTime, randomTime, listPayload, serverDomain, init) {
-
-
 
         var lastDataFromList = {
             "action": "get",
@@ -109,31 +115,31 @@ var fixedTimeGenerator = function (seconds) {
 
         var percentLose = 0.75;
 
-        var startFramListRaid = function () {
+        var startFarmListRaid = function () {
 
             request
                 .post({
 
                     headers: {
                         'content-type' : 'application/x-www-form-urlencoded',
-                        'Cookie' : 't5mu=YBnM550V5tEbE9UM; gl5SessionKey=%7B%22key%22%3A%221a936d1acfe5bac9f4a5%22%2C%22id%22%3A%22166540%22%7D; gl5PlayerId=166540; t5SessionKey=%7B%22key%22%3A%22e0a9610f253ef9814ada%22%2C%22id%22%3A%22124%22%7D; _ga=GA1.2.1502737351.1484125044; _gat=1; t5socket=%22client588d54d17b8f4%22; village=536723453; msid=ci7d1tr76t4br93dqodgu4c3h5',
+                        'Cookie' : 'optimizelyEndUserId=oeu1483022429340r0.5058971660807878; zarget_user_id=1484139929928r0.5542546391271013; t5mu=4skeC5WZnVlW1hUM; desktopNotifications=%7B%22action%22%3A%22accept%22%2C%22timestamp%22%3A1484144302234%7D; optimizelySegments=%7B%227502571397%22%3A%22referral%22%2C%227527560310%22%3A%22false%22%2C%227527342140%22%3A%22true%22%2C%227504900734%22%3A%22none%22%2C%227502401695%22%3A%220%22%2C%227524975010%22%3A%220%22%2C%227535741642%22%3A%223%22%2C%227529072853%22%3A%22ru%22%7D; optimizelyBuckets=%7B%7D; gl5SessionKey=%7B%22key%22%3A%229a51521ec8a3a3151742%22%2C%22id%22%3A%221229510%22%7D; gl5PlayerId=1229510; t5SessionKey=%7B%22key%22%3A%2264084c89e9f70688cb2e%22%2C%22id%22%3A%22138%22%7D; _gat=1; _ga=GA1.2.207116386.1483022340; t5socket=%22client589a5629a6629%22; zarget_visitor_info=%7B%224251525756514A415B575C55454C5E585F565F59%22%3A245058%7D; village=536887285; msid=np1r3k0f4883j40drm03t395i1',
                         'Host': serverDomain+'.kingdoms.com',
                         'Origin': 'http://'+serverDomain+'.kingdoms.com',
                         'Pragma':'no-cache',
                         'Referer': 'http://'+serverDomain+'.kingdoms.com',
-                        'User-Agent':'Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36'
+                        'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
                     },
                     url: 'http://' + serverDomain + '.kingdoms.com/api/?c=troops&a=send&' + timeForGame,
                     body: JSON.stringify(listPayload)
                 }, function (error, response, body) {
-                    console.info('Фарм лист пошёл! ' + listPayload.session);
+                    console.info('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session +'] отправлен');
                     //console.info(body);
                 })
         };
 
 
         var checkList = function () {
-            console.log('фарм лист начат: '+listPayload.session);
+            console.log('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session +'] проверка');
 
             function start(counter, countMax, timeout, clearTimer, func, obj) {
 
@@ -150,30 +156,29 @@ var fixedTimeGenerator = function (seconds) {
 
                 } else{
 
-                    console.log('Цикл проверки закончен ' + listPayload.session);
+                    console.log('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session +'] проверка закончена');
 
                     var now = new Date();
                     var rand = fixedTimeGenerator(fixedTime) + randomTimeGenerator(randomTime);
-                    console.log('Время выхода ' + now.toString());
-                    var tempTime = now.valueOf() + rand;
-                    var dateNext = new Date(tempTime);
-                    console.log('Следующее время запуска ' + dateNext.toString());
+
                     //console.log(now+rand);
 
+                    var tempTime = now.valueOf() + rand;
+                    var dateNext = new Date(tempTime);
+                    //запуск сразу
                     if (init) {
-                        startFramListRaid();
-                    } else {
-                        console.info('Инциализации нету');
+                        console.log('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session +'] запуск: [' + now.toString()+']');
+                        startFarmListRaid();
                     }
+
+                    console.log('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session +'] следующий запуск: [' + dateNext.toString()+']');
+
 
                     init = true;
 
-
                     setTimeout(checkList, rand);
 
-
                 }
-
             }
 
             function rowInListChanger(body, i, j){
@@ -644,7 +649,7 @@ function searchEnemy(xCor, yCor) {
                                     //Условия
                                     allVillages.cache.forEach(function(item, i, arr){
                                         if (item.data.kingdomId == 6){
-                                        // if (item.data.active == 0){
+                                            // if (item.data.active == 0){
                                             for (var j = 0; j < item.data.villages.length; j++) {
                                                 var obj = item.data.villages[j];
                                                 // console.log(obj);
@@ -776,7 +781,7 @@ function searchEnemy(xCor, yCor) {
                                                         //console.log(body);
                                                     });
                                             }
-                                        }, 
+                                        },
                                         function(){console.log('Search ended')}
                                     );
 
@@ -784,7 +789,7 @@ function searchEnemy(xCor, yCor) {
 
                                     // return false;
 
-  
+
                                 });
                             //console.log(toJson.response.alliances);
                             //console.log(JSON.stringify(toJson.response.gameworld));
@@ -980,17 +985,20 @@ function autoFarmFinder(xCor, yCor, name){
 }
 
 var timeForGame = 't' + Date.now();
-var token = '218e0c814a068f6461db';
+var token = "add658b5ae0f9aa35a11";
 var serverDomain = 'rux3';
 
-autoFarmFinder('-3', '-5', 'Мертвые');
+//autoFarmFinder('-11', '0', 'Мертвые');
 // searchEnemy('-2', '-5');
+
 
 // autoFarmList(3600, 300, listPayload.Sobol, 'rux3', false);
 // autoFarmList(1500, 300, listPayload.GreedyKs1, 'ks1-com', true);
 // autoFarmList(1500, 600, listPayload.GROM, 'ks1-com', true);
 // autoFarmList(3600, 1200, listPayload.Wahlberg, 'rux3', true);
-// autoFarmList(3600, 3600, listPayload.Wahlberg2, 'rux3', true);
+autoFarmList(3600, 800, listPayload.cheetah_1, 'rux3', true);
+//autoFarmList(3600, 1200, listPayload.cheetah_2, 'rux3', true);
+//autoFarmList(3600, 2400, listPayload.cheetah_3, 'rux3', true);
 
 // var repeatFn = function(){
 //  getMapInfo('animal', token, serverDomain, timeForGame);
