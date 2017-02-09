@@ -7,6 +7,10 @@ const rp = require('request-promise');
 //user data
 const userDate = require('./../config.json');
 
+const debug = 3;
+// debug - 1, идут только необходимые логи, которые показывают процессы запуска.
+// debug - 2, идут логи из основных функций
+// debug - 3, идут полные логи
 
 //TODO: переписать на класс, добавить es6 , ts
 function setHttpHeaders(serverDomain, cookie){
@@ -32,284 +36,303 @@ function randomTimeGenerator(seconds) {
     //Рандом число в пределах seconds секунд
     return parseInt(getRandomInt(-1000, 1000) * seconds);
 }
-function httpRequest(obj, serverDomain){
-    console.log('http://' + serverDomain + '.kingdoms.com/api/?c='+ obj.controller +'&a='+ obj.action +'&' + timeForGame)
-    console.log(JSON.stringify(obj));
-    // rp();
+function httpRequest(obj, options){
+    if (debug === 3){
+        console.log(JSON.stringify(obj));
+    }
 
+    let timeForGame = 't' + Date.now();
 
     let options = {
-        headers: setHttpHeaders(serverDomain),
+        headers: setHttpHeaders(options.serverDomain),
         method: obj.method || 'GET',
-        uri: 'http://' + serverDomain + '.kingdoms.com/api/?c='+ obj.controller +'&a='+ obj.action +'&' + timeForGame,
+        uri: 'http://' + options.serverDomain + '.kingdoms.com/api/?c='+ obj.controller +'&a='+ obj.action +'&' + timeForGame,
         body: JSON.stringify(obj),
         json: true // Automatically stringifies the body to JSON
     };
 
+    //RP - request promise, return deffered object.
     return rp(options);
 }
 //fixedTime - фиксированное время
 //randomTime - разброс
 function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
 
-        var lastDataFromList = {
-            "action": "get",
-            "controller": "cache",
-            "params": {
-                "names": [
-                    "Kingdom:undefined",
-                    "Collection:FarmList:"
-                ]
-            },
-            "session": listPayload.session
+    let lastDataFromList = {
+        "action": "get",
+        "controller": "cache",
+        "params": {
+            "names": [
+                "Kingdom:undefined",
+                "Collection:FarmList:"
+            ]
+        },
+        "session": listPayload.session
+    };
+
+    //for (let i = 0; i < listPayload.params.listIds.length; i++) {
+    //  let obj = "Collection:FarmListEntry:" + listPayload.params.listIds[i];
+    //  lastDataFromList.params.names.push(obj);
+    //}
+
+    let percentLose = 0.75;
+
+    let startFarmListRaid = function (listPayload) {
+
+        let options = {
+            serverDomain: serverDomain
         };
-        //
-        //for (var i = 0; i < listPayload.params.listIds.length; i++) {
-        //  var obj = "Collection:FarmListEntry:" + listPayload.params.listIds[i];
-        //  lastDataFromList.params.names.push(obj);
-        //}
 
-        var percentLose = 0.75;
-
-        var startFarmListRaid = function () {
-
-            request
-            .post({
-                headers: setHttpHeaders(),
-                url: 'http://' + serverDomain + '.kingdoms.com/api/?c=troops&a=send&' + timeForGame,
-                body: JSON.stringify(listPayload)
-            }, function (error, response, body) {
+        httpRequest(listPayload, options).then(
+            function (body) {
                 console.info('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session +'] отправлен');
-                //console.info(body);
-            })
-        };
+                console.log(body);
+            },
+            function (err) {
+                console.error('Произошла ошибка');
+                console.log(err);
+                console.info('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session +'] отправлен');
 
-
-        var checkList = function () {
-            console.log('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session +'] проверка');
-
-            function start(counter, countMax, timeout, clearTimer, func, obj) {
-
-                if (counter < countMax){
-
-                    setTimeout(function () {
-
-                        if (func){func(obj, counter);}
-
-                        counter++;
-                        start(counter, countMax, timeout, clearTimer, func, obj);
-
-                    }, timeout);
-
-                } else{
-
-                    console.log('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session +'] проверка закончена');
-
-                    var now = new Date();
-                    var rand = fixedTimeGenerator(fixedTime) + randomTimeGenerator(randomTime);
-
-                    //console.log(now+rand);
-
-                    var tempTime = now.valueOf() + rand;
-                    var dateNext = new Date(tempTime);
-                    //запуск сразу
-                    if (init) {
-                        console.log('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session +'] запуск: [' + now.toString()+']');
-                        startFarmListRaid();
-                    }
-
-                    console.log('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session +'] следующий запуск: [' + dateNext.toString()+']');
-
-
-                    init = true;
-
-                    setTimeout(checkList, rand);
-
-                }
             }
+        );
 
-            function rowInListChanger(body, i, j){
-                console.log(JSON.stringify(body.cache[j]));
-                var objFromCache = body.cache[j].data.cache[i],
-                    lastReport = objFromCache.data.lastReport;
 
-                // console.log(j, i);
+    };
 
-                var newObjUnits = {
-                    "controller": "farmList",
-                    "action": "editTroops",
-                    "params": {
-                        "entryIds": [objFromCache.data.entryId],
-                        "units": objFromCache.data.units
-                    },
-                    "session": listPayload.session
-                };
 
-                //TODO: переписывать в зависимости от рассы
-                var romeTroops = {
-                    1: 50,
-                    2: 20,
-                    3: 50,
-                    4: 0,
-                    5: 100,
-                    6: 70
-                };
+    let checkList = function (listPayload) {
+        console.log('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session +'] проверка');
 
-                if (!lastReport) return false;
-                // console.log(lastReport);
-                if (lastReport.notificationType == '1') {
-                    var sum = 0;
+        function start(counter, countMax, timeout, clearTimer, func, obj) {
 
-                    for (var unitKey in objFromCache.data.units) {
-                        sum += parseInt(objFromCache.data.units[unitKey]);
-                    }
+            if (counter < countMax){
 
-                    //Если полный хабар то увеличиваем счётчик юнита
-                    if (lastReport.capacity === lastReport.raidedResSum) {
-                        for (var unitKey in objFromCache.data.units) {
+                setTimeout(function () {
 
-                            if (objFromCache.data.units[unitKey] != 0) {
-                                objFromCache.data.units[unitKey]++;
-                            }
+                    if (func){func(obj, counter);}
 
-                            // console.log('Зелёный лог: увеличилось на 1 юнита');
+                    counter++;
+                    start(counter, countMax, timeout, clearTimer, func, obj);
 
-                        }
-                    }
+                }, timeout);
 
-                    //Если хабар не полный, то грузподъемность пополам
-                    else if (lastReport.capacity / 2 > lastReport.raidedResSum || sum > 10) {
+            } else{
+
+                console.log('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session +'] проверка закончена');
+
+                let now = new Date();
+                let rand = fixedTimeGenerator(fixedTime) + randomTimeGenerator(randomTime);
+
+                //console.log(now+rand);
+
+                let tempTime = now.valueOf() + rand;
+                let dateNext = new Date(tempTime);
+                //запуск сразу
+                if (init) {
+                    console.log('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session +'] запуск: [' + now.toString()+']');
+                    startFarmListRaid(listPayload);
+                }
+
+                console.log('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session +'] следующий запуск: [' + dateNext.toString()+']');
+
+
+                init = true;
+
+                setTimeout(checkList, rand);
+
+            }
+        }
+
+        function rowInListChanger(body, i, j){
+            console.log(JSON.stringify(body.cache[j]));
+            let objFromCache = body.cache[j].data.cache[i],
+                lastReport = objFromCache.data.lastReport;
+
+            // console.log(j, i);
+
+            let newObjUnits = {
+                "controller": "farmList",
+                "action": "editTroops",
+                "params": {
+                    "entryIds": [objFromCache.data.entryId],
+                    "units": objFromCache.data.units
+                },
+                "session": listPayload.session
+            };
+
+            //TODO: переписывать в зависимости от рассы
+            let romeTroops = {
+                1: 50,
+                2: 20,
+                3: 50,
+                4: 0,
+                5: 100,
+                6: 70
+            };
+
+            if (!lastReport) return false;
+            // console.log(lastReport);
+            if (lastReport.notificationType == '1') {
+                let sum = 0;
+
+                for (let unitKey in objFromCache.data.units) {
+                    sum += parseInt(objFromCache.data.units[unitKey]);
+                }
+
+                //Если полный хабар то увеличиваем счётчик юнита
+                if (lastReport.capacity === lastReport.raidedResSum) {
+                    for (let unitKey in objFromCache.data.units) {
+
                         if (objFromCache.data.units[unitKey] != 0) {
-                            objFromCache.data.units[unitKey]--;
+                            objFromCache.data.units[unitKey]++;
                         }
 
-                        // console.log('Зелёный лог: уменьшилось на 1 юнита');
+                        // console.log('Зелёный лог: увеличилось на 1 юнита');
 
-                    }
-
-                    else {
-                        //console.log('Зелёный лог: оставить без изменений');
-                        return false;
-                    }
-
-                }
-                else if (lastReport.notificationType == '2') {
-                    var capacity = 0;
-
-                    for (var unitKey in objFromCache.data.units) {
-                        // console.log(parseInt(objFromCache.data.units[unitKey]));
-                        // console.log(romeTroops[unitKey]);
-                        capacity += parseInt(objFromCache.data.units[unitKey]) * romeTroops[unitKey];
-                    }
-
-                    //Если потери будут меньше чем указанный процент, то кол-во юнитов увеличивается в два раза
-
-                    // console.log('Capacity: ' + capacity);
-                    // console.log('LastReport: ' + lastReport.capacity * percentLose);
-                    if (capacity > lastReport.capacity * percentLose && capacity/4 < lastReport.capacity * percentLose) {
-                        for (var unitKey in objFromCache.data.units) {
-                            objFromCache.data.units[unitKey] *= 2
-                        }
-                        // console.log('Жёлтый лог: отправлен запрос');
-                    } else {
-
-                        for (var unitKey in objFromCache.data.units) {
-                            sum += parseInt(objFromCache.data.units[unitKey]);
-                            objFromCache.data.units[unitKey] = 0;
-                        }
-
-                        objFromCache.data.units[1] = 1;
-
-                        // console.log('Жёлтый лог: убран');
                     }
                 }
-                else if (lastReport.notificationType == '3'){
 
-                    var sum = 0;
+                //Если хабар не полный, то грузподъемность пополам
+                else if (lastReport.capacity / 2 > lastReport.raidedResSum || sum > 10) {
+                    if (objFromCache.data.units[unitKey] != 0) {
+                        objFromCache.data.units[unitKey]--;
+                    }
 
-                    for (var unitKey in objFromCache.data.units) {
+                    // console.log('Зелёный лог: уменьшилось на 1 юнита');
+
+                }
+
+                else {
+                    //console.log('Зелёный лог: оставить без изменений');
+                    return false;
+                }
+
+            }
+            else if (lastReport.notificationType == '2') {
+                let capacity = 0;
+
+                for (let unitKey in objFromCache.data.units) {
+                    // console.log(parseInt(objFromCache.data.units[unitKey]));
+                    // console.log(romeTroops[unitKey]);
+                    capacity += parseInt(objFromCache.data.units[unitKey]) * romeTroops[unitKey];
+                }
+
+                //Если потери будут меньше чем указанный процент, то кол-во юнитов увеличивается в два раза
+
+                // console.log('Capacity: ' + capacity);
+                // console.log('LastReport: ' + lastReport.capacity * percentLose);
+                if (capacity > lastReport.capacity * percentLose && capacity/4 < lastReport.capacity * percentLose) {
+                    for (let unitKey in objFromCache.data.units) {
+                        objFromCache.data.units[unitKey] *= 2
+                    }
+                    // console.log('Жёлтый лог: отправлен запрос');
+                } else {
+
+                    for (let unitKey in objFromCache.data.units) {
                         sum += parseInt(objFromCache.data.units[unitKey]);
                         objFromCache.data.units[unitKey] = 0;
                     }
 
-                    objFromCache.data.units[2] = 1;
+                    objFromCache.data.units[1] = 1;
 
-                    if (sum == 1) {
-                        // console.log('Красный лог: оставлен без изменения');
-                        return false;
-                    } else {
-                        // console.log('Название деревни' + objFromCache.data.villageName);
-                        // console.log('Красный лог: отправлен запрос');
-                    }
+                    // console.log('Жёлтый лог: убран');
+                }
+            }
+            else if (lastReport.notificationType == '3'){
+
+                let sum = 0;
+
+                for (let unitKey in objFromCache.data.units) {
+                    sum += parseInt(objFromCache.data.units[unitKey]);
+                    objFromCache.data.units[unitKey] = 0;
                 }
 
-                // console.log(newObjUnits);
+                objFromCache.data.units[2] = 1;
 
-                httpRequest(newObjUnits, serverDomain).then(
-                    function (body) {
-                        console.log(body);
-                    },
-                    function (err) {
-                        console.log(err);
-                    }
-                );
-            }
-
-            function listTimer(body, i){
-                var j = 1;
-                var diffI = 0;
-                var sum = body.cache[1].data.cache.length;
-
-                for (var k = 1; k < body.cache.length;k++ ) {
-                    if (i >= sum){
-                        diffI = sum;
-                        sum += body.cache[k].data.cache.length;
-                        j++;
-                    }
+                if (sum == 1) {
+                    // console.log('Красный лог: оставлен без изменения');
+                    return false;
+                } else {
+                    // console.log('Название деревни' + objFromCache.data.villageName);
+                    // console.log('Красный лог: отправлен запрос');
                 }
-
-                // console.log(sum);
-                // console.log(sum);
-
-                //+1 от Kingdom:undefined
-                // var rowInListChangerTimerObj = rowInListChanger(body, i-diffI+1 , j);
             }
 
-            httpRequest(lastDataFromList, serverDomain)
-                .then(function (body) {
-                    console.log(JSON.stringify(body));
-                    var counter = 0;
-                    var countMax = 0;
+            // console.log(newObjUnits);
 
-                    if (body && body.error){
-                        console.log(body.error.message + " " + listPayload.session);
-                    }
+            //TODO: вынести options в начале функции
 
-                    for (var i = 0; i < body.cache.length; i++) {
-                        if (body.cache[i].name === "Kingdom:undefined"){
-                            continue;
-                        }
-                        countMax += body.cache[i].data.cache.length;
-                    }
+            let options = {
+                serverDomain: serverDomain
+            };
 
-                    //console.log(countMax);
-
-                    var listTimerObj = start(counter, countMax,  1000, listTimerObj, listTimer, body);
-
-
-                })
-                .catch(function (err) {
-                    //console.log(err);
+            httpRequest(newObjUnits, options).then(
+                function (body) {
+                    console.log(body);
+                },
+                function (err) {
                     console.log(err);
-                    // POST failed...
-                });
+                }
+            );
+        }
 
-        };
+        function listTimer(body, i){
+            let j = 1;
+            let diffI = 0;
+            let sum = body.cache[1].data.cache.length;
 
-        checkList();
+            for (let k = 1; k < body.cache.length;k++ ) {
+                if (i >= sum){
+                    diffI = sum;
+                    sum += body.cache[k].data.cache.length;
+                    j++;
+                }
+            }
 
+            // console.log(sum);
+            // console.log(sum);
+
+            //+1 от Kingdom:undefined
+            // let rowInListChangerTimerObj = rowInListChanger(body, i-diffI+1 , j);
+        }
+
+        let options = {
+            serverDomain: serverDomain
+        }
+
+        httpRequest(lastDataFromList, options)
+            .then(function (body) {
+                console.log(JSON.stringify(body));
+                let counter = 0;
+                let countMax = 0;
+
+                if (body && body.error){
+                    console.log(body.error.message + " " + listPayload.session);
+                }
+
+                for (let i = 0; i < body.cache.length; i++) {
+                    if (body.cache[i].name === "Kingdom:undefined"){
+                        continue;
+                    }
+                    countMax += body.cache[i].data.cache.length;
+                }
+
+                //console.log(countMax);
+
+                let listTimerObj = start(counter, countMax,  1000, listTimerObj, listTimer, body);
+
+
+            })
+            .catch(function (err) {
+                //console.log(err);
+                console.log(err);
+                // POST failed...
+            });
 
     };
+
+    checkList(listPayload);
+};
 function getMapInfo(type, token, serverDomain, timeForGame) {
         type = type || 'animal';
         request
@@ -327,7 +350,7 @@ function getMapInfo(type, token, serverDomain, timeForGame) {
                         headers: {'content-type': 'application/x-www-form-urlencoded'},
                         url: 'http://' + serverDomain + '.kingdoms.com/api/external.php?action=getMapData&privateApiKey=' + apiKey.response.privateApiKey
                     }, function (error, response, body) {
-                        var toJson = JSON.parse(body);
+                        let toJson = JSON.parse(body);
                         apiData.players = JSON.stringify(toJson.response.players);
                         apiData.alliances = JSON.stringify(toJson.response.alliances);
                         apiData.gameworld = JSON.stringify(toJson.response.gameworld);
@@ -336,21 +359,21 @@ function getMapInfo(type, token, serverDomain, timeForGame) {
 
                         function oasis() {
 
-                            var oasisArr = [];
-                            var oasisObj = JSON.parse(JSON.stringify(toJson.response.map.cells));
-                            var j = 0;
-                            for (var i = 0; i < oasisObj.length; i++) {
+                            let oasisArr = [];
+                            let oasisObj = JSON.parse(JSON.stringify(toJson.response.map.cells));
+                            let j = 0;
+                            for (let i = 0; i < oasisObj.length; i++) {
                                 if (oasisObj[i].oasis != 0) {
                                     oasisArr[j] = 'MapDetails:' + oasisObj[i].id;
                                     j++;
                                 }
                             }
 
-                            var oasisAnimal = [];
-                            var k = 0;
+                            let oasisAnimal = [];
+                            let k = 0;
                             console.log('Сформировали массив');
 
-                            var session = {"controller": "cache", "action": "get", "params": {"names": oasisArr}, "session": token};
+                            let session = {"controller": "cache", "action": "get", "params": {"names": oasisArr}, "session": token};
 
                             request
                                 .post({
@@ -361,10 +384,10 @@ function getMapInfo(type, token, serverDomain, timeForGame) {
                                     body: JSON.stringify(session)
                                 }, function (error, response, body) {
                                     //console.log(body);
-                                    var jsonBody = JSON.parse(body);
+                                    let jsonBody = JSON.parse(body);
 
-                                    var map = [];
-                                    var defenseTable = [
+                                    let map = [];
+                                    let defenseTable = [
                                         {Infantry: 25, Mounted: 20},
                                         {Infantry: 35, Mounted: 40},
                                         {Infantry: 40, Mounted: 60},
@@ -377,25 +400,25 @@ function getMapInfo(type, token, serverDomain, timeForGame) {
                                         {Infantry: 440, Mounted: 520},
                                         {Infantry: 1000, Mounted: 1000}
                                     ];
-                                    var l = 0;
+                                    let l = 0;
 
 
                                     //console.log(jsonBody.cache);
 
-                                    for (var m = 0; m < jsonBody.cache.length; m++) {
-                                        for (var k = 0; k < toJson.response.map.cells.length; k++) {
+                                    for (let m = 0; m < jsonBody.cache.length; m++) {
+                                        for (let k = 0; k < toJson.response.map.cells.length; k++) {
                                             if (toJson.response.map.cells[k].id == jsonBody.cache[m].data.troops.villageId) {
 
-                                                var avgMaxDpsInfantry = 0;
-                                                var avgAllDpsInfantry = 0;
-                                                var avgMaxDpsMounted = 0;
-                                                var avgAllDpsMounted = 0;
-                                                var troopsCounter = 0;
-                                                var minTroopsCounter = 1000000;
-                                                var toIntUnits = 0;
-                                                var counterAnimalType = 0;
+                                                let avgMaxDpsInfantry = 0;
+                                                let avgAllDpsInfantry = 0;
+                                                let avgMaxDpsMounted = 0;
+                                                let avgAllDpsMounted = 0;
+                                                let troopsCounter = 0;
+                                                let minTroopsCounter = 1000000;
+                                                let toIntUnits = 0;
+                                                let counterAnimalType = 0;
 
-                                                for (var counterUnits in jsonBody.cache[m].data.troops.units) {
+                                                for (let counterUnits in jsonBody.cache[m].data.troops.units) {
                                                     if (jsonBody.cache[m].data.troops.units.hasOwnProperty(counterUnits)) {
                                                         toIntUnits = parseInt(jsonBody.cache[m].data.troops.units[counterUnits], 10);
                                                         if (toIntUnits != 0 &&
@@ -455,15 +478,15 @@ function getMapInfo(type, token, serverDomain, timeForGame) {
                         }
                         function crop(map){
 
-                            var cropArray = [];
+                            let cropArray = [];
 
                             custom = {
                                 x: 0,
                                 y: 0
                             };
 
-                            for (var i = 0; i < map.length; i++) {
-                                var obj = map[i];
+                            for (let i = 0; i < map.length; i++) {
+                                let obj = map[i];
                                 if(obj.resType == '3339' && obj.oasis == 0 && obj.kingdomId == 0){
                                     obj.path = Math.sqrt(Math.pow((obj.x-custom.x),2) + Math.pow((obj.y-custom.y), 2));
                                     obj.path = obj.path.toFixed(3);
@@ -491,9 +514,9 @@ function getMapInfo(type, token, serverDomain, timeForGame) {
             });
     };
 function asyncLoop(iterations, func, callback) {
-    var index = 0;
-    var done = false;
-    var loop = {
+    let index = 0;
+    let done = false;
+    let loop = {
         next: function() {
             if (done) {
                 return;
@@ -540,14 +563,14 @@ function searchEnemy(xCor, yCor) {
                             url:     'http://'+serverDomain+'.kingdoms.com/api/external.php?action=getMapData&privateApiKey='+apiKey.response.privateApiKey
                         }, function(error, response, body) {
 
-                            var jsonBody = JSON.parse(body);
-                            var players = _.pluck(jsonBody.response.players, 'playerId');
+                            let jsonBody = JSON.parse(body);
+                            let players = _.pluck(jsonBody.response.players, 'playerId');
 
-                            for (var i = 0; i < players.length; i++) {
+                            for (let i = 0; i < players.length; i++) {
                                 players[i] = 'Player:'+players[i];
                             }
 
-                            var payload = {
+                            let payload = {
                                 controller: "cache",
                                 action: "get",
                                 params: {names: players},
@@ -570,15 +593,15 @@ function searchEnemy(xCor, yCor) {
                                     url:     'http://'+serverDomain+'.kingdoms.com/api/?c=cache&a=get&'+timeForGame,
                                     body:    JSON.stringify(payload)
                                 }, function(error, response, body) {
-                                    var allVillages = JSON.parse(body);
-                                    var allSortedVillages = [];
+                                    let allVillages = JSON.parse(body);
+                                    let allSortedVillages = [];
 
                                     //Условия
                                     allVillages.cache.forEach(function(item, i, arr){
                                         if (item.data.kingdomId == 6){
                                             // if (item.data.active == 0){
-                                            for (var j = 0; j < item.data.villages.length; j++) {
-                                                var obj = item.data.villages[j];
+                                            for (let j = 0; j < item.data.villages.length; j++) {
+                                                let obj = item.data.villages[j];
                                                 // console.log(obj);
                                                 allSortedVillages.push(obj);
                                             }
@@ -586,8 +609,8 @@ function searchEnemy(xCor, yCor) {
                                     });
 
 
-                                    var sortedAllSortedVillages = _.sortBy(allSortedVillages, function(villages){
-                                        var len = Math.sqrt(Math.pow(villages.coordinates.x - xCor, 2) + Math.pow(villages.coordinates.y - yCor, 2));
+                                    let sortedAllSortedVillages = _.sortBy(allSortedVillages, function(villages){
+                                        let len = Math.sqrt(Math.pow(villages.coordinates.x - xCor, 2) + Math.pow(villages.coordinates.y - yCor, 2));
                                         return len;
                                     });
 
@@ -598,14 +621,14 @@ function searchEnemy(xCor, yCor) {
                                         function (loop) {
 
 
-                                            var i = loop.iteration();
+                                            let i = loop.iteration();
 
-                                            var villageId = sortedAllSortedVillages[i].villageId;
+                                            let villageId = sortedAllSortedVillages[i].villageId;
                                             //console.log(listIndex);
 
                                             //TODO: villageID это номер деревни из которой отправляют !
 
-                                            var requestPayload = {
+                                            let requestPayload = {
                                                 "controller":"troops",
                                                 "action":"send",
                                                 "params":{
@@ -632,7 +655,7 @@ function searchEnemy(xCor, yCor) {
                                             };
                                             // http://rux3.kingdoms.com/api/?c=troops&a=send&t1486071488668
 
-                                            var lastReportPayload = {
+                                            let lastReportPayload = {
                                                 "controller":"reports",
                                                 "action":"getLastReports",
                                                 "params":{
@@ -700,7 +723,7 @@ function searchEnemy(xCor, yCor) {
                                                         url:     'http://'+serverDomain+'.kingdoms.com/api/?c=troops&a=send&'+timeForGame,
                                                         body:    JSON.stringify(requestPayload)
                                                     }, function(error, response, body) {
-                                                        var rand = fixedTimeGenerator(6) + randomTimeGenerator(3);
+                                                        let rand = fixedTimeGenerator(6) + randomTimeGenerator(3);
                                                         setTimeout(function(){
                                                             console.log('Рандомное время ' + i + ': ' + rand);
                                                             loop.next();
@@ -726,29 +749,44 @@ function searchEnemy(xCor, yCor) {
         )
 }
 function autoFarmFinder(xCor, yCor, name){
+
     request
         .get({
                 headers: {'content-type' : 'application/x-www-form-urlencoded'},
                 url:     'http://'+serverDomain+'.kingdoms.com/api/external.php?action=requestApiKey&email=allin.nikita@yandex.ru&siteName=borsch&siteUrl=http://borsch-label.com&public=true'
             }, function(error, response, body){
 
-                apiKey = JSON.parse(body);
-                console.log('Получили токен');
+            apiKey = JSON.parse(body);
+            console.log('Получили токен');
 
-                request
+            let options = {
+                serverDomain: serverDomain
+            };
+
+            httpRequest(listPayload, options).then(
+                function (body) {
+                    console.log(body);
+                },
+                function (err) {
+                    console.error('Произошла ошибка');
+                    console.log(err);
+                }
+            );
+
+            request
                     .get({
                             headers: {'content-type' : 'application/x-www-form-urlencoded'},
                             url:     'http://'+serverDomain+'.kingdoms.com/api/external.php?action=getMapData&privateApiKey='+apiKey.response.privateApiKey
                         }, function(error, response, body) {
 
-                            var jsonBody = JSON.parse(body);
-                            var players = _.pluck(jsonBody.response.players, 'playerId');
+                            let jsonBody = JSON.parse(body);
+                            let players = _.pluck(jsonBody.response.players, 'playerId');
 
-                            for (var i = 0; i < players.length; i++) {
+                            for (let i = 0; i < players.length; i++) {
                                 players[i] = 'Player:'+players[i];
                             }
 
-                            var payload = {
+                            let payload = {
                                 controller: "cache",
                                 action: "get",
                                 params: {names: players},
@@ -772,15 +810,15 @@ function autoFarmFinder(xCor, yCor, name){
                                     url:     'http://'+serverDomain+'.kingdoms.com/api/?c=cache&a=get&'+timeForGame,
                                     body:    JSON.stringify(payload)
                                 }, function(error, response, body) {
-                                    var allVillages = JSON.parse(body);
-                                    var allGreyVillages = [];
+                                    let allVillages = JSON.parse(body);
+                                    let allGreyVillages = [];
 
                                     //Условия
                                     allVillages.cache.forEach(function(item, i, arr){
                                         // if (item.data.kingdomId == 6){
                                         if (item.data.active == 0){
-                                            for (var j = 0; j < item.data.villages.length; j++) {
-                                                var obj = item.data.villages[j];
+                                            for (let j = 0; j < item.data.villages.length; j++) {
+                                                let obj = item.data.villages[j];
                                                 // console.log(obj);
                                                 allGreyVillages.push(obj);
                                             }
@@ -789,8 +827,8 @@ function autoFarmFinder(xCor, yCor, name){
 
                                     // return false;
 
-                                    var sortedAllGreyVillages = _.sortBy(allGreyVillages, function(villages){
-                                        var len = Math.sqrt(Math.pow(villages.coordinates.x - xCor, 2) + Math.pow(villages.coordinates.y - yCor, 2));
+                                    let sortedAllGreyVillages = _.sortBy(allGreyVillages, function(villages){
+                                        let len = Math.sqrt(Math.pow(villages.coordinates.x - xCor, 2) + Math.pow(villages.coordinates.y - yCor, 2));
                                         return len;
                                     });
 
@@ -798,18 +836,18 @@ function autoFarmFinder(xCor, yCor, name){
 
 
 
-                                    var listLength = Math.ceil(sortedAllGreyVillages.length/100);
+                                    let listLength = Math.ceil(sortedAllGreyVillages.length/100);
 
                                     // Если нужен только первые 100 целей
                                     // listLength = 1;
-                                    var listIndex = 0;
-                                    var listId = [];
+                                    let listIndex = 0;
+                                    let listId = [];
 
-                                    var count = 0;
+                                    let count = 0;
 
-                                    for (var i = 0; i < listLength; i++) {
+                                    for (let i = 0; i < listLength; i++) {
 
-                                        var listObj = {
+                                        let listObj = {
                                             "controller":"farmList",
                                             "action":"createList",
                                             "params":{"name":name + ' ' + i},
@@ -855,15 +893,15 @@ function autoFarmFinder(xCor, yCor, name){
                                             sortedAllGreyVillages.length,
                                             function(loop){
 
-                                                var i = loop.iteration();
+                                                let i = loop.iteration();
                                                 if (i%100 == 0  && i!=0){
                                                     listIndex++
                                                 }
 
-                                                var villageId = sortedAllGreyVillages[i].villageId;
+                                                let villageId = sortedAllGreyVillages[i].villageId;
                                                 //console.log(listIndex);
 
-                                                var farmListPayload = {
+                                                let farmListPayload = {
                                                     "action":"toggleEntry",
                                                     "controller":"farmList",
                                                     "params":{
@@ -888,7 +926,7 @@ function autoFarmFinder(xCor, yCor, name){
                                                         body:    JSON.stringify(farmListPayload)
                                                     }, function(error, response, body) {
 
-                                                        var rand = fixedTimeGenerator(6) + randomTimeGenerator(3);
+                                                        let rand = fixedTimeGenerator(6) + randomTimeGenerator(3);
                                                         setTimeout(function(){
                                                             console.log('Рандомное время ' + i + ': ' + rand);
                                                             loop.next();
@@ -958,8 +996,8 @@ let timeForGame = 't' + Date.now();
 let token = "add658b5ae0f9aa35a11";
 let serverDomain = 'rux3';
 
-//autoFarmFinder('-11', '0', 'Мертвые');
-// searchEnemy('-2', '-5');
+autoFarmFinder('-11', '0', 'Мертвые');
+//searchEnemy('-2', '-5');
 
 
 //Вынести это в файл инцирования
@@ -967,11 +1005,11 @@ let serverDomain = 'rux3';
 // autoFarmList(1500, 300, listPayload.GreedyKs1, 'ks1-com', true);
 // autoFarmList(1500, 600, listPayload.GROM, 'ks1-com', true);
 // autoFarmList(3600, 1200, listPayload.Wahlberg, 'rux3', true);
-autoFarmList(3600, 800, listPayload.cheetah_1, 'rux3', true);
+// autoFarmList(3600, 800, listPayload.cheetah_1, 'rux3', true);
 //autoFarmList(3600, 1200, listPayload.cheetah_2, 'rux3', true);
 //autoFarmList(3600, 2400, listPayload.cheetah_3, 'rux3', true);
 
-// var repeatFn = function(){
+// let repeatFn = function(){
 //  getMapInfo('animal', token, serverDomain, timeForGame);
 //  //getMapInfo('crop', token, serverDomain, timeForGame);
 //  setTimeout(repeatFn, 600000);
