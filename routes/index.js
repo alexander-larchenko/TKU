@@ -33,9 +33,8 @@ let apiData = {
 };
 let apiKey = {};
 let timeForGame = 't' + Date.now();
-let token = "add658b5ae0f9aa35a11";
+let token = "2551f61c223130f590bb";
 let serverDomain = 'rux3';
-getMap();
 
 // вспомогательная функция-чернорабочий
 // для выполнения промисов из generator
@@ -360,7 +359,7 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
 
     checkList(listPayload);
 };
-function getToken(fn) {
+function getToken(callback) {
     let options = {
         method: 'GET',
         uri: `http://${serverDomain}.kingdoms.com/api/external.php?action=requestApiKey&email=allin.nikita@yandex.ru&siteName=borsch&siteUrl=http://borsch-label.com&public=true`,
@@ -370,14 +369,14 @@ function getToken(fn) {
     rp(options).then(
         (body) => {
             console.log('Токен ' + body.response.privateApiKey);
-            fn(body);
+            callback(body);
         },
         (error) => {
             console.log(error);
         }
     )
 }
-function getMap(fn) {
+function getMap(callback) {
     getToken(
         function (token) {
             let options = {
@@ -393,10 +392,10 @@ function getMap(fn) {
 
             rp(options)
                 .then(
-                    function (body) {
-                        fn(body);
+                    (body) => {
+                        callback(body);
                     },
-                    function (error) {
+                    (error) => {
                         console.log(error);
                     }
                 )
@@ -404,6 +403,45 @@ function getMap(fn) {
     );
     // token = await getToken().response.privateApiKey;
     //
+}
+function getPlayers(callback) {
+    getMap(function (body) {
+        let players = _.pluck(body.response.players, 'playerId');
+
+        for (let i = 0; i < players.length; i++) {
+            players[i] = 'Player:'+players[i];
+        }
+
+        let payload = {
+            controller: "cache",
+            action: "get",
+            params: {names: players},
+            session: token
+        };
+
+        let options = {
+            method: 'POST',
+            headers: {
+                'content-type' : 'application/x-www-form-urlencoded'
+            },
+            uri: `http://${serverDomain}.kingdoms.com/api/?c=cache&a=get&${timeForGame}`,
+            json: true,
+            body: JSON.stringify(payload)
+
+        };
+        
+        console.log('Сфоримировали массив игроков');
+
+        rp(options)
+            .then(
+                (body) => {
+                    callback(body);
+                },
+                (error) => {
+                    console.log(error);
+                }
+            )
+    })
 }
 function getMapInfo(type, token, serverDomain, timeForGame) {
         type = type || 'animal';
@@ -617,181 +655,152 @@ function asyncLoop(iterations, func, callback) {
     return loop;
 }
 function searchEnemy(xCor, yCor) {
-    getMap(function () {
-        let jsonBody = JSON.parse(body);
-        let players = _.pluck(jsonBody.response.players, 'playerId');
+    getPlayers(function (players) {
 
-        for (let i = 0; i < players.length; i++) {
-            players[i] = 'Player:'+players[i];
-        }
+        console.log('here')
+        
+        let allVillages = players;
+        let allSortedVillages = [];
 
-        let payload = {
-            controller: "cache",
-            action: "get",
-            params: {names: players},
-            session: token
-        };
-        console.log('Сфоримировали массив игроков');
-
-        request
-            .post({
-                headers: {
-                    'content-type' : 'application/x-www-form-urlencoded',
-                    'Cookie' : 't5mu=YBnM550V5tEbE9UM; gl5SessionKey=%7B%22key%22%3A%221a936d1acfe5bac9f4a5%22%2C%22id%22%3A%22166540%22%7D; gl5PlayerId=166540; t5SessionKey=%7B%22key%22%3A%22e0a9610f253ef9814ada%22%2C%22id%22%3A%22124%22%7D; _ga=GA1.2.1502737351.1484125044; _gat=1; t5socket=%22client588d54d17b8f4%22; msid=ci7d1tr76t4br93dqodgu4c3h5',
-                    'Host': serverDomain+'.kingdoms.com',
-                    'Origin': 'http://'+serverDomain+'.kingdoms.com',
-                    'Pragma':'no-cache',
-                    'Referer': 'http://'+serverDomain+'.kingdoms.com',
-                    'User-Agent':'Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36'
-                },
-                url:     'http://'+serverDomain+'.kingdoms.com/api/?c=cache&a=get&'+timeForGame,
-                body:    JSON.stringify(payload)
-            }, function(error, response, body) {
-                let allVillages = JSON.parse(body);
-                let allSortedVillages = [];
-
-                //Условия
-                allVillages.cache.forEach(function(item, i, arr){
-                    if (item.data.kingdomId == 6){
-                        // if (item.data.active == 0){
-                        for (let j = 0; j < item.data.villages.length; j++) {
-                            let obj = item.data.villages[j];
-                            // console.log(obj);
-                            allSortedVillages.push(obj);
-                        }
-                    }
-                });
+        //Условия
+        allVillages.cache.forEach(function(item, i, arr){
+            if (item.data.kingdomId == 6){
+                // if (item.data.active == 0){
+                for (let j = 0; j < item.data.villages.length; j++) {
+                    let obj = item.data.villages[j];
+                    // console.log(obj);
+                    allSortedVillages.push(obj);
+                }
+            }
+        });
 
 
-                let sortedAllSortedVillages = _.sortBy(allSortedVillages, function(villages){
-                    let len = Math.sqrt(Math.pow(villages.coordinates.x - xCor, 2) + Math.pow(villages.coordinates.y - yCor, 2));
-                    return len;
-                });
+        let sortedAllSortedVillages = _.sortBy(allSortedVillages, function(villages){
+            let len = Math.sqrt(Math.pow(villages.coordinates.x - xCor, 2) + Math.pow(villages.coordinates.y - yCor, 2));
+            return len;
+        });
 
-                console.log('Количество ' + sortedAllSortedVillages.length);
-
-                asyncLoop(
-                    sortedAllSortedVillages.length,
-                    function (loop) {
-
-
-                        let i = loop.iteration();
-
-                        let villageId = sortedAllSortedVillages[i].villageId;
-                        //console.log(listIndex);
-
-                        //TODO: villageID это номер деревни из которой отправляют !
-
-                        let requestPayload = {
-                            "controller":"troops",
-                            "action":"send",
-                            "params":{
-                                "destVillageId":villageId,
-                                "villageId":536723454,
-                                "movementType":6,
-                                "redeployHero":false,
-                                "units":{
-                                    "1":0,
-                                    "2":0,
-                                    "3":0,
-                                    "4":1,
-                                    "5":0,
-                                    "6":0,
-                                    "7":0,
-                                    "8":0,
-                                    "9":0,
-                                    "10":0,
-                                    "11":0
-                                },
-                                "spyMission":"resources"
-                            },
-                            "session":token
-                        };
-                        // http://rux3.kingdoms.com/api/?c=troops&a=send&t1486071488668
-
-                        let lastReportPayload = {
-                            "controller":"reports",
-                            "action":"getLastReports",
-                            "params":{
-                                "collection":"search",
-                                "start":0,
-                                "count":10,
-                                "filters":[
-                                    "15","16","17",
-                                    {"villageId":villageId}
-                                ],
-                                "alsoGetTotalNumber":true
-                            },
-                            "session":token
-                        };
-
-                        request
-                            .post({
-                                headers: {
-                                    'content-type' : 'application/x-www-form-urlencoded',
-                                    'Cookie' : 't5mu=YBnM550V5tEbE9UM; gl5SessionKey=%7B%22key%22%3A%221a936d1acfe5bac9f4a5%22%2C%22id%22%3A%22166540%22%7D; gl5PlayerId=166540; t5SessionKey=%7B%22key%22%3A%22e0a9610f253ef9814ada%22%2C%22id%22%3A%22124%22%7D; _ga=GA1.2.1502737351.1484125044; _gat=1; t5socket=%22client588d54d17b8f4%22; village=536723453; msid=ci7d1tr76t4br93dqodgu4c3h5',
-                                    'Host': serverDomain+'.kingdoms.com',
-                                    'Origin': 'http://'+serverDomain+'.kingdoms.com',
-                                    'Pragma':'no-cache',
-                                    'Referer': 'http://'+serverDomain+'.kingdoms.com',
-                                    'User-Agent':'Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36'
-                                },
-                                url:     'http://'+serverDomain+'.kingdoms.com/api/?c=reports&a=getLastReports&'+timeForGame,
-                                body:    JSON.stringify(lastReportPayload)
-                            }, function(error, response, body) {
-                                body = JSON.parse(body);
-                                //15 - чистый лог
-                                //16 - с потерями
-                                //17 - всё проёбано блеать :(
-                                if (body.response && body.response.reports && body.response.reports.length > 0 && body.response.reports[0].notificationType === 15){
-                                    scanNow();
-                                    // console.log('body.response.reports > 0');
-                                    // console.log(body.response.reports[0]);
-                                } else if (body.response && body.response.reports && body.response.reports.length === 0) {
-                                    // console.log('body.response.reports === 0')
-                                    scanNow();
-                                } else {
-                                    // if (body.response && body.response.reports){
-                                    //     console.log(body.response.reports[0].notificationType);
-                                    // } else {
-                                    //     console.log(body.response)
-                                    // }
-                                    loop.next();
-                                }
-
-                            });
-
-                        function scanNow(){
-
-                            request
-                                .post({
-                                    headers: {
-                                        'content-type' : 'application/x-www-form-urlencoded',
-                                        'Cookie' : 't5mu=YBnM550V5tEbE9UM; gl5SessionKey=%7B%22key%22%3A%221a936d1acfe5bac9f4a5%22%2C%22id%22%3A%22166540%22%7D; gl5PlayerId=166540; t5SessionKey=%7B%22key%22%3A%22e0a9610f253ef9814ada%22%2C%22id%22%3A%22124%22%7D; _ga=GA1.2.1502737351.1484125044; _gat=1; t5socket=%22client588d54d17b8f4%22; village=536723453; msid=ci7d1tr76t4br93dqodgu4c3h5',
-                                        'Host': serverDomain+'.kingdoms.com',
-                                        'Origin': 'http://'+serverDomain+'.kingdoms.com',
-                                        'Pragma':'no-cache',
-                                        'Referer': 'http://'+serverDomain+'.kingdoms.com',
-                                        'User-Agent':'Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36'
-                                    },
-                                    url:     'http://'+serverDomain+'.kingdoms.com/api/?c=troops&a=send&'+timeForGame,
-                                    body:    JSON.stringify(requestPayload)
-                                }, function(error, response, body) {
-                                    let rand = fixedTimeGenerator(6) + randomTimeGenerator(3);
-                                    setTimeout(function(){
-                                        console.log('Рандомное время ' + i + ': ' + rand);
-                                        loop.next();
-                                    }, rand);
-                                    //console.log(body);
-                                });
-                        }
-                    },
-                    function(){console.log('Search ended')}
-                );
-                // return false;
-            });
-        //console.log(toJson.response.alliances);
-        //console.log(JSON.stringify(toJson.response.gameworld));
+        console.log('Количество ' + sortedAllSortedVillages.length);
+        //
+        // asyncLoop(
+        //     sortedAllSortedVillages.length,
+        //     function (loop) {
+        //
+        //
+        //         let i = loop.iteration();
+        //
+        //         let villageId = sortedAllSortedVillages[i].villageId;
+        //         //console.log(listIndex);
+        //
+        //         //TODO: villageID это номер деревни из которой отправляют !
+        //
+        //         let requestPayload = {
+        //             "controller":"troops",
+        //             "action":"send",
+        //             "params":{
+        //                 "destVillageId":villageId,
+        //                 "villageId":536723454,
+        //                 "movementType":6,
+        //                 "redeployHero":false,
+        //                 "units":{
+        //                     "1":0,
+        //                     "2":0,
+        //                     "3":0,
+        //                     "4":1,
+        //                     "5":0,
+        //                     "6":0,
+        //                     "7":0,
+        //                     "8":0,
+        //                     "9":0,
+        //                     "10":0,
+        //                     "11":0
+        //                 },
+        //                 "spyMission":"resources"
+        //             },
+        //             "session":token
+        //         };
+        //         // http://rux3.kingdoms.com/api/?c=troops&a=send&t1486071488668
+        //
+        //         let lastReportPayload = {
+        //             "controller":"reports",
+        //             "action":"getLastReports",
+        //             "params":{
+        //                 "collection":"search",
+        //                 "start":0,
+        //                 "count":10,
+        //                 "filters":[
+        //                     "15","16","17",
+        //                     {"villageId":villageId}
+        //                 ],
+        //                 "alsoGetTotalNumber":true
+        //             },
+        //             "session":token
+        //         };
+        //
+        //         request
+        //             .post({
+        //                 headers: {
+        //                     'content-type' : 'application/x-www-form-urlencoded',
+        //                     'Cookie' : 't5mu=YBnM550V5tEbE9UM; gl5SessionKey=%7B%22key%22%3A%221a936d1acfe5bac9f4a5%22%2C%22id%22%3A%22166540%22%7D; gl5PlayerId=166540; t5SessionKey=%7B%22key%22%3A%22e0a9610f253ef9814ada%22%2C%22id%22%3A%22124%22%7D; _ga=GA1.2.1502737351.1484125044; _gat=1; t5socket=%22client588d54d17b8f4%22; village=536723453; msid=ci7d1tr76t4br93dqodgu4c3h5',
+        //                     'Host': serverDomain+'.kingdoms.com',
+        //                     'Origin': 'http://'+serverDomain+'.kingdoms.com',
+        //                     'Pragma':'no-cache',
+        //                     'Referer': 'http://'+serverDomain+'.kingdoms.com',
+        //                     'User-Agent':'Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36'
+        //                 },
+        //                 url:     'http://'+serverDomain+'.kingdoms.com/api/?c=reports&a=getLastReports&'+timeForGame,
+        //                 body:    JSON.stringify(lastReportPayload)
+        //             }, function(error, response, body) {
+        //                 body = JSON.parse(body);
+        //                 //15 - чистый лог
+        //                 //16 - с потерями
+        //                 //17 - всё проёбано блеать :(
+        //                 if (body.response && body.response.reports && body.response.reports.length > 0 && body.response.reports[0].notificationType === 15){
+        //                     scanNow();
+        //                     // console.log('body.response.reports > 0');
+        //                     // console.log(body.response.reports[0]);
+        //                 } else if (body.response && body.response.reports && body.response.reports.length === 0) {
+        //                     // console.log('body.response.reports === 0')
+        //                     scanNow();
+        //                 } else {
+        //                     // if (body.response && body.response.reports){
+        //                     //     console.log(body.response.reports[0].notificationType);
+        //                     // } else {
+        //                     //     console.log(body.response)
+        //                     // }
+        //                     loop.next();
+        //                 }
+        //
+        //             });
+        //
+        //         function scanNow(){
+        //
+        //             request
+        //                 .post({
+        //                     headers: {
+        //                         'content-type' : 'application/x-www-form-urlencoded',
+        //                         'Cookie' : 't5mu=YBnM550V5tEbE9UM; gl5SessionKey=%7B%22key%22%3A%221a936d1acfe5bac9f4a5%22%2C%22id%22%3A%22166540%22%7D; gl5PlayerId=166540; t5SessionKey=%7B%22key%22%3A%22e0a9610f253ef9814ada%22%2C%22id%22%3A%22124%22%7D; _ga=GA1.2.1502737351.1484125044; _gat=1; t5socket=%22client588d54d17b8f4%22; village=536723453; msid=ci7d1tr76t4br93dqodgu4c3h5',
+        //                         'Host': serverDomain+'.kingdoms.com',
+        //                         'Origin': 'http://'+serverDomain+'.kingdoms.com',
+        //                         'Pragma':'no-cache',
+        //                         'Referer': 'http://'+serverDomain+'.kingdoms.com',
+        //                         'User-Agent':'Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36'
+        //                     },
+        //                     url:     'http://'+serverDomain+'.kingdoms.com/api/?c=troops&a=send&'+timeForGame,
+        //                     body:    JSON.stringify(requestPayload)
+        //                 }, function(error, response, body) {
+        //                     let rand = fixedTimeGenerator(6) + randomTimeGenerator(3);
+        //                     setTimeout(function(){
+        //                         console.log('Рандомное время ' + i + ': ' + rand);
+        //                         loop.next();
+        //                     }, rand);
+        //                     //console.log(body);
+        //                 });
+        //         }
+        //     },
+        //     function(){console.log('Search ended')}
+        // );
+        // return false;
     })
 }
 function autoFarmFinder(xCor, yCor, name){
@@ -990,7 +999,7 @@ function autoFarmFinder(xCor, yCor, name){
 // };
 
 // autoFarmFinder('-11', '0', 'Мертвые');
-//searchEnemy('-2', '-5');
+searchEnemy('-2', '-5');
 
 
 //Вынести это в файл инцирования
