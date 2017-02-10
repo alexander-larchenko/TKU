@@ -36,6 +36,22 @@ let timeForGame = 't' + Date.now();
 let token = "2551f61c223130f590bb";
 let serverDomain = 'rux3';
 
+
+let deathFilters = {
+    players: {
+        active: {
+            different: "equal",
+            value: "0"
+        }
+    },
+    villages: {
+        population:{
+            different: "more",
+            value: "100"
+        }
+    }
+};
+
 // вспомогательная функция-чернорабочий
 // для выполнения промисов из generator
 //TODO: переписать на класс, добавить es6 , ts
@@ -62,7 +78,7 @@ function randomTimeGenerator(seconds) {
     //Рандом число в пределах seconds секунд
     return parseInt(getRandomInt(-1000, 1000) * seconds);
 }
-function httpRequest(obj, opt){
+function httpRequest(opt){
     if (debug === 3){
         console.log(JSON.stringify(obj));
     }
@@ -73,7 +89,7 @@ function httpRequest(obj, opt){
         headers: setHttpHeaders(opt.serverDomain),
         method: opt.method || 'GET',
         uri: 'http://' + opt.serverDomain + '.kingdoms.com/api/?c='+ obj.controller +'&a='+ obj.action +'&' + timeForGame,
-        body: JSON.stringify(obj),
+        body: JSON.stringify(opt.body),
         json: true // Automatically stringifies the body to JSON
     };
 
@@ -106,10 +122,11 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
     let startFarmListRaid = function (listPayload) {
 
         let options = {
-            serverDomain: serverDomain
+            serverDomain: serverDomain,
+            body: listPayload
         };
 
-        httpRequest(listPayload, options).then(
+        httpRequest(options).then(
             function (body) {
                 console.info('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session +'] отправлен');
                 console.log(body);
@@ -289,10 +306,11 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
             //TODO: вынести options в начале функции
 
             let options = {
-                serverDomain: serverDomain
+                serverDomain: serverDomain,
+                body: newObjUnits
             };
 
-            httpRequest(newObjUnits, options).then(
+            httpRequest(options).then(
                 function (body) {
                     console.log(body);
                 },
@@ -323,10 +341,11 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
         }
 
         let options = {
-            serverDomain: serverDomain
+            serverDomain: serverDomain,
+            body: lastDataFromList
         }
 
-        httpRequest(lastDataFromList, options)
+        httpRequest(options)
             .then(function (body) {
                 console.log(JSON.stringify(body));
                 let counter = 0;
@@ -654,33 +673,128 @@ function asyncLoop(iterations, func, callback) {
     loop.next();
     return loop;
 }
-function searchEnemy(xCor, yCor) {
+
+
+/**
+ *
+ * @param xCor
+ * @param yCor
+ * @param filters - IFilters {
+ *      players: IPlayers,
+ *      villages: IVillages
+ * }
+ * IPlayers {
+ *      active: number {"0", "1"}
+ *      filterInformation: boolean
+ *      hasNoobProtection:boolean
+ *      isKing: boolean
+ *      kingId: number
+ *      kingdomId: number
+ *      kingdomRole: number
+ *      kingdomTag: string
+ *      kingstatus: number
+ *      level: number
+ *      name: string
+ *      nextLevelPrestige: number
+ *      playerId: number
+ *      population: number
+ *      prestige: number
+ *      stars:{bronze: 0, silver: 0, gold: 3}
+ *      tribeId: number{ "1", 2", "3" }
+ * }
+ *
+ * IVillages{
+ *      allowTributeCollection:"1" //hz
+ *      belongsToKing: number
+ *      belongsToKingdom: number
+ *      coordinates:{x: "-6", y: "-1"}
+ *      isMainVillage:boolean
+ *      isTown:boolean
+ *      name: string
+ *      playerId:number
+ *      population:number
+ *      protectionGranted:"0"//hz
+ *      realTributePercent:0.2 //hz, % dani mb
+ *      treasures:"0" //hz
+ *      treasuresUsable:"0" // hz
+ *      tribeId: number {"1", "2", "3"}
+ *      tributeCollectorPlayerId: number
+ *      type:"2" //hz
+ *      villageId: number
+ * }
+ */
+function searchEnemy(fn, xCor, yCor, filters) {
     getPlayers(function (players) {
 
-        console.log('here')
-        
-        let allVillages = players;
-        let allSortedVillages = [];
+        let allPlayers = players;
+        let sortedPlayers = [];
+        let sortedVillages = [];
 
         //Условия
-        allVillages.cache.forEach(function(item, i, arr){
-            if (item.data.kingdomId == 6){
-                // if (item.data.active == 0){
-                for (let j = 0; j < item.data.villages.length; j++) {
-                    let obj = item.data.villages[j];
-                    // console.log(obj);
-                    allSortedVillages.push(obj);
+        allPlayers.cache.forEach(function (item, i, arr) {
+            for (let filter in filters.players) {
+                if (filters.players[filter].different === 'equal') {
+                    if (item.data[filter] === filters.players[filter].value) {
+                        sortedPlayers.push(item);
+                    }
+                }
+
+                else if (filters.players[filter].different === 'less') {
+                    if (item.data[filter] < filters.players[filter].value) {
+                        sortedPlayers.push(item);
+                    }
+                }
+
+                else if (filters.players[filter].different === 'more') {
+                    if (item.data[filter] > filters.players[filter].value) {
+                        sortedPlayers.push(item);
+                    }
                 }
             }
         });
 
+        if (debug === 2) {
+            console.log("Подготовили список игроков подходящим условиям")
+        }
 
-        let sortedAllSortedVillages = _.sortBy(allSortedVillages, function(villages){
+        sortedPlayers.forEach(function (item, i, arr) {
+
+            for (let filter in filters.villages) {
+                for (let j = 0; j < item.data.villages.length; j++) {
+                    let obj = item.data.villages[j];
+
+                    if (filters.villages[filter].different === 'equal') {
+                        if (obj[filter] === filters.villages[filter].value) {
+                            let obj = item.data.villages[j];
+                            sortedVillages.push(obj);
+                        }
+                    }
+
+                    else if (filters.villages[filter].different === 'less') {
+                        if (obj[filter] < filters.villages[filter].value) {
+                            let obj = item.data.villages[j];
+                            sortedVillages.push(obj);
+                        }
+                    }
+
+                    else if (filters.villages[filter].different === 'more') {
+                        if (obj[filter] > filters.villages[filter].value) {
+                            let obj = item.data.villages[j];
+                            sortedVillages.push(obj);
+                        }
+                    }
+                }
+            }
+
+        });
+
+        let sortedVillagesByCoor = _.sortBy(sortedVillages, function (villages) {
             let len = Math.sqrt(Math.pow(villages.coordinates.x - xCor, 2) + Math.pow(villages.coordinates.y - yCor, 2));
             return len;
         });
 
-        console.log('Количество ' + sortedAllSortedVillages.length);
+        console.log(`Количество ${sortedVillagesByCoor.length}`);
+        fn(sortedVillagesByCoor);
         //
         // asyncLoop(
         //     sortedAllSortedVillages.length,
@@ -803,174 +917,130 @@ function searchEnemy(xCor, yCor) {
         // return false;
     })
 }
-function autoFarmFinder(xCor, yCor, name){
 
-    request
-    .get({
-        headers: {'content-type' : 'application/x-www-form-urlencoded'},
-        url:     'http://'+serverDomain+'.kingdoms.com/api/external.php?action=requestApiKey&email=allin.nikita@yandex.ru&siteName=borsch&siteUrl=http://borsch-label.com&public=true'
-    }, function(error, response, body){
+function autoFarmFinder(xCor, yCor, name, filters) {
+    searchEnemy(function (villages) {
+        console.log(villages);
 
-        apiKey = JSON.parse(body);
-        console.log('Получили токен');
 
-        request
-        .get({
-                headers: {'content-type' : 'application/x-www-form-urlencoded'},
-                url:     'http://'+serverDomain+'.kingdoms.com/api/external.php?action=getMapData&privateApiKey='+apiKey.response.privateApiKey
-            }, function(error, response, body) {
+        let listLength = Math.ceil(villages.length / 100);
 
-                let jsonBody = JSON.parse(body);
-                let players = _.pluck(jsonBody.response.players, 'playerId');
+        // Если нужен только первые 100 целей
+        // listLength = 1;
 
-                for (let i = 0; i < players.length; i++) {
-                    players[i] = 'Player:'+players[i];
-                }
+        let listIndex = 0;
+        let listId = [];
+        let count = 0;
 
-                console.log('Сфоримировали массив игроков');
+        //TODO: улушчить эту часть
 
-                let payload = {
-                    controller: "cache",
-                    action: "get",
-                    params: {names: players},
-                    session: token
+
+        asyncLoop(
+            listLength,
+            function (loop) {
+                let i = loop.iteration();
+
+                let listObj = {
+                    "controller": "farmList",
+                    "action": "createList",
+                    "params": {"name": `${name} ${i}`},
+                    "session": token
                 };
 
                 let options = {
                     method: 'POST',
-                    serverDomain: serverDomain
-                };
-
-                httpRequest(listPayload, options)
-                .then(
-                    function (body) {
-                        let allVillages = JSON.parse(body);
-                        let allGreyVillages = [];
-
-                        //Условия
-                        allVillages.cache.forEach(function(item, i, arr){
-                            //TODO: Add interface;
-                            // if (item.data.kingdomId == 6){
-                            if (item.data.active == 0){
-                                for (let j = 0; j < item.data.villages.length; j++) {
-                                    let obj = item.data.villages[j];
-                                    // console.log(obj);
-                                    allGreyVillages.push(obj);
-                                }
-                            }
-                        });
-
-                        // return false;
-
-                        let sortedAllGreyVillages = _.sortBy(allGreyVillages, function(villages){
-                            let len = Math.sqrt(Math.pow(villages.coordinates.x - xCor, 2) + Math.pow(villages.coordinates.y - yCor, 2));
-                            return len;
-                        });
-
-                        if (debug === 2 || debug === 3){
-                            console.log('Количество ' + sortedAllGreyVillages.length);
-                        }
-
-
-
-                        let listLength = Math.ceil(sortedAllGreyVillages.length/100);
-
-                        // Если нужен только первые 100 целей
-                        // listLength = 1;
-
-                        let listIndex = 0;
-                        let listId = [];
-                        let count = 0;
-
-                        for (let i = 0; i < listLength; i++) {
-
-                            let listObj = {
-                                "controller":"farmList",
-                                "action":"createList",
-                                "params":{"name":name + ' ' + i},
-                                "session":token
-                            }; 
-
-                            // console.log(listObj);
-
-                            httpRequest(listObj, options)
-                            .then(
-                                function (body) {
-                                    listId.push(JSON.parse(body).cache[0].data.cache[0].data.listId);
-                                    count++;
-
-                                    if (listId.length == listLength){
-                                        addToFarmList();
-                                    }
-                                },
-                                function (error) {
-                                    console.log(error)
-                                }
-                            ) 
-                        }
-
-                        function addToFarmList(){
-                            console.log(listId);
-                            
-                            asyncLoop(
-                                sortedAllGreyVillages.length,
-                                function(loop){
-
-                                    let i = loop.iteration();
-                                    if (i%100 == 0  && i!=0){
-                                        listIndex++
-                                    }
-
-                                    let villageId = sortedAllGreyVillages[i].villageId;
-                                    //console.log(listIndex);
-
-                                    let farmListPayload = {
-                                        "action":"toggleEntry",
-                                        "controller":"farmList",
-                                        "params":{
-                                            "villageId":villageId,
-                                            "listId":listId[listIndex]
-                                        },
-                                        "session": token
-                                    };
-
-                                    request
-                                        .post({
-                                            headers: {
-                                                'content-type' : 'application/x-www-form-urlencoded',
-                                                'Cookie' : 't5mu=YBnM550V5tEbE9UM; gl5SessionKey=%7B%22key%22%3A%221a936d1acfe5bac9f4a5%22%2C%22id%22%3A%22166540%22%7D; gl5PlayerId=166540; t5SessionKey=%7B%22key%22%3A%22e0a9610f253ef9814ada%22%2C%22id%22%3A%22124%22%7D; _ga=GA1.2.1502737351.1484125044; _gat=1; t5socket=%22client588d54d17b8f4%22; village=536723453; msid=ci7d1tr76t4br93dqodgu4c3h5',
-                                                'Host': serverDomain+'.kingdoms.com',
-                                                'Origin': 'http://'+serverDomain+'.kingdoms.com',
-                                                'Pragma':'no-cache',
-                                                'Referer': 'http://'+serverDomain+'.kingdoms.com',
-                                                'User-Agent':'Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36'
-                                            },
-                                            url:     'http://'+serverDomain+'.kingdoms.com/api/?c=farmList&a=moveEntry&'+timeForGame,
-                                            body:    JSON.stringify(farmListPayload)
-                                        }, function(error, response, body) {
-
-                                            let rand = fixedTimeGenerator(6) + randomTimeGenerator(3);
-                                            setTimeout(function(){
-                                                console.log('Рандомное время ' + i + ': ' + rand);
-                                                loop.next();
-                                            }, rand);
-                                        });
-                                },
-                                function(){console.log('cycle ended')}
-                            )
-
-                        }
+                    headers: {
+                        'content-type' : 'application/x-www-form-urlencoded'
                     },
-                    function (err) {
-                        console.error('Произошла ошибка');
-                        console.log(err);
-                    }
-                );
-            }
-        )}
-    )
-}
+                    serverDomain: serverDomain,
+                    json: true,
+                    body: JSON.stringify(listObj)
+                };
+                // console.log(listObj);
 
+                httpRequest(options)
+                    .then(
+                        function (body) {
+                            listId.push(body.cache[0].data.cache[0].data.listId);
+                            count++;
+
+                            if (listId.length == listLength) {
+                                addToFarmList();
+                            }
+
+                            loop.next();
+
+                        },
+                        function (error) {
+                            console.log(error)
+                        }
+                    )
+            },
+            function () {
+                console.log('cycle ended')
+            }
+        );
+
+        function addToFarmList() {
+            console.log(listId);
+
+            asyncLoop(
+                villages.length,
+                function (loop) {
+
+                    let i = loop.iteration();
+                    if (i % 100 == 0 && i != 0) {
+                        listIndex++
+                    }
+
+                    let villageId = villages[i].villageId;
+                    //console.log(listIndex);
+
+                    let bodyReq = {
+                        "action": "toggleEntry",
+                        "controller": "farmList",
+                        "params": {
+                            "villageId": villageId,
+                            "listId": listId[listIndex]
+                        },
+                        "session": token
+                    };
+
+                    let options = {
+                        method: 'POST',
+                        headers: {
+                            'content-type' : 'application/x-www-form-urlencoded'
+                        },
+                        serverDomain: serverDomain,
+                        json: true,
+                        body: JSON.stringify(bodyReq)
+                    };
+                    // console.log(listObj);
+
+                    httpRequest(options)
+                    .then(
+                        function (body) {
+                            let rand = fixedTimeGenerator(6) + randomTimeGenerator(3);
+                            setTimeout(function () {
+                                console.log('Рандомное время ' + i + ': ' + rand);
+                                loop.next();
+                            }, rand);
+                        },
+                        function () {
+
+                        }
+                    );
+                },
+                function () {
+                    console.log('cycle ended')
+                }
+            )
+
+        }
+
+        // let sortedAllGreyVillages
+    }, xCor, yCor, filters);
+}
 // let troops = {
 //     "controller": "troops",
 //     "action": "send",
@@ -998,8 +1068,7 @@ function autoFarmFinder(xCor, yCor, name){
 //     "session": token
 // };
 
-// autoFarmFinder('-11', '0', 'Мертвые');
-searchEnemy('-2', '-5');
+autoFarmFinder('-2', '-5', 'test', deathFilters);
 
 
 //Вынести это в файл инцирования
