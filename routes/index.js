@@ -79,16 +79,12 @@ function randomTimeGenerator(seconds) {
     return parseInt(getRandomInt(-1000, 1000) * seconds);
 }
 function httpRequest(opt){
-    if (debug === 3){
-        console.log(JSON.stringify(obj));
-    }
-
     let timeForGame = 't' + Date.now();
 
     let options = {
         headers: setHttpHeaders(opt.serverDomain),
         method: opt.method || 'GET',
-        uri: 'http://' + opt.serverDomain + '.kingdoms.com/api/?c='+ obj.controller +'&a='+ obj.action +'&' + timeForGame,
+        uri: `http://${opt.serverDomain}.kingdoms.com/api/?c=${opt.body.controller}&a=${opt.body.action}&${timeForGame}`,
         body: JSON.stringify(opt.body),
         json: true // Automatically stringifies the body to JSON
     };
@@ -443,15 +439,14 @@ function getPlayers(callback) {
             headers: {
                 'content-type' : 'application/x-www-form-urlencoded'
             },
-            uri: `http://${serverDomain}.kingdoms.com/api/?c=cache&a=get&${timeForGame}`,
             json: true,
-            body: JSON.stringify(payload)
-
+            body: payload,
+            serverDomain: serverDomain
         };
         
-        console.log('Сфоримировали массив игроков');
+        console.log('Сформировали массив игроков');
 
-        rp(options)
+        httpRequest(options)
             .then(
                 (body) => {
                     callback(body);
@@ -725,6 +720,8 @@ function asyncLoop(iterations, func, callback) {
  */
 function searchEnemy(fn, xCor, yCor, filters) {
     getPlayers(function (players) {
+        
+        console.log('search')
 
         let allPlayers = players;
         let sortedPlayers = [];
@@ -920,7 +917,7 @@ function searchEnemy(fn, xCor, yCor, filters) {
 
 function autoFarmFinder(xCor, yCor, name, filters) {
     searchEnemy(function (villages) {
-        console.log(villages);
+        // console.log(villages);
 
 
         let listLength = Math.ceil(villages.length / 100);
@@ -954,9 +951,8 @@ function autoFarmFinder(xCor, yCor, name, filters) {
                     },
                     serverDomain: serverDomain,
                     json: true,
-                    body: JSON.stringify(listObj)
+                    body: listObj
                 };
-                // console.log(listObj);
 
                 httpRequest(options)
                     .then(
@@ -1013,13 +1009,13 @@ function autoFarmFinder(xCor, yCor, name, filters) {
                         },
                         serverDomain: serverDomain,
                         json: true,
-                        body: JSON.stringify(bodyReq)
+                        body: bodyReq
                     };
-                    // console.log(listObj);
 
                     httpRequest(options)
                     .then(
                         function (body) {
+                            console.log(body);
                             let rand = fixedTimeGenerator(6) + randomTimeGenerator(3);
                             setTimeout(function () {
                                 console.log('Рандомное время ' + i + ': ' + rand);
