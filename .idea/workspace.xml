@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b7a70d1c-58d6-4c52-9d8d-a4d298e78538" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/config.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/index.js" afterPath="$PROJECT_DIR$/routes/index.js" />
     </list>
@@ -36,31 +37,33 @@
       <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/routes/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="554">
-              <caret line="99" column="22" lean-forward="true" selection-start-line="99" selection-start-column="22" selection-end-line="99" selection-end-column="22" />
+            <state relative-caret-position="166">
+              <caret line="1072" column="44" lean-forward="false" selection-start-line="1072" selection-start-column="44" selection-end-line="1072" selection-end-column="44" />
               <folding>
                 <element signature="e#2239#2353#0" expanded="false" />
                 <element signature="n#!!block;n#setHttpHeaders#0" expanded="false" />
                 <element signature="n#!!block;n#fixedTimeGenerator#0" expanded="false" />
                 <element signature="n#!!block;n#getRandomInt#0" expanded="false" />
                 <element signature="n#!!block;n#randomTimeGenerator#0" expanded="false" />
-                <element signature="e#3720#3769#0" expanded="false" />
+                <element signature="n#!!block;n#httpRequest#0" expanded="false" />
                 <element signature="n#!!block;n#autoFarmList#0" expanded="false" />
-                <element signature="e#4933#5670#0" expanded="false" />
+                <element signature="e#4910#5647#0" expanded="false" />
                 <element signature="n#!!block;n#getToken#0" expanded="false" />
                 <element signature="n#!!block;n#getMap#0" expanded="false" />
                 <element signature="n#!!block;n#getPlayers#0" expanded="false" />
-                <element signature="e#15375#15433#0" expanded="false" />
+                <element signature="e#15352#15410#0" expanded="false" />
                 <element signature="n#!!block;n#getMapInfo#0" expanded="false" />
                 <element signature="n#!!block;n#asyncLoop#0" expanded="false" />
                 <element signature="n#!!doc;n#searchEnemy#0" expanded="false" />
-                <element signature="e#28198#28993#0" expanded="false" />
-                <element signature="e#29022#29107#0" expanded="false" />
-                <element signature="e#29163#30334#0" expanded="false" />
-                <element signature="e#30418#30575#0" expanded="false" />
-                <element signature="e#30687#30689#0" expanded="false" />
-                <element signature="e#38989#39047#0" expanded="false" />
-                <element signature="e#41021#41038#0" expanded="false" />
+                <element signature="n#!!block;n#searchEnemy#0" expanded="false" />
+                <element signature="e#28155#28950#0" expanded="false" />
+                <element signature="e#28979#29064#0" expanded="false" />
+                <element signature="e#29120#30291#0" expanded="false" />
+                <element signature="e#30375#30532#0" expanded="false" />
+                <element signature="e#30644#30646#0" expanded="false" />
+                <element signature="n#!!block;n#autoFarmFinder#0" expanded="false" />
+                <element signature="e#38892#38950#0" expanded="false" />
+                <element signature="e#40910#40927#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -140,8 +143,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>var</find>
-      <find>let options = {         serverDomain: serverDomain     };</find>
       <find>request</find>
       <find>startFarmListRaid</find>
       <find>7e723c7f652b8d21e314</find>
@@ -159,16 +160,18 @@
       <find>getMap</find>
       <find>jsonBody</find>
       <find>str.re</find>
-      <find>getPlayers</find>
       <find>here</find>
       <find>deathFilters</find>
       <find>searchEnemy</find>
       <find>sortedAllGreyVillages</find>
       <find>farmList</find>
-      <find>serverDomain</find>
-      <find>options</find>
       <find>farmListPayload</find>
       <find>lastDataFromList</find>
+      <find>options</find>
+      <find>сформ</find>
+      <find>сфор</find>
+      <find>getPlayers</find>
+      <find>serverDomain</find>
       <find>httpRequest</find>
     </findStrings>
     <replaceStrings>
@@ -432,7 +435,7 @@
       <workItem from="1485896014548" duration="4714000" />
       <workItem from="1486071404552" duration="5511000" />
       <workItem from="1486541149806" duration="12093000" />
-      <workItem from="1486643261823" duration="27228000" />
+      <workItem from="1486643261823" duration="29192000" />
     </task>
     <task id="LOCAL-00001" summary="Ебашим скрипты, что бы аменочка дрочила">
       <created>1486074191367</created>
@@ -476,11 +479,25 @@
       <option name="project" value="LOCAL" />
       <updated>1486726541085</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Убиваю колбекхелл">
+      <created>1486736991834</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1486736991834</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Убиваю колбекхелл">
+      <created>1486738250737</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1486738250737</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="91401000" />
+    <option name="totallyTimeSpent" value="93365000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1358" y="-722" width="1936" height="1176" extended-state="6" />
@@ -488,14 +505,14 @@
     <layout>
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32921588" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TypeScript" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14605543" sideWeight="0.4887556" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14605543" sideWeight="0.4887556" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32885906" sideWeight="0.5021322" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32885906" sideWeight="0.4978678" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19255929" sideWeight="0.51124436" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3292683" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23873442" sideWeight="0.48454157" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30776605" sideWeight="0.48454157" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3991131" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -531,7 +548,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="30" />
+      <option name="time" value="32" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -570,23 +587,25 @@
             <element signature="n#!!block;n#fixedTimeGenerator#0" expanded="false" />
             <element signature="n#!!block;n#getRandomInt#0" expanded="false" />
             <element signature="n#!!block;n#randomTimeGenerator#0" expanded="false" />
-            <element signature="e#3720#3769#0" expanded="false" />
+            <element signature="n#!!block;n#httpRequest#0" expanded="false" />
             <element signature="n#!!block;n#autoFarmList#0" expanded="false" />
-            <element signature="e#4933#5670#0" expanded="false" />
+            <element signature="e#4910#5647#0" expanded="false" />
             <element signature="n#!!block;n#getToken#0" expanded="false" />
             <element signature="n#!!block;n#getMap#0" expanded="false" />
             <element signature="n#!!block;n#getPlayers#0" expanded="false" />
-            <element signature="e#15375#15433#0" expanded="false" />
+            <element signature="e#15352#15410#0" expanded="false" />
             <element signature="n#!!block;n#getMapInfo#0" expanded="false" />
             <element signature="n#!!block;n#asyncLoop#0" expanded="false" />
             <element signature="n#!!doc;n#searchEnemy#0" expanded="false" />
-            <element signature="e#28198#28993#0" expanded="false" />
-            <element signature="e#29022#29107#0" expanded="false" />
-            <element signature="e#29163#30334#0" expanded="false" />
-            <element signature="e#30418#30575#0" expanded="false" />
-            <element signature="e#30687#30689#0" expanded="false" />
-            <element signature="e#38989#39047#0" expanded="false" />
-            <element signature="e#41021#41038#0" expanded="false" />
+            <element signature="n#!!block;n#searchEnemy#0" expanded="false" />
+            <element signature="e#28155#28950#0" expanded="false" />
+            <element signature="e#28979#29064#0" expanded="false" />
+            <element signature="e#29120#30291#0" expanded="false" />
+            <element signature="e#30375#30532#0" expanded="false" />
+            <element signature="e#30644#30646#0" expanded="false" />
+            <element signature="n#!!block;n#autoFarmFinder#0" expanded="false" />
+            <element signature="e#38892#38950#0" expanded="false" />
+            <element signature="e#40910#40927#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -627,23 +646,25 @@
             <element signature="n#!!block;n#fixedTimeGenerator#0" expanded="false" />
             <element signature="n#!!block;n#getRandomInt#0" expanded="false" />
             <element signature="n#!!block;n#randomTimeGenerator#0" expanded="false" />
-            <element signature="e#3720#3769#0" expanded="false" />
+            <element signature="n#!!block;n#httpRequest#0" expanded="false" />
             <element signature="n#!!block;n#autoFarmList#0" expanded="false" />
-            <element signature="e#4933#5670#0" expanded="false" />
+            <element signature="e#4910#5647#0" expanded="false" />
             <element signature="n#!!block;n#getToken#0" expanded="false" />
             <element signature="n#!!block;n#getMap#0" expanded="false" />
             <element signature="n#!!block;n#getPlayers#0" expanded="false" />
-            <element signature="e#15375#15433#0" expanded="false" />
+            <element signature="e#15352#15410#0" expanded="false" />
             <element signature="n#!!block;n#getMapInfo#0" expanded="false" />
             <element signature="n#!!block;n#asyncLoop#0" expanded="false" />
             <element signature="n#!!doc;n#searchEnemy#0" expanded="false" />
-            <element signature="e#28198#28993#0" expanded="false" />
-            <element signature="e#29022#29107#0" expanded="false" />
-            <element signature="e#29163#30334#0" expanded="false" />
-            <element signature="e#30418#30575#0" expanded="false" />
-            <element signature="e#30687#30689#0" expanded="false" />
-            <element signature="e#38989#39047#0" expanded="false" />
-            <element signature="e#41021#41038#0" expanded="false" />
+            <element signature="n#!!block;n#searchEnemy#0" expanded="false" />
+            <element signature="e#28155#28950#0" expanded="false" />
+            <element signature="e#28979#29064#0" expanded="false" />
+            <element signature="e#29120#30291#0" expanded="false" />
+            <element signature="e#30375#30532#0" expanded="false" />
+            <element signature="e#30644#30646#0" expanded="false" />
+            <element signature="n#!!block;n#autoFarmFinder#0" expanded="false" />
+            <element signature="e#38892#38950#0" expanded="false" />
+            <element signature="e#40910#40927#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -699,95 +720,25 @@
             <element signature="n#!!block;n#fixedTimeGenerator#0" expanded="false" />
             <element signature="n#!!block;n#getRandomInt#0" expanded="false" />
             <element signature="n#!!block;n#randomTimeGenerator#0" expanded="false" />
-            <element signature="e#3720#3769#0" expanded="false" />
+            <element signature="n#!!block;n#httpRequest#0" expanded="false" />
             <element signature="n#!!block;n#autoFarmList#0" expanded="false" />
-            <element signature="e#4933#5670#0" expanded="false" />
+            <element signature="e#4910#5647#0" expanded="false" />
             <element signature="n#!!block;n#getToken#0" expanded="false" />
             <element signature="n#!!block;n#getMap#0" expanded="false" />
             <element signature="n#!!block;n#getPlayers#0" expanded="false" />
-            <element signature="e#15375#15433#0" expanded="false" />
+            <element signature="e#15352#15410#0" expanded="false" />
             <element signature="n#!!block;n#getMapInfo#0" expanded="false" />
             <element signature="n#!!block;n#asyncLoop#0" expanded="false" />
             <element signature="n#!!doc;n#searchEnemy#0" expanded="false" />
-            <element signature="e#28198#28993#0" expanded="false" />
-            <element signature="e#29022#29107#0" expanded="false" />
-            <element signature="e#29163#30334#0" expanded="false" />
-            <element signature="e#30418#30575#0" expanded="false" />
-            <element signature="e#30687#30689#0" expanded="false" />
-            <element signature="e#38989#39047#0" expanded="false" />
-            <element signature="e#41021#41038#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/underscore/underscore.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="373" column="2" lean-forward="false" selection-start-line="373" selection-start-column="2" selection-end-line="373" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/animal.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="45" column="13" lean-forward="false" selection-start-line="45" selection-start-column="13" selection-end-line="46" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bin/www">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="6" column="28" lean-forward="false" selection-start-line="6" selection-start-column="28" selection-end-line="6" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <marker date="1486660208442" expanded="true" signature="132:372" ph="{&quot;body-parser&quot;: &quot;~1.13.2&quot;...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="21" column="56" lean-forward="false" selection-start-line="21" selection-start-column="56" selection-end-line="21" selection-end-column="56" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#2239#2353#0" expanded="false" />
-            <element signature="n#!!block;n#setHttpHeaders#0" expanded="false" />
-            <element signature="n#!!block;n#fixedTimeGenerator#0" expanded="false" />
-            <element signature="n#!!block;n#getRandomInt#0" expanded="false" />
-            <element signature="n#!!block;n#randomTimeGenerator#0" expanded="false" />
-            <element signature="e#3720#3769#0" expanded="false" />
-            <element signature="n#!!block;n#autoFarmList#0" expanded="false" />
-            <element signature="e#4933#5670#0" expanded="false" />
-            <element signature="n#!!block;n#getToken#0" expanded="false" />
-            <element signature="n#!!block;n#getMap#0" expanded="false" />
-            <element signature="n#!!block;n#getPlayers#0" expanded="false" />
-            <element signature="e#15375#15433#0" expanded="false" />
-            <element signature="n#!!block;n#getMapInfo#0" expanded="false" />
-            <element signature="n#!!block;n#asyncLoop#0" expanded="false" />
-            <element signature="n#!!doc;n#searchEnemy#0" expanded="false" />
-            <element signature="e#28198#28993#0" expanded="false" />
-            <element signature="e#29022#29107#0" expanded="false" />
-            <element signature="e#29163#30334#0" expanded="false" />
-            <element signature="e#30418#30575#0" expanded="false" />
-            <element signature="e#30687#30689#0" expanded="false" />
-            <element signature="e#38989#39047#0" expanded="false" />
-            <element signature="e#41021#41038#0" expanded="false" />
+            <element signature="n#!!block;n#searchEnemy#0" expanded="false" />
+            <element signature="e#28155#28950#0" expanded="false" />
+            <element signature="e#28979#29064#0" expanded="false" />
+            <element signature="e#29120#30291#0" expanded="false" />
+            <element signature="e#30375#30532#0" expanded="false" />
+            <element signature="e#30644#30646#0" expanded="false" />
+            <element signature="n#!!block;n#autoFarmFinder#0" expanded="false" />
+            <element signature="e#38892#38950#0" expanded="false" />
+            <element signature="e#40910#40927#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -843,23 +794,99 @@
             <element signature="n#!!block;n#fixedTimeGenerator#0" expanded="false" />
             <element signature="n#!!block;n#getRandomInt#0" expanded="false" />
             <element signature="n#!!block;n#randomTimeGenerator#0" expanded="false" />
-            <element signature="e#3720#3769#0" expanded="false" />
+            <element signature="n#!!block;n#httpRequest#0" expanded="false" />
             <element signature="n#!!block;n#autoFarmList#0" expanded="false" />
-            <element signature="e#4933#5670#0" expanded="false" />
+            <element signature="e#4910#5647#0" expanded="false" />
             <element signature="n#!!block;n#getToken#0" expanded="false" />
             <element signature="n#!!block;n#getMap#0" expanded="false" />
             <element signature="n#!!block;n#getPlayers#0" expanded="false" />
-            <element signature="e#15375#15433#0" expanded="false" />
+            <element signature="e#15352#15410#0" expanded="false" />
             <element signature="n#!!block;n#getMapInfo#0" expanded="false" />
             <element signature="n#!!block;n#asyncLoop#0" expanded="false" />
             <element signature="n#!!doc;n#searchEnemy#0" expanded="false" />
-            <element signature="e#28198#28993#0" expanded="false" />
-            <element signature="e#29022#29107#0" expanded="false" />
-            <element signature="e#29163#30334#0" expanded="false" />
-            <element signature="e#30418#30575#0" expanded="false" />
-            <element signature="e#30687#30689#0" expanded="false" />
-            <element signature="e#38989#39047#0" expanded="false" />
-            <element signature="e#41021#41038#0" expanded="false" />
+            <element signature="n#!!block;n#searchEnemy#0" expanded="false" />
+            <element signature="e#28155#28950#0" expanded="false" />
+            <element signature="e#28979#29064#0" expanded="false" />
+            <element signature="e#29120#30291#0" expanded="false" />
+            <element signature="e#30375#30532#0" expanded="false" />
+            <element signature="e#30644#30646#0" expanded="false" />
+            <element signature="n#!!block;n#autoFarmFinder#0" expanded="false" />
+            <element signature="e#38892#38950#0" expanded="false" />
+            <element signature="e#40910#40927#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/underscore/underscore.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="373" column="2" lean-forward="false" selection-start-line="373" selection-start-column="2" selection-end-line="373" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/animal.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="45" column="13" lean-forward="false" selection-start-line="45" selection-start-column="13" selection-end-line="46" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bin/www">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="6" column="28" lean-forward="false" selection-start-line="6" selection-start-column="28" selection-end-line="6" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1486660208442" expanded="true" signature="132:372" ph="{&quot;body-parser&quot;: &quot;~1.13.2&quot;...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="21" column="56" lean-forward="false" selection-start-line="21" selection-start-column="56" selection-end-line="21" selection-end-column="56" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#2239#2353#0" expanded="false" />
+            <element signature="n#!!block;n#setHttpHeaders#0" expanded="false" />
+            <element signature="n#!!block;n#fixedTimeGenerator#0" expanded="false" />
+            <element signature="n#!!block;n#getRandomInt#0" expanded="false" />
+            <element signature="n#!!block;n#randomTimeGenerator#0" expanded="false" />
+            <element signature="n#!!block;n#httpRequest#0" expanded="false" />
+            <element signature="n#!!block;n#autoFarmList#0" expanded="false" />
+            <element signature="e#4910#5647#0" expanded="false" />
+            <element signature="n#!!block;n#getToken#0" expanded="false" />
+            <element signature="n#!!block;n#getMap#0" expanded="false" />
+            <element signature="n#!!block;n#getPlayers#0" expanded="false" />
+            <element signature="e#15352#15410#0" expanded="false" />
+            <element signature="n#!!block;n#getMapInfo#0" expanded="false" />
+            <element signature="n#!!block;n#asyncLoop#0" expanded="false" />
+            <element signature="n#!!doc;n#searchEnemy#0" expanded="false" />
+            <element signature="n#!!block;n#searchEnemy#0" expanded="false" />
+            <element signature="e#28155#28950#0" expanded="false" />
+            <element signature="e#28979#29064#0" expanded="false" />
+            <element signature="e#29120#30291#0" expanded="false" />
+            <element signature="e#30375#30532#0" expanded="false" />
+            <element signature="e#30644#30646#0" expanded="false" />
+            <element signature="n#!!block;n#autoFarmFinder#0" expanded="false" />
+            <element signature="e#38892#38950#0" expanded="false" />
+            <element signature="e#40910#40927#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1047,31 +1074,33 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/routes/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="554">
-          <caret line="99" column="22" lean-forward="true" selection-start-line="99" selection-start-column="22" selection-end-line="99" selection-end-column="22" />
+        <state relative-caret-position="166">
+          <caret line="1072" column="44" lean-forward="false" selection-start-line="1072" selection-start-column="44" selection-end-line="1072" selection-end-column="44" />
           <folding>
             <element signature="e#2239#2353#0" expanded="false" />
             <element signature="n#!!block;n#setHttpHeaders#0" expanded="false" />
             <element signature="n#!!block;n#fixedTimeGenerator#0" expanded="false" />
             <element signature="n#!!block;n#getRandomInt#0" expanded="false" />
             <element signature="n#!!block;n#randomTimeGenerator#0" expanded="false" />
-            <element signature="e#3720#3769#0" expanded="false" />
+            <element signature="n#!!block;n#httpRequest#0" expanded="false" />
             <element signature="n#!!block;n#autoFarmList#0" expanded="false" />
-            <element signature="e#4933#5670#0" expanded="false" />
+            <element signature="e#4910#5647#0" expanded="false" />
             <element signature="n#!!block;n#getToken#0" expanded="false" />
             <element signature="n#!!block;n#getMap#0" expanded="false" />
             <element signature="n#!!block;n#getPlayers#0" expanded="false" />
-            <element signature="e#15375#15433#0" expanded="false" />
+            <element signature="e#15352#15410#0" expanded="false" />
             <element signature="n#!!block;n#getMapInfo#0" expanded="false" />
             <element signature="n#!!block;n#asyncLoop#0" expanded="false" />
             <element signature="n#!!doc;n#searchEnemy#0" expanded="false" />
-            <element signature="e#28198#28993#0" expanded="false" />
-            <element signature="e#29022#29107#0" expanded="false" />
-            <element signature="e#29163#30334#0" expanded="false" />
-            <element signature="e#30418#30575#0" expanded="false" />
-            <element signature="e#30687#30689#0" expanded="false" />
-            <element signature="e#38989#39047#0" expanded="false" />
-            <element signature="e#41021#41038#0" expanded="false" />
+            <element signature="n#!!block;n#searchEnemy#0" expanded="false" />
+            <element signature="e#28155#28950#0" expanded="false" />
+            <element signature="e#28979#29064#0" expanded="false" />
+            <element signature="e#29120#30291#0" expanded="false" />
+            <element signature="e#30375#30532#0" expanded="false" />
+            <element signature="e#30644#30646#0" expanded="false" />
+            <element signature="n#!!block;n#autoFarmFinder#0" expanded="false" />
+            <element signature="e#38892#38950#0" expanded="false" />
+            <element signature="e#40910#40927#0" expanded="false" />
           </folding>
         </state>
       </provider>

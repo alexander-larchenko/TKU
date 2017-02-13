@@ -36,7 +36,8 @@ let timeForGame = 't' + Date.now();
 let token = "2551f61c223130f590bb";
 let serverDomain = 'rux3';
 
-
+//different = {less, equal, more}
+//value = value
 let deathFilters = {
     players: {
         active: {
