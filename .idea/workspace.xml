@@ -36,8 +36,8 @@
       <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/routes/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="43">
-              <caret line="40" column="16" lean-forward="false" selection-start-line="40" selection-start-column="16" selection-end-line="40" selection-end-column="16" />
+            <state relative-caret-position="196">
+              <caret line="40" column="23" lean-forward="false" selection-start-line="40" selection-start-column="23" selection-end-line="40" selection-end-column="23" />
               <folding>
                 <element signature="e#2239#2353#0" expanded="false" />
                 <element signature="n#!!block;n#setHttpHeaders#0" expanded="false" />
@@ -418,7 +418,7 @@
       <workItem from="1485896014548" duration="4714000" />
       <workItem from="1486071404552" duration="5511000" />
       <workItem from="1486541149806" duration="12093000" />
-      <workItem from="1486643261823" duration="30368000" />
+      <workItem from="1486643261823" duration="30394000" />
     </task>
     <task id="LOCAL-00001" summary="Ебашим скрипты, что бы аменочка дрочила">
       <created>1486074191367</created>
@@ -483,11 +483,18 @@
       <option name="project" value="LOCAL" />
       <updated>1486985655289</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="add filters">
+      <created>1486987680212</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1486987680212</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="94541000" />
+    <option name="totallyTimeSpent" value="94567000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1358" y="-722" width="1936" height="1176" extended-state="6" />
@@ -534,7 +541,8 @@
     <MESSAGE value="Ебашим скрипты, что бы аменочка дрочила" />
     <MESSAGE value="Рефакторинг, что бы пацы не чмырили." />
     <MESSAGE value="Убиваю колбекхелл" />
-    <option name="LAST_COMMIT_MESSAGE" value="Убиваю колбекхелл" />
+    <MESSAGE value="add filters" />
+    <option name="LAST_COMMIT_MESSAGE" value="add filters" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -979,8 +987,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/routes/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="43">
-          <caret line="40" column="16" lean-forward="false" selection-start-line="40" selection-start-column="16" selection-end-line="40" selection-end-column="16" />
+        <state relative-caret-position="196">
+          <caret line="40" column="23" lean-forward="false" selection-start-line="40" selection-start-column="23" selection-end-line="40" selection-end-column="23" />
           <folding>
             <element signature="e#2239#2353#0" expanded="false" />
             <element signature="n#!!block;n#setHttpHeaders#0" expanded="false" />

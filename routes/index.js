@@ -38,6 +38,7 @@ let serverDomain = 'rux3';
 
 //different = {less, equal, more}
 //value = value
+//TODO: вынести фильтры
 let deathsFilter = {
     players: {
         active: {
