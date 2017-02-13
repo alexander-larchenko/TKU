@@ -38,11 +38,30 @@ let serverDomain = 'rux3';
 
 //different = {less, equal, more}
 //value = value
-let deathFilters = {
+let deathsFilter = {
     players: {
         active: {
             different: "equal",
             value: "0"
+        }
+    },
+    villages: {
+        population:{
+            different: "more",
+            value: "100"
+        }
+    }
+};
+
+let withoutKingdomsFilter = {
+    players: {
+        kingdomId: {
+            different: "equal",
+            value: "0"
+        },
+        active: {
+            different: "equal",
+            value: "1"
         }
     },
     villages: {
@@ -1065,7 +1084,7 @@ function autoFarmFinder(xCor, yCor, name, filters) {
 //     "session": token
 // };
 
-autoFarmFinder('-2', '-5', 'test', deathFilters);
+autoFarmFinder('-2', '-5', 'test', deathsFilters);
 
 
 //Вынести это в файл инцирования
