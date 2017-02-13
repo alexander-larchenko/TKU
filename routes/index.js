@@ -1094,8 +1094,8 @@ autoFarmFinder('test', '-2', '-5', deathsFilter);
 // autoFarmList(1500, 600, listPayload.GROM, 'ks1-com', true);
 // autoFarmList(3600, 1200, listPayload.Wahlberg, 'rux3', true);
 // autoFarmList(3600, 800, listPayload.cheetah_1, 'rux3', true);
-//autoFarmList(3600, 1200, listPayload.cheetah_2, 'rux3', true);
-//autoFarmList(3600, 2400, listPayload.cheetah_3, 'rux3', true);
+// autoFarmList(3600, 1200, listPayload.cheetah_2, 'rux3', true);
+// autoFarmList(3600, 2400, listPayload.cheetah_3, 'rux3', true);
 
 // let repeatFn = function(){
 //  getMapInfo('animal', token, serverDomain, timeForGame);
