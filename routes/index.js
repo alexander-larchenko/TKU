@@ -739,7 +739,7 @@ function asyncLoop(iterations, func, callback) {
  *      villageId: number
  * }
  */
-function searchEnemy(fn, xCor, yCor, filters) {
+function searchEnemy(fn, xCor, yCor, filtersParam) {
     getPlayers(function (players) {
         
         console.log('search')
@@ -750,21 +750,21 @@ function searchEnemy(fn, xCor, yCor, filters) {
 
         //Условия
         allPlayers.cache.forEach(function (item, i, arr) {
-            for (let filter in filters.players) {
-                if (filters.players[filter].different === 'equal') {
-                    if (item.data[filter] === filters.players[filter].value) {
+            for (let filter in filtersParam.players) {
+                if (filtersParam.players[filter].different === 'equal') {
+                    if (item.data[filter] === filtersParam.players[filter].value) {
                         sortedPlayers.push(item);
                     }
                 }
 
-                else if (filters.players[filter].different === 'less') {
-                    if (item.data[filter] < filters.players[filter].value) {
+                else if (filtersParam.players[filter].different === 'less') {
+                    if (item.data[filter] < filtersParam.players[filter].value) {
                         sortedPlayers.push(item);
                     }
                 }
 
-                else if (filters.players[filter].different === 'more') {
-                    if (item.data[filter] > filters.players[filter].value) {
+                else if (filtersParam.players[filter].different === 'more') {
+                    if (item.data[filter] > filtersParam.players[filter].value) {
                         sortedPlayers.push(item);
                     }
                 }
@@ -777,26 +777,26 @@ function searchEnemy(fn, xCor, yCor, filters) {
 
         sortedPlayers.forEach(function (item, i, arr) {
 
-            for (let filter in filters.villages) {
+            for (let filter in filtersParam.villages) {
                 for (let j = 0; j < item.data.villages.length; j++) {
                     let obj = item.data.villages[j];
 
-                    if (filters.villages[filter].different === 'equal') {
-                        if (obj[filter] === filters.villages[filter].value) {
+                    if (filtersParam.villages[filter].different === 'equal') {
+                        if (obj[filter] === filtersParam.villages[filter].value) {
                             let obj = item.data.villages[j];
                             sortedVillages.push(obj);
                         }
                     }
 
-                    else if (filters.villages[filter].different === 'less') {
-                        if (obj[filter] < filters.villages[filter].value) {
+                    else if (filtersParam.villages[filter].different === 'less') {
+                        if (obj[filter] < filtersParam.villages[filter].value) {
                             let obj = item.data.villages[j];
                             sortedVillages.push(obj);
                         }
                     }
 
-                    else if (filters.villages[filter].different === 'more') {
-                        if (obj[filter] > filters.villages[filter].value) {
+                    else if (filtersParam.villages[filter].different === 'more') {
+                        if (obj[filter] > filtersParam.villages[filter].value) {
                             let obj = item.data.villages[j];
                             sortedVillages.push(obj);
                         }
@@ -936,7 +936,7 @@ function searchEnemy(fn, xCor, yCor, filters) {
     })
 }
 
-function autoFarmFinder(xCor, yCor, name, filters) {
+function autoFarmFinder(name, xCor, yCor, filter) {
     searchEnemy(function (villages) {
         // console.log(villages);
 
@@ -1056,7 +1056,7 @@ function autoFarmFinder(xCor, yCor, name, filters) {
         }
 
         // let sortedAllGreyVillages
-    }, xCor, yCor, filters);
+    }, xCor, yCor, filter);
 }
 // let troops = {
 //     "controller": "troops",
@@ -1085,7 +1085,7 @@ function autoFarmFinder(xCor, yCor, name, filters) {
 //     "session": token
 // };
 
-autoFarmFinder('-2', '-5', 'test', deathsFilters);
+autoFarmFinder('test', '-2', '-5', deathsFilter);
 
 
 //Вынести это в файл инцирования
