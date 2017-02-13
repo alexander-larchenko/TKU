@@ -1087,7 +1087,6 @@ function autoFarmFinder(name, xCor, yCor, filter) {
 
 autoFarmFinder('test', '-2', '-5', deathsFilter);
 
-
 //Вынести это в файл инцирования
 // autoFarmList(3600, 300, listPayload.Sobol, 'rux3', false);
 // autoFarmList(1500, 300, listPayload.GreedyKs1, 'ks1-com', true);
