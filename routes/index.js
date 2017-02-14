@@ -33,7 +33,7 @@ let apiData = {
 };
 let apiKey = {};
 let timeForGame = 't' + Date.now();
-let token = "2551f61c223130f590bb";
+let token = "aa76c06e6e5403b96dad";
 let serverDomain = 'rux3';
 
 //different = {less, equal, more}
@@ -1085,7 +1085,7 @@ function autoFarmFinder(name, xCor, yCor, filter) {
 //     "session": token
 // };
 
-autoFarmFinder('test', '-2', '-5', deathsFilter);
+autoFarmFinder('without_kingdom', '-11', '0', withoutKingdomsFilter);
 
 //Вынести это в файл инцирования
 // autoFarmList(3600, 300, listPayload.Sobol, 'rux3', false);
