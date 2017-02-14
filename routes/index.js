@@ -33,8 +33,8 @@ let apiData = {
 };
 let apiKey = {};
 let timeForGame = 't' + Date.now();
-let token = "aa76c06e6e5403b96dad";
-let serverDomain = 'rux3';
+let token = userDate.token;
+let serverDomain = userDate.serverDomain;
 
 //different = {less, equal, more}
 //value = value
@@ -741,70 +741,104 @@ function asyncLoop(iterations, func, callback) {
  */
 function searchEnemy(fn, xCor, yCor, filtersParam) {
     getPlayers(function (players) {
-        
-        console.log('search')
 
         let allPlayers = players;
-        let sortedPlayers = [];
-        let sortedVillages = [];
+        let sortedPlayers;
+        let sortedVillages;
 
         //Условия
-        allPlayers.cache.forEach(function (item, i, arr) {
-            for (let filter in filtersParam.players) {
-                if (filtersParam.players[filter].different === 'equal') {
+        for (let filter in filtersParam.players) {
+            sortedPlayers = {
+                cache: []
+            };
+
+            if (filtersParam.players[filter].different === 'equal') {
+                allPlayers.cache.forEach(function (item, i, arr) {
                     if (item.data[filter] === filtersParam.players[filter].value) {
-                        sortedPlayers.push(item);
+                        sortedPlayers.cache.push(item);
                     }
-                }
-
-                else if (filtersParam.players[filter].different === 'less') {
-                    if (item.data[filter] < filtersParam.players[filter].value) {
-                        sortedPlayers.push(item);
-                    }
-                }
-
-                else if (filtersParam.players[filter].different === 'more') {
-                    if (item.data[filter] > filtersParam.players[filter].value) {
-                        sortedPlayers.push(item);
-                    }
-                }
+                });
             }
-        });
+
+            else if (filtersParam.players[filter].different === 'less') {
+                allPlayers.cache.forEach(function (item, i, arr) {
+                    if (item.data[filter] < filtersParam.players[filter].value) {
+                        sortedPlayers.cache.push(item);
+                    }
+                });
+            }
+
+            else if (filtersParam.players[filter].different === 'more') {
+                allPlayers.cache.forEach(function (item, i, arr) {
+                    if (item.data[filter] > filtersParam.players[filter].value) {
+                        sortedPlayers.cache.push(item);
+                    }
+                });
+            }
+
+            allPlayers = Object.assign({},sortedPlayers);
+        }
+
+        sortedPlayers = allPlayers;
 
         if (debug === 2) {
             console.log("Подготовили список игроков подходящим условиям")
         }
 
-        sortedPlayers.forEach(function (item, i, arr) {
-
-            for (let filter in filtersParam.villages) {
-                for (let j = 0; j < item.data.villages.length; j++) {
-                    let obj = item.data.villages[j];
-
-                    if (filtersParam.villages[filter].different === 'equal') {
-                        if (obj[filter] === filtersParam.villages[filter].value) {
-                            let obj = item.data.villages[j];
-                            sortedVillages.push(obj);
-                        }
-                    }
-
-                    else if (filtersParam.villages[filter].different === 'less') {
-                        if (obj[filter] < filtersParam.villages[filter].value) {
-                            let obj = item.data.villages[j];
-                            sortedVillages.push(obj);
-                        }
-                    }
-
-                    else if (filtersParam.villages[filter].different === 'more') {
-                        if (obj[filter] > filtersParam.villages[filter].value) {
-                            let obj = item.data.villages[j];
-                            sortedVillages.push(obj);
-                        }
+        let hackPlayer = {
+            cache: [
+                {
+                    data:{
+                        villages: []
                     }
                 }
+            ]
+        }
+
+        //TODO: проверить мультифильтры
+        for (let filter in filtersParam.villages) {
+
+            sortedVillages = {
+                cache: []
+            };
+
+            if (filtersParam.villages[filter].different === 'equal') {
+                sortedPlayers.cache.forEach(function (item, i, arr) {
+                    for (let j = 0; j < item.data.villages.length; j++) {
+                        let obj = item.data.villages[j];
+                        if (obj[filter] === filtersParam.villages[filter].value) {
+                            sortedVillages.cache.push(obj);
+                        }
+                    }
+                });
             }
 
-        });
+            else if (filtersParam.villages[filter].different === 'less') {
+                sortedPlayers.cache.forEach(function (item, i, arr) {
+                    for (let j = 0; j < item.data.villages.length; j++) {
+                        let obj = item.data.villages[j];
+                        if (obj[filter] < filtersParam.villages[filter].value) {
+                            sortedVillages.cache.push(obj);
+                        }
+                    }
+                });
+            }
+
+            else if (filtersParam.villages[filter].different === 'more') {
+                sortedPlayers.cache.forEach(function (item, i, arr) {
+                    for (let j = 0; j < item.data.villages.length; j++) {
+                        let obj = item.data.villages[j];
+                        if (obj[filter] > filtersParam.villages[filter].value) {
+                            sortedVillages.cache.push(obj);
+                        }
+                    }
+                });
+            }
+
+            hackPlayer.cache.data[0].villages = sortedVillages;
+            sortedPlayers = Object.assign({}, hackPlayer);
+        }
+
 
         let sortedVillagesByCoor = _.sortBy(sortedVillages, function (villages) {
             let len = Math.sqrt(Math.pow(villages.coordinates.x - xCor, 2) + Math.pow(villages.coordinates.y - yCor, 2));
@@ -1085,7 +1119,7 @@ function autoFarmFinder(name, xCor, yCor, filter) {
 //     "session": token
 // };
 
-autoFarmFinder('without_kingdom', '-11', '0', withoutKingdomsFilter);
+autoFarmFinder('wKF', '-11', '0', withoutKingdomsFilter);
 
 //Вынести это в файл инцирования
 // autoFarmList(3600, 300, listPayload.Sobol, 'rux3', false);
