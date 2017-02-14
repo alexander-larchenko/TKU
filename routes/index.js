@@ -16,7 +16,7 @@ const debug = 3;
 
 
 let listPayload = {
-    Wahlberg:  {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[1929],"villageId":536920052},"session":"596ac03e8e8a1699301a"},
+    Wahlberg:  {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2291, 2292, 2293],"villageId":536723453},"session":"e93abe0bfcf8e1f77009"},
     Wahlberg2: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[1929],"villageId":536723453},"session":"596ac03e8e8a1699301a"},
     cheetah_1: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2184,2185,2186],"villageId":536887285},"session":"add658b5ae0f9aa35a11"},
     cheetah_2: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2185],"villageId":536887285},"session":"add658b5ae0f9aa35a11"},
@@ -204,7 +204,7 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
         }
 
         function rowInListChanger(body, i, j){
-            console.log(JSON.stringify(body.cache[j]));
+            // console.log(JSON.stringify(body.cache[j]));
             let objFromCache = body.cache[j].data.cache[i],
                 lastReport = objFromCache.data.lastReport;
 
@@ -380,8 +380,8 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
                 }
 
                 //console.log(countMax);
-
-                let listTimerObj = start(counter, countMax,  1000, listTimerObj, listTimer, body);
+                let listTimerObj = 0;
+                listTimerObj = start(counter, countMax,  1000, listTimerObj, listTimer, body);
 
 
             })
@@ -1119,13 +1119,13 @@ function autoFarmFinder(name, xCor, yCor, filter) {
 //     "session": token
 // };
 
-autoFarmFinder('wKF', '-2', '-5', withoutKingdomsFilter);
+// autoFarmFinder('wKF', '-2', '-5', withoutKingdomsFilter);
 
 //Вынести это в файл инцирования
 // autoFarmList(3600, 300, listPayload.Sobol, 'rux3', false);
 // autoFarmList(1500, 300, listPayload.GreedyKs1, 'ks1-com', true);
 // autoFarmList(1500, 600, listPayload.GROM, 'ks1-com', true);
-// autoFarmList(3600, 1200, listPayload.Wahlberg, 'rux3', true);
+autoFarmList(3600, 1200, listPayload.Wahlberg, 'rux3', true);
 // autoFarmList(3600, 800, listPayload.cheetah_1, 'rux3', true);
 // autoFarmList(3600, 1200, listPayload.cheetah_2, 'rux3', true);
 // autoFarmList(3600, 2400, listPayload.cheetah_3, 'rux3', true);
