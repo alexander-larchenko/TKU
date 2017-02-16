@@ -16,13 +16,13 @@ const debug = 3;
 
 
 let listPayload = {
-    Wahlberg:  {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2291, 2292, 2293],"villageId":536723453},"session":"e93abe0bfcf8e1f77009"},
+    Wahlberg:  {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[1929],"villageId":536920052},"session":"596ac03e8e8a1699301a"},
     Wahlberg2: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[1929],"villageId":536723453},"session":"596ac03e8e8a1699301a"},
     cheetah_1: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2184,2185,2186],"villageId":536887285},"session":"add658b5ae0f9aa35a11"},
     cheetah_2: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2185],"villageId":536887285},"session":"add658b5ae0f9aa35a11"},
     cheetah_3: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2186],"villageId":536887285},"session":"add658b5ae0f9aa35a11"}
 };
-let cookie = 'optimizelyEndUserId=oeu1483022429340r0.5058971660807878; zarget_user_id=1484139929928r0.5542546391271013; t5mu=4skeC5WZnVlW1hUM; desktopNotifications=%7B%22action%22%3A%22accept%22%2C%22timestamp%22%3A1484144302234%7D; optimizelySegments=%7B%227502571397%22%3A%22referral%22%2C%227527560310%22%3A%22false%22%2C%227527342140%22%3A%22true%22%2C%227504900734%22%3A%22none%22%2C%227502401695%22%3A%220%22%2C%227524975010%22%3A%220%22%2C%227535741642%22%3A%223%22%2C%227529072853%22%3A%22ru%22%7D; optimizelyBuckets=%7B%7D; gl5SessionKey=%7B%22key%22%3A%229a51521ec8a3a3151742%22%2C%22id%22%3A%221229510%22%7D; gl5PlayerId=1229510; t5SessionKey=%7B%22key%22%3A%2264084c89e9f70688cb2e%22%2C%22id%22%3A%22138%22%7D; _gat=1; _ga=GA1.2.207116386.1483022340; t5socket=%22client589a5629a6629%22; zarget_visitor_info=%7B%224251525756514A415B575C55454C5E585F565F59%22%3A245058%7D; village=536887285; msid=np1r3k0f4883j40drm03t395i1';
+let cookie = userDate.cookie;
 let apiData = {
     gameworld: null,
     players: null,
@@ -189,8 +189,134 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
                 let dateNext = new Date(tempTime);
                 //запуск сразу
                 if (init) {
-                    console.log('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session +'] запуск: [' + now.toString()+']');
-                    startFarmListRaid(listPayload);
+                    let checkBodyObj = {
+                        "controller":"cache",
+                        "action":"get",
+                        "params":{
+                            names: []
+                        },
+                        "session":listPayload.session
+                    };
+
+                    for (let i = 0; i < listPayload.params.listIds.length; i++) {
+                        let list = listPayload.params.listIds[i];
+                        checkBodyObj.params.names.push("Collection:FarmListEntry:"+listPayload.params.listIds);
+                    };
+
+                    let options = {
+                        method: 'POST',
+                        headers: {
+                            'content-type' : 'application/x-www-form-urlencoded'
+                        },
+                        json: true,
+                        body: checkBodyObj,
+                        serverDomain: serverDomain
+                    };
+
+                    console.log('Сформировали массив игроков');
+
+                    //TODO: ПРОВЕРИТЬ!
+                    httpRequest(options)
+                    .then(
+                        (body) => {
+
+                            function checkOnStatus(farmListsResponse, fn){
+                                asyncLoop(
+                                    body.cache.length,
+                                    function(loopList){
+                                        //TODO: возможно nginx этот луп убьёт, но возможно нет так как всего посылается 2 запроса.
+                                        let i = loopList.iteration();
+                                        let FarmListEntry = body.cache[i].name.split(":")[3];
+
+                                        asyncLoop(
+                                            body.cache[i].data.cache,
+                                            function(loop){
+                                                let j = loopList.iteration();
+
+                                                let villageLog = body.cache[i].data.cache[j].data;
+                                                if (villageLog.lastReport.notificationType === 1){
+                                                    if (debug === 2 || debug === 3){
+                                                        console.log('green log')
+                                                    }
+                                                } else if (villageLog.lastReport.notificationType === 2){
+                                                    if (debug === 2 || debug === 3){
+                                                        console.log('yellow log')
+                                                    }
+                                                } else if (villageLog.lastReport.notificationType === 3){
+                                                    if (debug === 2 || debug === 3){
+                                                        console.log('red log')
+
+                                                    //TODO: вынести в отдельную функцию
+                                                    let toggleBody = {
+                                                        "controller":"farmList",
+                                                        "action":"toggleEntry",
+                                                        "params":{
+                                                            "villageId":villageLog.villageId,
+                                                            "listId":   FarmListEntry
+                                                        },
+                                                        "session":listPayload.session
+                                                    };
+
+                                                    let options = {
+                                                        method: 'POST',
+                                                        headers: {
+                                                            'content-type' : 'application/x-www-form-urlencoded'
+                                                        },
+                                                        json: true,
+                                                        body: toggleBody,
+                                                        serverDomain: serverDomain
+                                                    };
+
+                                                    httpRequest(options)
+                                                        .then(
+                                                            (body) => {
+                                                                return httpRequest(options);
+                                                            },
+                                                            (error) => {
+                                                                console.log(error);
+                                                            }
+                                                        )
+                                                        .then(
+                                                            (body) => {
+                                                                if (debug === 3){
+                                                                    console.log(body);
+                                                                }
+                                                                console.log('Красный лог обработан.')
+
+                                                            },
+                                                            (error) => {
+                                                                console.log(error);
+                                                            }
+                                                        )
+                                                    }
+                                                } else {
+                                                    console.log(`Странный лог ${villageLog.lastReport.notificationType}`);
+                                                }
+                                            },
+                                            function () {
+                                                loopList.next();
+                                                console.log('cycle check village from list ended')
+                                            }
+                                        );
+
+                                    },
+                                    function () {
+                                        console.log('cycle list ended');
+                                        console.log('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session +'] запуск: [' + now.toString()+']');
+                                        fn(listPayload);
+                                    }
+                                )
+                            }
+
+                            //TODO: add callback on checkOnStatus
+                            // callback(body);
+                            checkOnStatus(body, startFarmListRaid);
+
+                        },
+                        (error) => {
+                            console.log(error);
+                        }
+                    )
                 }
 
                 console.log('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session +'] следующий запуск: [' + dateNext.toString()+']');
@@ -204,7 +330,7 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
         }
 
         function rowInListChanger(body, i, j){
-            // console.log(JSON.stringify(body.cache[j]));
+            console.log(JSON.stringify(body.cache[j]));
             let objFromCache = body.cache[j].data.cache[i],
                 lastReport = objFromCache.data.lastReport;
 
@@ -380,8 +506,8 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
                 }
 
                 //console.log(countMax);
-                let listTimerObj = 0;
-                listTimerObj = start(counter, countMax,  1000, listTimerObj, listTimer, body);
+
+                let listTimerObj = start(counter, countMax,  1000, listTimerObj, listTimer, body);
 
 
             })
@@ -395,6 +521,7 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
 
     checkList(listPayload);
 };
+
 function getToken(callback) {
     let options = {
         method: 'GET',
@@ -690,6 +817,67 @@ function asyncLoop(iterations, func, callback) {
     return loop;
 }
 
+function addToFarmList(listMassive, villages) {
+    if (debug === 3){
+        console.log(listMassive);
+    }
+
+
+    asyncLoop(
+        villages.length,
+        function (loop) {
+            let listIndex = 0;
+
+            let i = loop.iteration();
+            if (i % 100 == 0 && i != 0) {
+                listIndex++
+            }
+
+            let villageId = villages[i].villageId;
+            //console.log(listIndex);
+
+            let bodyReq = {
+                "action": "toggleEntry",
+                "controller": "farmList",
+                "params": {
+                    "villageId": villageId,
+                    "listId": listMassive[listIndex]
+                },
+                "session": token
+            };
+
+            let options = {
+                method: 'POST',
+                headers: {
+                    'content-type' : 'application/x-www-form-urlencoded'
+                },
+                serverDomain: serverDomain,
+                json: true,
+                body: bodyReq
+            };
+
+            httpRequest(options)
+                .then(
+                    function (body) {
+                        console.log(body);
+                        let rand = fixedTimeGenerator(6) + randomTimeGenerator(3);
+                        setTimeout(function () {
+                            console.log('Рандомное время ' + i + ': ' + rand);
+                            loop.next();
+                        }, rand);
+                    },
+                    function () {
+
+                    }
+                );
+        },
+        function () {
+            console.log('cycle ended')
+        }
+    )
+
+}
+
 
 /**
  *
@@ -980,17 +1168,15 @@ function autoFarmFinder(name, xCor, yCor, filter) {
         // Если нужен только первые 100 целей
         // listLength = 1;
 
-        let listIndex = 0;
-        let listId = [];
         let count = 0;
 
         //TODO: улушчить эту часть
-
 
         asyncLoop(
             listLength,
             function (loop) {
                 let i = loop.iteration();
+                let listMassive = [];
 
                 let listObj = {
                     "controller": "farmList",
@@ -1010,84 +1196,28 @@ function autoFarmFinder(name, xCor, yCor, filter) {
                 };
 
                 httpRequest(options)
-                    .then(
-                        function (body) {
-                            listId.push(body.cache[0].data.cache[0].data.listId);
-                            count++;
+                .then(
+                    function (body) {
+                        listMassive.push(body.cache[0].data.cache[0].data.listMassive);
+                        count++;
 
-                            if (listId.length == listLength) {
-                                addToFarmList();
-                            }
-
-                            loop.next();
-
-                        },
-                        function (error) {
-                            console.log(error)
+                        if (listMassive.length == listLength) {
+                            addToFarmList(listMassive);
                         }
-                    )
+
+                        loop.next();
+
+                    },
+                    function (error) {
+                        console.log(error)
+                    }
+                );
             },
             function () {
                 console.log('cycle ended')
             }
         );
 
-        function addToFarmList() {
-            console.log(listId);
-
-            asyncLoop(
-                villages.length,
-                function (loop) {
-
-                    let i = loop.iteration();
-                    if (i % 100 == 0 && i != 0) {
-                        listIndex++
-                    }
-
-                    let villageId = villages[i].villageId;
-                    //console.log(listIndex);
-
-                    let bodyReq = {
-                        "action": "toggleEntry",
-                        "controller": "farmList",
-                        "params": {
-                            "villageId": villageId,
-                            "listId": listId[listIndex]
-                        },
-                        "session": token
-                    };
-
-                    let options = {
-                        method: 'POST',
-                        headers: {
-                            'content-type' : 'application/x-www-form-urlencoded'
-                        },
-                        serverDomain: serverDomain,
-                        json: true,
-                        body: bodyReq
-                    };
-
-                    httpRequest(options)
-                    .then(
-                        function (body) {
-                            console.log(body);
-                            let rand = fixedTimeGenerator(6) + randomTimeGenerator(3);
-                            setTimeout(function () {
-                                console.log('Рандомное время ' + i + ': ' + rand);
-                                loop.next();
-                            }, rand);
-                        },
-                        function () {
-
-                        }
-                    );
-                },
-                function () {
-                    console.log('cycle ended')
-                }
-            )
-
-        }
 
         // let sortedAllGreyVillages
     }, xCor, yCor, filter);
@@ -1119,13 +1249,13 @@ function autoFarmFinder(name, xCor, yCor, filter) {
 //     "session": token
 // };
 
-// autoFarmFinder('wKF', '-2', '-5', withoutKingdomsFilter);
+// autoFarmFinder('test', '-2', '-5', deathsFilter);
 
 //Вынести это в файл инцирования
 // autoFarmList(3600, 300, listPayload.Sobol, 'rux3', false);
 // autoFarmList(1500, 300, listPayload.GreedyKs1, 'ks1-com', true);
 // autoFarmList(1500, 600, listPayload.GROM, 'ks1-com', true);
-autoFarmList(3600, 1200, listPayload.Wahlberg, 'rux3', true);
+// autoFarmList(3600, 1200, listPayload.Wahlberg, 'rux3', true);
 // autoFarmList(3600, 800, listPayload.cheetah_1, 'rux3', true);
 // autoFarmList(3600, 1200, listPayload.cheetah_2, 'rux3', true);
 // autoFarmList(3600, 2400, listPayload.cheetah_3, 'rux3', true);
