@@ -9,18 +9,17 @@ const await = require('asyncawait/await');
 //user data
 const userDate = require('./../config.json');
 
-const debug = 3;
+const debug = 2;
 // debug - 1, идут только необходимые логи, которые показывают процессы запуска.
 // debug - 2, идут логи из основных функций
 // debug - 3, идут полные логи
 
 
 let listPayload = {
-    Wahlberg:  {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[1929],"villageId":536920052},"session":"596ac03e8e8a1699301a"},
-    Wahlberg2: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[1929],"villageId":536723453},"session":"596ac03e8e8a1699301a"},
-    cheetah_1: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2184,2185,2186],"villageId":536887285},"session":"add658b5ae0f9aa35a11"},
-    cheetah_2: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2185],"villageId":536887285},"session":"add658b5ae0f9aa35a11"},
-    cheetah_3: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2186],"villageId":536887285},"session":"add658b5ae0f9aa35a11"}
+    Wahlberg:  {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2349,2350,2393],"villageId":536723453},"session":"f560c38ba6723728ce22"},
+    Wahlberg2: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2350],          "villageId":536690682},"session":"f560c38ba6723728ce22"},
+    Wahlberg3: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2349,2350],     "villageId":536920052},"session":"f560c38ba6723728ce22"},
+    Wahlberg4: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2349,2350],     "villageId":536985587},"session":"f560c38ba6723728ce22"}
 };
 let cookie = userDate.cookie;
 let apiData = {
@@ -137,6 +136,7 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
     let percentLose = 0.75;
 
     let startFarmListRaid = function (listPayload) {
+        console.log(listPayload);
 
         let options = {
             serverDomain: serverDomain,
@@ -146,7 +146,7 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
         httpRequest(options).then(
             function (body) {
                 console.info('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session +'] отправлен');
-                console.log(body);
+                // console.log(body);
             },
             function (err) {
                 console.error('Произошла ошибка');
@@ -161,7 +161,7 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
 
 
     let checkList = function (listPayload) {
-        console.log('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session +'] проверка');
+        // console.log('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session +'] проверка');
 
         function start(counter, countMax, timeout, clearTimer, func, obj) {
 
@@ -178,7 +178,7 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
 
             } else{
 
-                console.log('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session +'] проверка закончена');
+//                console.log('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session +'] проверка закончена');
 
                 let now = new Date();
                 let rand = fixedTimeGenerator(fixedTime) + randomTimeGenerator(randomTime);
@@ -189,6 +189,11 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
                 let dateNext = new Date(tempTime);
                 //запуск сразу
                 if (init) {
+
+                    if (debug === 2 || debug === 3){
+                        console.log(listPayload)
+                    }
+
                     let checkBodyObj = {
                         "controller":"cache",
                         "action":"get",
@@ -245,6 +250,7 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
                                                 } else if (villageLog.lastReport.notificationType === 3){
                                                     if (debug === 2 || debug === 3){
                                                         console.log('red log')
+                                                    }
 
                                                     //TODO: вынести в отдельную функцию
                                                     let toggleBody = {
@@ -288,7 +294,6 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
                                                                 console.log(error);
                                                             }
                                                         )
-                                                    }
                                                 } else {
                                                     console.log(`Странный лог ${villageLog.lastReport.notificationType}`);
                                                 }
@@ -310,7 +315,7 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
 
                             //TODO: add callback on checkOnStatus
                             // callback(body);
-                            checkOnStatus(body, startFarmListRaid);
+                            checkOnStatus(body, startFarmListRaid.bind(null, listPayload));
 
                         },
                         (error) => {
@@ -324,13 +329,12 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
 
                 init = true;
 
-                setTimeout(checkList, rand);
+                setTimeout(checkList.bind(null, listPayload), rand);
 
             }
         }
 
         function rowInListChanger(body, i, j){
-            console.log(JSON.stringify(body.cache[j]));
             let objFromCache = body.cache[j].data.cache[i],
                 lastReport = objFromCache.data.lastReport;
 
@@ -488,9 +492,10 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
             body: lastDataFromList
         }
 
+
+
         httpRequest(options)
             .then(function (body) {
-                console.log(JSON.stringify(body));
                 let counter = 0;
                 let countMax = 0;
 
@@ -507,7 +512,9 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
 
                 //console.log(countMax);
 
-                let listTimerObj = start(counter, countMax,  1000, listTimerObj, listTimer, body);
+                let listTimerObj = 0;
+
+                listTimerObj = start(counter, countMax,  1000, listTimerObj, listTimer, body);
 
 
             })
@@ -1255,7 +1262,10 @@ function autoFarmFinder(name, xCor, yCor, filter) {
 // autoFarmList(3600, 300, listPayload.Sobol, 'rux3', false);
 // autoFarmList(1500, 300, listPayload.GreedyKs1, 'ks1-com', true);
 // autoFarmList(1500, 600, listPayload.GROM, 'ks1-com', true);
-// autoFarmList(3600, 1200, listPayload.Wahlberg, 'rux3', true);
+autoFarmList(2400, 1200, listPayload.Wahlberg , 'rux3', true);
+autoFarmList(2400, 1200, listPayload.Wahlberg2, 'rux3', true);
+autoFarmList(2400, 1200, listPayload.Wahlberg3, 'rux3', true);
+autoFarmList(2400, 1200, listPayload.Wahlberg4, 'rux3', true);
 // autoFarmList(3600, 800, listPayload.cheetah_1, 'rux3', true);
 // autoFarmList(3600, 1200, listPayload.cheetah_2, 'rux3', true);
 // autoFarmList(3600, 2400, listPayload.cheetah_3, 'rux3', true);
