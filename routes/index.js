@@ -16,10 +16,10 @@ const debug = 2;
 
 
 let listPayload = {
-    Wahlberg:  {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2349,2350,2393],"villageId":536723453},"session":"f560c38ba6723728ce22"},
-    Wahlberg2: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2350],          "villageId":536690682},"session":"f560c38ba6723728ce22"},
-    Wahlberg3: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2349,2350],     "villageId":536920052},"session":"f560c38ba6723728ce22"},
-    Wahlberg4: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2349,2350],     "villageId":536985587},"session":"f560c38ba6723728ce22"}
+    Wahlberg:  {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2349,2350,2393],"villageId":536723453},"session": userDate.token},
+    Wahlberg2: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2350],          "villageId":536690682},"session": userDate.token},
+    Wahlberg3: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2349,2350],     "villageId":536920052},"session": userDate.token},
+    Wahlberg4: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2349,2350],     "villageId":536985587},"session": userDate.token}
 };
 let cookie = userDate.cookie;
 let apiData = {
@@ -827,6 +827,7 @@ function asyncLoop(iterations, func, callback) {
 function addToFarmList(listMassive, villages) {
     if (debug === 3){
         console.log(listMassive);
+        console.log(villages);
     }
 
 
@@ -879,7 +880,7 @@ function addToFarmList(listMassive, villages) {
                 );
         },
         function () {
-            console.log('cycle ended')
+            console.log('cycle addToFarmList ended')
         }
     )
 
@@ -1030,18 +1031,20 @@ function searchEnemy(fn, xCor, yCor, filtersParam) {
                 });
             }
 
-            hackPlayer.cache.data[0].villages = sortedVillages;
+            hackPlayer.cache[0].data.villages = sortedVillages;
             sortedPlayers = Object.assign({}, hackPlayer);
         }
 
-
-        let sortedVillagesByCoor = _.sortBy(sortedVillages, function (villages) {
+        let villages = hackPlayer.cache[0].data.villages.cache;
+        let sortedVillagesByCoor = _.sortBy(villages, function (villages) {
+            console.log(villages)
             let len = Math.sqrt(Math.pow(villages.coordinates.x - xCor, 2) + Math.pow(villages.coordinates.y - yCor, 2));
             return len;
         });
 
         console.log(`Количество ${sortedVillagesByCoor.length}`);
         fn(sortedVillagesByCoor);
+
         //
         // asyncLoop(
         //     sortedAllSortedVillages.length,
@@ -1167,23 +1170,17 @@ function searchEnemy(fn, xCor, yCor, filtersParam) {
 
 function autoFarmFinder(name, xCor, yCor, filter) {
     searchEnemy(function (villages) {
-        // console.log(villages);
-
 
         let listLength = Math.ceil(villages.length / 100);
+        let listMassive = [];
 
         // Если нужен только первые 100 целей
         // listLength = 1;
-
-        let count = 0;
-
         //TODO: улушчить эту часть
-
         asyncLoop(
             listLength,
             function (loop) {
                 let i = loop.iteration();
-                let listMassive = [];
 
                 let listObj = {
                     "controller": "farmList",
@@ -1205,11 +1202,11 @@ function autoFarmFinder(name, xCor, yCor, filter) {
                 httpRequest(options)
                 .then(
                     function (body) {
-                        listMassive.push(body.cache[0].data.cache[0].data.listMassive);
-                        count++;
+                        //Добавляем полученный массив в лист массивов
+                        listMassive.push(body.cache[0].data.cache[0].data.listId);
 
                         if (listMassive.length == listLength) {
-                            addToFarmList(listMassive);
+                            addToFarmList(listMassive, villages);
                         }
 
                         loop.next();
@@ -1221,7 +1218,7 @@ function autoFarmFinder(name, xCor, yCor, filter) {
                 );
             },
             function () {
-                console.log('cycle ended')
+                console.log('cycle autoFarmFinder ended')
             }
         );
 
@@ -1256,16 +1253,16 @@ function autoFarmFinder(name, xCor, yCor, filter) {
 //     "session": token
 // };
 
-// autoFarmFinder('test', '-2', '-5', deathsFilter);
+autoFarmFinder('wkf', '-2', '-5', withoutKingdomsFilter);
 
 //Вынести это в файл инцирования
 // autoFarmList(3600, 300, listPayload.Sobol, 'rux3', false);
 // autoFarmList(1500, 300, listPayload.GreedyKs1, 'ks1-com', true);
 // autoFarmList(1500, 600, listPayload.GROM, 'ks1-com', true);
-autoFarmList(2400, 1200, listPayload.Wahlberg , 'rux3', true);
-autoFarmList(2400, 1200, listPayload.Wahlberg2, 'rux3', true);
-autoFarmList(2400, 1200, listPayload.Wahlberg3, 'rux3', true);
-autoFarmList(2400, 1200, listPayload.Wahlberg4, 'rux3', true);
+// autoFarmList(2400, 1200, listPayload.Wahlberg , 'rux3', true);
+// autoFarmList(2400, 1200, listPayload.Wahlberg2, 'rux3', true);
+// autoFarmList(2400, 1200, listPayload.Wahlberg3, 'rux3', true);
+// autoFarmList(2400, 1200, listPayload.Wahlberg4, 'rux3', true);
 // autoFarmList(3600, 800, listPayload.cheetah_1, 'rux3', true);
 // autoFarmList(3600, 1200, listPayload.cheetah_2, 'rux3', true);
 // autoFarmList(3600, 2400, listPayload.cheetah_3, 'rux3', true);
