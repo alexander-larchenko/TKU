@@ -16,10 +16,10 @@ const debug = 2;
 
 
 let listPayload = {
-    Wahlberg:  {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2349,2350,2393],"villageId":536723453},"session": userDate.token},
-    Wahlberg2: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2350],          "villageId":536690682},"session": userDate.token},
-    Wahlberg3: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2349,2350],     "villageId":536920052},"session": userDate.token},
-    Wahlberg4: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2349,2350],     "villageId":536985587},"session": userDate.token}
+    Wahlberg:  {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2549,2550,2393],"villageId":536723453},"session": userDate.token},
+    Wahlberg2: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2549],          "villageId":536690682},"session": userDate.token},
+    Wahlberg3: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2549,2550],     "villageId":536920052},"session": userDate.token},
+    Wahlberg4: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2549,2550],     "villageId":536985587},"session": userDate.token}
 };
 let cookie = userDate.cookie;
 let apiData = {
@@ -227,14 +227,14 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
 
                             function checkOnStatus(farmListsResponse, fn){
                                 asyncLoop(
-                                    body.cache.length,
+                                    farmListsResponse.cache.length,
                                     function(loopList){
                                         //TODO: возможно nginx этот луп убьёт, но возможно нет так как всего посылается 2 запроса.
                                         let i = loopList.iteration();
                                         let FarmListEntry = body.cache[i].name.split(":")[3];
 
                                         asyncLoop(
-                                            body.cache[i].data.cache,
+                                            farmListsResponse.cache[i].data.cache,
                                             function(loop){
                                                 let j = loopList.iteration();
 
@@ -276,6 +276,7 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
                                                     httpRequest(options)
                                                         .then(
                                                             (body) => {
+                                                                console.log(body);
                                                                 return httpRequest(options);
                                                             },
                                                             (error) => {
@@ -284,6 +285,7 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
                                                         )
                                                         .then(
                                                             (body) => {
+                                                                console.log(body);
                                                                 if (debug === 3){
                                                                     console.log(body);
                                                                 }
@@ -830,11 +832,11 @@ function addToFarmList(listMassive, villages) {
         console.log(villages);
     }
 
+    let listIndex = 0;
 
     asyncLoop(
         villages.length,
         function (loop) {
-            let listIndex = 0;
 
             let i = loop.iteration();
             if (i % 100 == 0 && i != 0) {
@@ -842,7 +844,8 @@ function addToFarmList(listMassive, villages) {
             }
 
             let villageId = villages[i].villageId;
-            //console.log(listIndex);
+            console.log(listIndex);
+            console.log(listMassive[listIndex]);
 
             let bodyReq = {
                 "action": "toggleEntry",
@@ -1253,16 +1256,17 @@ function autoFarmFinder(name, xCor, yCor, filter) {
 //     "session": token
 // };
 
-autoFarmFinder('wkf', '-2', '-5', withoutKingdomsFilter);
+// autoFarmFinder('wkf', '-2', '-5', withoutKingdomsFilter);
+// autoFarmFinder('d', '-2', '-5', deathsFilter);
 
 //Вынести это в файл инцирования
 // autoFarmList(3600, 300, listPayload.Sobol, 'rux3', false);
 // autoFarmList(1500, 300, listPayload.GreedyKs1, 'ks1-com', true);
 // autoFarmList(1500, 600, listPayload.GROM, 'ks1-com', true);
-// autoFarmList(2400, 1200, listPayload.Wahlberg , 'rux3', true);
-// autoFarmList(2400, 1200, listPayload.Wahlberg2, 'rux3', true);
-// autoFarmList(2400, 1200, listPayload.Wahlberg3, 'rux3', true);
-// autoFarmList(2400, 1200, listPayload.Wahlberg4, 'rux3', true);
+autoFarmList(2400, 1200, listPayload.Wahlberg , 'rux3', true);
+autoFarmList(2400, 1200, listPayload.Wahlberg2, 'rux3', true);
+autoFarmList(2400, 1200, listPayload.Wahlberg3, 'rux3', true);
+autoFarmList(2400, 1200, listPayload.Wahlberg4, 'rux3', true);
 // autoFarmList(3600, 800, listPayload.cheetah_1, 'rux3', true);
 // autoFarmList(3600, 1200, listPayload.cheetah_2, 'rux3', true);
 // autoFarmList(3600, 2400, listPayload.cheetah_3, 'rux3', true);
