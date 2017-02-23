@@ -761,9 +761,9 @@ function getMapInfo(type, token, serverDomain, timeForGame) {
 
                             let cropArray = [];
 
-                            console.log(map);
+                            // console.log(map);
 
-                            console.log(map.length);
+                            // console.log(map.length);
 
                             // obj.path = Math.sqrt(Math.pow((obj.x-custom.x),2) + Math.pow((obj.y-custom.y), 2));
                             // obj.path = obj.path.toFixed(3);
@@ -780,6 +780,7 @@ function getMapInfo(type, token, serverDomain, timeForGame) {
 
                                     if(obj.resType == '3339' && obj.oasis == 0 && obj.kingdomId == 0){
 
+                                        //9ka добавлена
 
                                         let listObj = {
                                             "controller":"map",
@@ -820,7 +821,9 @@ function getMapInfo(type, token, serverDomain, timeForGame) {
                                         httpRequest(options)
                                         .then(
                                             function (body) {
-                                                loop.next();
+                                                console.log(body)
+                                                setTimeout(loop.next, 100);
+
 
                                             },
                                             function (error) {
@@ -831,6 +834,7 @@ function getMapInfo(type, token, serverDomain, timeForGame) {
                                     } else if (obj.resType == '11115' && obj.oasis == 0 && obj.kingdomId == 0){
 
 
+                                        //15ka добавлена
                                         let listObj = {
                                             "controller":"map",
                                             "action":"editMapMarkers",
@@ -869,7 +873,9 @@ function getMapInfo(type, token, serverDomain, timeForGame) {
                                         httpRequest(options)
                                         .then(
                                             function (body) {
-                                                loop.next();
+                                                console.log(body);
+
+                                                setTimeout(loop.next, 100);
                                             },
                                             function (error) {
                                                 console.log(error)
@@ -1379,18 +1385,19 @@ function autoFarmFinder(name, xCor, yCor, filter) {
 /**
  * Крокодилы
  */
-// let repeatFn = function(){
+//Переписать вызов
+// let repeatFn = function(fn){
 //  getMapInfo('animal', token, serverDomain, timeForGame);
 //  setTimeout(repeatFn, 600000);
 // };
 
 // getMapInfo('animal', token, serverDomain, timeForGame);
+// setTimeout(repeatFn, 600000);
 
 /**
  * Кроп
  */
 getMapInfo('crop', token, serverDomain, timeForGame);
-// setTimeout(repeatFn, 600000);
 
 
 
