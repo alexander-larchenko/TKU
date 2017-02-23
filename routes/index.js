@@ -16,10 +16,10 @@ const debug = 2;
 
 
 let listPayload = {
-    Wahlberg:  {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2549,2550,2393],"villageId":536723453},"session": userDate.token},
-    Wahlberg2: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2549],          "villageId":536690682},"session": userDate.token},
-    Wahlberg3: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2549,2550],     "villageId":536920052},"session": userDate.token},
-    Wahlberg4: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2549,2550],     "villageId":536985587},"session": userDate.token}
+    Wahlberg:  {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2599,2600,2551],"villageId":536723453},"session": userDate.token},
+    Wahlberg2: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2599],          "villageId":536690682},"session": userDate.token},
+    Wahlberg3: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2599,2600],     "villageId":536920052},"session": userDate.token},
+    Wahlberg4: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2599,2600],     "villageId":536985587},"session": userDate.token}
 };
 let cookie = userDate.cookie;
 let apiData = {
@@ -761,25 +761,131 @@ function getMapInfo(type, token, serverDomain, timeForGame) {
 
                             let cropArray = [];
 
-                            custom = {
-                                x: 0,
-                                y: 0
-                            };
+                            console.log(map);
 
-                            for (let i = 0; i < map.length; i++) {
-                                let obj = map[i];
-                                if(obj.resType == '3339' && obj.oasis == 0 && obj.kingdomId == 0){
-                                    obj.path = Math.sqrt(Math.pow((obj.x-custom.x),2) + Math.pow((obj.y-custom.y), 2));
-                                    obj.path = obj.path.toFixed(3);
-                                    if(obj.path.length==5){obj.path='0'+obj.path}
-                                    cropArray.push(obj);
+                            console.log(map.length);
+
+                            // obj.path = Math.sqrt(Math.pow((obj.x-custom.x),2) + Math.pow((obj.y-custom.y), 2));
+                            // obj.path = obj.path.toFixed(3);
+                            // if(obj.path.length==5){obj.path='0'+obj.path}
+                            // cropArray.push(obj);
+
+                            asyncLoop(
+                                map.length,
+                                function(loop){
+
+                                    let i = loop.iteration();
+
+                                    let obj = map[i];
+
+                                    if(obj.resType == '3339' && obj.oasis == 0 && obj.kingdomId == 0){
+
+
+                                        let listObj = {
+                                            "controller":"map",
+                                            "action":"editMapMarkers",
+                                            "params":{
+                                                "markers":[
+                                                    {
+                                                        "owner":1,
+                                                        "type":3,
+                                                        "color":6,
+                                                        "editType":3,
+                                                        "ownerId":2627,
+                                                        "targetId":obj.id
+                                                    }
+                                                ],
+                                                "fieldMessage":{
+                                                    "text":"9ка",
+                                                    "type":4,
+                                                    "duration":48,
+                                                    "cellId":obj.id,
+                                                    "targetId":31
+                                                }
+                                            },
+                                            "session": token
+                                        };
+
+                                        let options = {
+                                            method: 'POST',
+                                            headers: {
+                                                'content-type' : 'application/x-www-form-urlencoded'
+                                            },
+                                            serverDomain: serverDomain,
+                                            json: true,
+                                            body: listObj
+                                        };
+
+
+                                        httpRequest(options)
+                                        .then(
+                                            function (body) {
+                                                loop.next();
+
+                                            },
+                                            function (error) {
+                                                console.log(error)
+                                            }
+                                        );
+
+                                    } else if (obj.resType == '11115' && obj.oasis == 0 && obj.kingdomId == 0){
+
+
+                                        let listObj = {
+                                            "controller":"map",
+                                            "action":"editMapMarkers",
+                                            "params":{
+                                                "markers":[
+                                                    {
+                                                        "owner":1,
+                                                        "type":3,
+                                                        "color":10,
+                                                        "editType":3,
+                                                        "ownerId":2627,
+                                                        "targetId":obj.id
+                                                    }
+                                                ],
+                                                "fieldMessage":{
+                                                    "text":"15ка",
+                                                    "type":4,
+                                                    "duration":48,
+                                                    "cellId":obj.id,
+                                                    "targetId":31
+                                                }
+                                            },
+                                            "session": token
+                                        };
+
+                                        let options = {
+                                            method: 'POST',
+                                            headers: {
+                                                'content-type' : 'application/x-www-form-urlencoded'
+                                            },
+                                            serverDomain: serverDomain,
+                                            json: true,
+                                            body: listObj
+                                        };
+
+                                        httpRequest(options)
+                                        .then(
+                                            function (body) {
+                                                loop.next();
+                                            },
+                                            function (error) {
+                                                console.log(error)
+                                            }
+                                        );
+
+                                    } else {
+                                        loop.next();
+                                    }
+
+                                },
+                                function () {
+                                    console.log('Добавление точек заверешено :)')
                                 }
-                            }
+                            );
 
-                            cropArray = _.sortBy(cropArray, 'path');
-
-                            apiData.crop = cropArray;
-                            console.log('Создали объект 15-ек');
 
                         }
 
@@ -1263,23 +1369,22 @@ function autoFarmFinder(name, xCor, yCor, filter) {
 // autoFarmList(3600, 300, listPayload.Sobol, 'rux3', false);
 // autoFarmList(1500, 300, listPayload.GreedyKs1, 'ks1-com', true);
 // autoFarmList(1500, 600, listPayload.GROM, 'ks1-com', true);
-autoFarmList(2400, 1200, listPayload.Wahlberg , 'rux3', true);
-autoFarmList(2400, 1200, listPayload.Wahlberg2, 'rux3', true);
-autoFarmList(2400, 1200, listPayload.Wahlberg3, 'rux3', true);
-autoFarmList(2400, 1200, listPayload.Wahlberg4, 'rux3', true);
+// autoFarmList(2400, 1200, listPayload.Wahlberg , 'rux3', true);
+// autoFarmList(2400, 1200, listPayload.Wahlberg2, 'rux3', true);
+// autoFarmList(2400, 1200, listPayload.Wahlberg3, 'rux3', true);
+// autoFarmList(2400, 1200, listPayload.Wahlberg4, 'rux3', true);
 // autoFarmList(3600, 800, listPayload.cheetah_1, 'rux3', true);
 // autoFarmList(3600, 1200, listPayload.cheetah_2, 'rux3', true);
 // autoFarmList(3600, 2400, listPayload.cheetah_3, 'rux3', true);
 
-// let repeatFn = function(){
-//  getMapInfo('animal', token, serverDomain, timeForGame);
-//  //getMapInfo('crop', token, serverDomain, timeForGame);
-//  setTimeout(repeatFn, 600000);
-// };
-//
-// getMapInfo('animal', token, serverDomain, timeForGame);
-// // getMapInfo('crop', token, serverDomain, timeForGame);
-// setTimeout(repeatFn, 600000);
+let repeatFn = function(){
+ getMapInfo('animal', token, serverDomain, timeForGame);
+ setTimeout(repeatFn, 600000);
+};
+
+getMapInfo('animal', token, serverDomain, timeForGame);
+// getMapInfo('crop', token, serverDomain, timeForGame);
+setTimeout(repeatFn, 600000);
 
 
 
