@@ -38,6 +38,10 @@ let serverDomain = userDate.serverDomain;
 //different = {less, equal, more}
 //value = value
 //TODO: вынести фильтры
+/**
+ * Примеры фильров
+ * @type {{players: {active: {different: string, value: string}}, villages: {population: {different: string, value: string}}}}
+ */
 let deathsFilter = {
     players: {
         active: {
@@ -52,7 +56,6 @@ let deathsFilter = {
         }
     }
 };
-
 let withoutKingdomsFilter = {
     players: {
         kingdomId: {
@@ -72,9 +75,30 @@ let withoutKingdomsFilter = {
     }
 };
 
-// вспомогательная функция-чернорабочий
-// для выполнения промисов из generator
 //TODO: переписать на класс, добавить es6 , ts
+
+/** Генераторы времени
+ * @param seconds
+ * @returns {Number}
+ */
+function fixedTimeGenerator(seconds) {
+    //Точное кол-во seconds секунд
+    return parseInt(1000 * seconds);
+}
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+function randomTimeGenerator(seconds) {
+    //Рандом число в пределах seconds секунд
+    return parseInt(getRandomInt(-1000, 1000) * seconds);
+}
+
+/**
+ * Проставляет заголовки из конфига, требуется для защиты
+ * @param serverDomain
+ * @param cookie
+ * @returns {{content-type: string, Cookie: *, Host: string, Origin: string, Pragma: string, Referer: string, User-Agent: string}}
+ */
 function setHttpHeaders(serverDomain, cookie){
 
     return {
@@ -87,17 +111,11 @@ function setHttpHeaders(serverDomain, cookie){
         'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
     }
 }
-function fixedTimeGenerator(seconds) {
-    //Точное кол-во seconds секунд
-    return parseInt(1000 * seconds);
-}
-function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-function randomTimeGenerator(seconds) {
-    //Рандом число в пределах seconds секунд
-    return parseInt(getRandomInt(-1000, 1000) * seconds);
-}
+
+/**
+ * http request для травиан кингдомса, возвращает колбек ответа
+ * @param opt
+ */
 function httpRequest(opt){
     let timeForGame = 't' + Date.now();
 
@@ -114,6 +132,16 @@ function httpRequest(opt){
 }
 //fixedTime - фиксированное время
 //randomTime - разброс
+
+/**
+ * Требуется рефакторинг и доработка
+ * Фармлисты
+ * @param fixedTime - основное время через которое должно повторяться
+ * @param randomTime - случайный разброс, что бы не спалили
+ * @param listPayload - запрос который шлётся из ПСа, требуется ТК+
+ * @param serverDomain - домен сервера, требуется рефакторинг и вынос этого гавна
+ * @param init - инцилизировать сразу, или запустить через fixedTime+randomTime
+ */
 function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
 
     let lastDataFromList = {
@@ -530,7 +558,10 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
 
     checkList(listPayload);
 };
-
+/**
+ * Получаем опенапи токен
+ * @param callback
+ */
 function getToken(callback) {
     let options = {
         method: 'GET',
@@ -548,6 +579,10 @@ function getToken(callback) {
         }
     )
 }
+/**
+ * Получение карты
+ * @param callback
+ */
 function getMap(callback) {
     getToken(
         function (token) {
@@ -576,6 +611,10 @@ function getMap(callback) {
     // token = await getToken().response.privateApiKey;
     //
 }
+/**
+ * Получние информации о юзерах
+ * @param callback
+ */
 function getPlayers(callback) {
     getMap(function (body) {
         let players = _.pluck(body.response.players, 'playerId');
@@ -614,6 +653,14 @@ function getPlayers(callback) {
             )
     })
 }
+/**
+ * Получаем карту по условиям.
+ * Скрипт требует переработки, ибо код гавно, которому 1.5 года
+ * @param type
+ * @param token
+ * @param serverDomain
+ * @param timeForGame
+ */
 function getMapInfo(type, token, serverDomain, timeForGame) {
         type = type || 'animal';
         request
@@ -906,6 +953,14 @@ function getMapInfo(type, token, serverDomain, timeForGame) {
                     });
             });
     };
+
+/**
+ * Асинх луп, служит для итераций после колбека. Важно для эмуляции действий пользователя - так как есть возможность добавить 400 деревней за 2 секунду, но это немного палевно
+ * @param iterations
+ * @param func
+ * @param callback
+ * @returns {{next: loop.next, iteration: loop.iteration, break: loop.break}}
+ */
 function asyncLoop(iterations, func, callback) {
     let index = 0;
     let done = false;
@@ -938,6 +993,11 @@ function asyncLoop(iterations, func, callback) {
     return loop;
 }
 
+/**
+ * Функция для добавление в фарм лист. Передаём массив ID с листами и список деревень
+ * @param listMassive
+ * @param villages
+ */
 function addToFarmList(listMassive, villages) {
     if (debug === 3){
         console.log(listMassive);
@@ -1003,7 +1063,10 @@ function addToFarmList(listMassive, villages) {
 
 
 /**
- *
+ * Находит деревни согласно заданным условиям.
+ * Есть настроенные фильтры -
+ *      deathsFilter - является фильтром для мертвяков
+ *      withoutKingdomsFilter - фильтр для игроков без королевства
  * @param xCor
  * @param yCor
  * @param filters - IFilters {
@@ -1050,6 +1113,7 @@ function addToFarmList(listMassive, villages) {
  *      villageId: number
  * }
  */
+
 function searchEnemy(fn, xCor, yCor, filtersParam) {
     getPlayers(function (players) {
 
@@ -1283,7 +1347,15 @@ function searchEnemy(fn, xCor, yCor, filtersParam) {
     })
 }
 
-function autoFarmFinder(name, xCor, yCor, filter) {
+/**
+ * Добавляет список по фильтрам.
+ * @param name - имя листа
+ * @param xCor
+ * @param yCor
+ * @param filter - фильтр, интерфейс к фильтрам находится над сёрч энеми
+ */
+
+function farmListCreator(name, xCor, yCor, filter) {
     searchEnemy(function (villages) {
 
         let listLength = Math.ceil(villages.length / 100);
@@ -1333,7 +1405,7 @@ function autoFarmFinder(name, xCor, yCor, filter) {
                 );
             },
             function () {
-                console.log('cycle autoFarmFinder ended')
+                console.log('cycle farmListCreator ended')
             }
         );
 
@@ -1371,8 +1443,8 @@ function autoFarmFinder(name, xCor, yCor, filter) {
 /**
  * Добавления юнитов по улсовиям
  */
-// autoFarmFinder('wkf', '-2', '-5', withoutKingdomsFilter);
-// autoFarmFinder('d', '-2', '-5', deathsFilter);
+// farmListCreator('wkf', '-2', '-5', withoutKingdomsFilter);
+farmListCreator('d', '13', '-40', deathsFilter);
 
 /**
  * Фармлисты
@@ -1397,7 +1469,7 @@ function autoFarmFinder(name, xCor, yCor, filter) {
 /**
  * Кроп
  */
-getMapInfo('crop', token, serverDomain, timeForGame);
+// getMapInfo('crop', token, serverDomain, timeForGame);
 
 
 
