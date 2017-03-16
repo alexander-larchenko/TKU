@@ -16,7 +16,7 @@ const debug = 2;
 
 
 let listPayload = {
-    Wahlberg:  {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[4931,4932,4933],"villageId":535576589},"session":"86cf0991f7dc9276dc57"},
+    Wahlberg:  {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[4931,4932,4933],"villageId":535576589},"session":"5c8d177944975bfa0caf"},
     Wahlberg2: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2599],          "villageId":536690682},"session": userDate.token},
     Wahlberg3: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2599,2600],     "villageId":536920052},"session": userDate.token},
     lolko:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2641,2642,4131],"villageId":536231973},"session":"c45aad09506d27ab61db"},
@@ -267,7 +267,9 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
                                                 let j = loop.iteration();
 
                                                 let villageLog = body.cache[i].data.cache[j].data;
-                                                if (villageLog.lastReport.notificationType == 1){
+                                                if (villageLog.lastReport == null){
+                                                    loop.next();
+                                                } else if (villageLog.lastReport.notificationType == 1){
                                                     // if (debug === 2 || debug === 3){
                                                     //     console.log('green log')
                                                     // }
@@ -1458,14 +1460,14 @@ function farmListCreator(name, xCor, yCor, filter) {
 /**
  * Фармлисты
  */
-// autoFarmList(3600, 1200, listPayload.Wahlberg , 'com3', true);
+autoFarmList(3600, 1200, listPayload.Wahlberg , 'com3', true);
 // autoFarmList(2400, 1200, listPayload.Wahlberg2, 'rux3', true);
 // autoFarmList(2400, 1200, listPayload.Wahlberg3, 'rux3', true);
 // autoFarmList(2400, 1200, listPayload.Wahlberg4, 'rux3', true);
 // autoFarmList(7200, 1200, listPayload.rinko, 'com3', true);
 // autoFarmList(7200, 1200, listPayload.lolko, 'com3', true);
 autoFarmList(2400, 1200, listPayload.rinko, 'com3', true);
-// autoFarmList(2400, 1200, listPayload.lolko, 'com3', true);
+autoFarmList(2400, 1200, listPayload.lolko, 'com3', true);
 
 /**
  * Крокодилы
