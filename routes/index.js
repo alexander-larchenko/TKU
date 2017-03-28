@@ -30,11 +30,13 @@ const debug = 2;
 
 
 let listPayload = {
-    Wahlberg:  {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[4931,4932,4933],"villageId":535576589},"session":"a3b95db57eb60b02fe72"},
-    Wahlberg2: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2599],          "villageId":536690682},"session": userDate.token},
-    Wahlberg3: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2599,2600],     "villageId":536920052},"session": userDate.token},
-    lolko:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2641,2642,4131, 2797],"villageId":536231973},"session":"1fb91977f90a20f161bf"},
-    rinko:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[4182,4183,4184, 6059],"villageId":535478280},"session":"cbcf352b8d227fe0316d"}
+    Wahlberg:  {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[7051],"villageId":535576589},"session":"bf85f196d23f85c49f4c"},
+    Wahlberg2: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[7258],"villageId":535543833},"session":"bf85f196d23f85c49f4c"},
+    Morpoh:    {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[5263,6278],"villageId":535904265},"session":"9f1ae14ca6ac8296eed2"},
+    Morpoh2:   {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[3237],"villageId":535543819},"session":"9f1ae14ca6ac8296eed2"},
+    grando:    {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6727],"villageId":535969825},"session":"361a84ae797d2324002b"},
+    lolko:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[7042],           "villageId":536231973},"session":"4fe06cf975668f6b58c5"},
+    rinko:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[4182,4183,4184, 6059],"villageId":535478280},"session":"4af72dd36bfd182d45aa"}
 };
 let cookie = userDate.cookie;
 let apiData = {
@@ -277,41 +279,37 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
                                         //TODO: возможно nginx этот луп убьёт, но возможно нет так как всего посылается 2 запроса.
                                         let i = loopList.iteration();
                                         let FarmListEntry = body.cache[i].name.split(":")[2];
-                                        console.log(`Подан фармлист с Айди ${FarmListEntry}`.info);
+                                        // console.log(`Подан фармлист с Айди ${FarmListEntry}`.info);
 
+                                        // console.log(FarmListEntry)
                                         asyncLoop(
                                             farmListsResponse.cache[i].data.cache.length,
                                             function(loop){
 
-
                                                 let j = loop.iteration();
 
-                                                let villageLog = body.cache[i].data.cache[j];
+                                                let villageLog = farmListsResponse.cache[i].data.cache[j];
 
+                                                // console.log(`Чек этого  ${JSON.stringify(villageLog).green}`);
 
-                                                if (villageLog.lastReport == null){
+                                                if (!villageLog || !villageLog.data || !villageLog.data.lastReport){
+                                                    console.log(`Чек этого  ${JSON.stringify(villageLog.data).green}`);
                                                     loop.next();
-                                                } else if (villageLog.lastReport.notificationType == 1){
+                                                } else if (villageLog.data.lastReport.notificationType == 1){
                                                     // if (debug === 2 || debug === 3){
                                                     //     console.log('green log')
                                                     // }
                                                     loop.next();
-                                                } else if (villageLog.lastReport.notificationType == 2){
+                                                } else if (villageLog.data.lastReport.notificationType == 2){
                                                     if (debug === 2 || debug === 3){
                                                         console.log('yellow log')
                                                     }
-                                                    loop.next();
-                                                } else if (villageLog.lastReport.notificationType == 3){
-                                                    if (debug === 2 || debug === 3){
-                                                    }
-                                                    console.log('red log')
-                                                    //TODO: вынести в отдельную функцию
                                                     let toggleBody = {
                                                         "controller":"farmList",
                                                         "action":"toggleEntry",
                                                         "params":{
-                                                            "villageId":villageLog.villageId,
-                                                            "listId":   villageLog.entryId
+                                                            "villageId":villageLog.data.villageId,
+                                                            "listId":   FarmListEntry
                                                         },
                                                         "session":listPayload.session
                                                     };
@@ -325,6 +323,60 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
                                                         body: toggleBody,
                                                         serverDomain: serverDomain
                                                     };
+
+                                                    console.log(options.info)
+
+
+                                                    httpRequest(options)
+                                                        .then(
+                                                            (body) => {
+                                                                console.log(body);
+                                                                return httpRequest(options);
+                                                            },
+                                                            (error) => {
+                                                                console.log(error);
+                                                            }
+                                                        )
+                                                        .then(
+                                                            (body) => {
+                                                                console.log(body);
+                                                                if (debug === 3){
+                                                                    console.log(body);
+                                                                }
+                                                                console.log('Жёлтый лог обработан.'.silly)
+                                                                loop.next();
+                                                            },
+                                                            (error) => {
+                                                                console.log(error);
+                                                            }
+                                                        )
+                                                } else if (villageLog.data.lastReport.notificationType == 3){
+                                                    if (debug === 2 || debug === 3){
+                                                    }
+                                                    console.log('red log'.debug)
+                                                    //TODO: вынести в отдельную функцию
+                                                    let toggleBody = {
+                                                        "controller":"farmList",
+                                                        "action":"toggleEntry",
+                                                        "params":{
+                                                            "villageId":villageLog.data.villageId,
+                                                            "listId":   FarmListEntry
+                                                        },
+                                                        "session":listPayload.session
+                                                    };
+
+                                                    let options = {
+                                                        method: 'POST',
+                                                        headers: {
+                                                            'content-type' : 'application/x-www-form-urlencoded'
+                                                        },
+                                                        json: true,
+                                                        body: toggleBody,
+                                                        serverDomain: serverDomain
+                                                    };
+
+                                                    console.log(options.info)
+
 
                                                     httpRequest(options)
                                                         .then(
@@ -354,7 +406,6 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
                                                 }
                                             },
                                             function () {
-                                                console.log(i)
                                                 loopList.next();
                                             }
                                         );
@@ -554,9 +605,6 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
             .then(function (body) {
                 let counter = 0;
                 let countMax = 0;
-
-                console.log('here');
-                console.log(body);
 
                 if (body && body.error){
                     console.log(body.error.message + " " + listPayload.session);
@@ -1475,20 +1523,19 @@ function farmListCreator(name, xCor, yCor, filter) {
 /**
  * Добавления юнитов по улсовиям
  */
-// farmListCreator('withoutKing', '8', '-43', withoutKingdomsFilter);
-// farmListCreator('death', '8', '-43', deathsFilter);
+// farmListCreator('withoutKing', '13', '-40', withoutKingdomsFilter);
+// farmListCreator('death', '13', '-40', deathsFilter);
 
 /**
  * Фармлисты
  */
-autoFarmList(4800, 1200, listPayload.Wahlberg , 'com3', true);
-// autoFarmList(2400, 1200, listPayload.Wahlberg2, 'rux3', true);
-// autoFarmList(2400, 1200, listPayload.Wahlberg3, 'rux3', true);
-// autoFarmList(2400, 1200, listPayload.Wahlberg4, 'rux3', true);
-// autoFarmList(7200, 1200, listPayload.rinko, 'com3', true);
-// autoFarmList(7200, 1200, listPayload.lolko, 'com3', true);
-autoFarmList(4800, 1200, listPayload.rinko, 'com3', true);
-autoFarmList(4800, 1200, listPayload.lolko, 'com3', true);
+autoFarmList(3600, 1200, listPayload.Wahlberg , 'com3', true);
+autoFarmList(3600, 1200, listPayload.Wahlberg2 , 'com3', true);
+autoFarmList(3600, 1200, listPayload.Morpoh, 'com3', true);
+autoFarmList(3600, 1200, listPayload.Morpoh2, 'com3', true);
+autoFarmList(3600, 1200, listPayload.grando, 'com3', true);
+autoFarmList(3600, 1200, listPayload.rinko, 'com3', true);
+autoFarmList(3600, 1200, listPayload.lolko, 'com3', true);
 
 /**
  * Крокодилы
