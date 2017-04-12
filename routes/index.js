@@ -23,20 +23,26 @@ colors.setTheme({
 //user data
 const userDate = require('./../config.json');
 
-const debug = 2;
+const debug = 1;
 // debug - 1, идут только необходимые логи, которые показывают процессы запуска.
 // debug - 2, идут логи из основных функций
 // debug - 3, идут полные логи
 
 
 let listPayload = {
-    Wahlberg:  {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[7051],"villageId":535576589},"session":"bf85f196d23f85c49f4c"},
-    Wahlberg2: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[7258],"villageId":535543833},"session":"bf85f196d23f85c49f4c"},
-    Morpoh:    {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[5263,6278],"villageId":535904265},"session":"9f1ae14ca6ac8296eed2"},
-    Morpoh2:   {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[3237],"villageId":535543819},"session":"9f1ae14ca6ac8296eed2"},
-    grando:    {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6727],"villageId":535969825},"session":"361a84ae797d2324002b"},
-    lolko:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[7042],           "villageId":536231973},"session":"4fe06cf975668f6b58c5"},
-    rinko:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[4182,4183,4184, 6059],"villageId":535478280},"session":"4af72dd36bfd182d45aa"}
+    Wahlberg:  {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[7628, 7629, 7630, 7631, 7632],"villageId":535576589},"session":"b02689242327472cfe49"},
+    Wahlberg2: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[7628, 7629],"villageId":535543833},"session":"b02689242327472cfe49"},
+    lolko:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[7801, 7802],"villageId":536231973},"session":"512bf1edb8e02fb8cfc8"},
+    cheetah:   {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[7854, 7855, 7856],"villageId":535674893},"session":"ebfca8388dead74e845c"},
+    Morpoh:    {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[7835, 7836, 7837, 7838],"villageId":535904265},"session":"3ae3d17a5f3484e3c1d7"},
+    Morpoh2:   {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[3237],"villageId":535543819},"session":"3ae3d17a5f3484e3c1d7"},
+    grando:    {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[7757,7758],"villageId":535969825},"session":"8736c7539713f1d7e2fe"},
+    andrew:    {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[7456, 7457, 7696, 7697, 7698],"villageId":536035383},"session":"fa9dfe3a87a7f4d061a9"},
+    pushgun:   {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[7777, 7778, 7779, 7780, 7781, 7782],"villageId":536133667},"session":"277f3ee941e5bf712f7b"},
+    engal:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[7895, 7896, 7897],"villageId":536231970},"session":"4e4ad78c792acd4b76ce"},
+    rinko:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8077, 8078, 8079, 8080, 8081, 8082, 8083],"villageId":535478280},"session":"474169e3f213fd76b0eb"},
+    hedin:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[7721, 7722, 7723, 7724],"villageId":535576588},"session":"c10c4a5b835cf9fd46dc"},
+    hedin2:    {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[7718, 7719, 7720],"villageId":535642126},"session":"c10c4a5b835cf9fd46dc"}
 };
 let cookie = userDate.cookie;
 let apiData = {
@@ -64,6 +70,10 @@ let deathsFilter = {
         active: {
             different: "equal",
             value: "0"
+        },
+        population:{
+            different: "more",
+            value: "100"
         }
     },
     villages: {
@@ -116,13 +126,14 @@ function randomTimeGenerator(seconds) {
  * @param cookie
  * @returns {{content-type: string, Cookie: *, Host: string, Origin: string, Pragma: string, Referer: string, User-Agent: string}}
  */
-function setHttpHeaders(serverDomain, cookie){
+function setHttpHeaders(serverDomain, cookie, contentLength){
 
     return {
-        'content-type' : 'application/x-www-form-urlencoded',
+        'Content-Type' : 'application/x-www-form-urlencoded',
         'Cookie' : cookie,
         'Host': serverDomain+'.kingdoms.com',
         'Origin': 'http://'+serverDomain+'.kingdoms.com',
+        'Content-Length':contentLength,
         'Pragma':'no-cache',
         'Referer': 'http://'+serverDomain+'.kingdoms.com',
         'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
@@ -137,14 +148,14 @@ function httpRequest(opt){
     let timeForGame = 't' + Date.now();
 
     let options = {
-        headers: setHttpHeaders(opt.serverDomain),
+        headers: setHttpHeaders(opt.serverDomain, cookie, JSON.stringify(opt.body).length),
         method: opt.method || 'GET',
         uri: `http://${opt.serverDomain}.kingdoms.com/api/?c=${opt.body.controller}&a=${opt.body.action}&${timeForGame}`,
         body: JSON.stringify(opt.body),
         json: true // Automatically stringifies the body to JSON
     };
 
-    console.log(JSON.stringify(options).help)
+    //console.log(JSON.stringify(options).help)
 
     //RP - request promise, return deffered object.
     return rp(options);
@@ -183,7 +194,7 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
     let percentLose = 0.75;
 
     let startFarmListRaid = function (listPayload) {
-        console.log(listPayload);
+        //console.log(listPayload);
 
         let options = {
             serverDomain: serverDomain,
@@ -192,13 +203,13 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
 
         httpRequest(options).then(
             function (body) {
-                console.info('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session +'] отправлен');
+                //console.info('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session +'] отправлен');
                 // console.log(body);
             },
             function (err) {
-                console.error('Произошла ошибка');
-                console.log(err);
-                console.info('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session +'] отправлен');
+                //console.error('Произошла ошибка');
+                //console.log(err);
+                //console.info('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session +'] отправлен');
 
             }
         );
@@ -237,7 +248,7 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
                 if (init) {
 
                     if (debug === 2 || debug === 3){
-                        console.log(listPayload)
+                        //console.log(listPayload)
                     }
 
                     let checkBodyObj = {
@@ -264,7 +275,7 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
                         serverDomain: serverDomain
                     };
 
-                    console.log('Сформировали массив фарм листов');
+                    //console.log('Сформировали массив фарм листов');
 
                     //TODO: ПРОВЕРИТЬ!
                     httpRequest(options)
@@ -279,7 +290,7 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
                                         //TODO: возможно nginx этот луп убьёт, но возможно нет так как всего посылается 2 запроса.
                                         let i = loopList.iteration();
                                         let FarmListEntry = body.cache[i].name.split(":")[2];
-                                        // console.log(`Подан фармлист с Айди ${FarmListEntry}`.info);
+                                        // //console.log(`Подан фармлист с Айди ${FarmListEntry}`.info);
 
                                         // console.log(FarmListEntry)
                                         asyncLoop(
@@ -293,7 +304,7 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
                                                 // console.log(`Чек этого  ${JSON.stringify(villageLog).green}`);
 
                                                 if (!villageLog || !villageLog.data || !villageLog.data.lastReport){
-                                                    console.log(`Чек этого  ${JSON.stringify(villageLog.data).green}`);
+                                                    //console.log(`Чек этого  ${JSON.stringify(villageLog.data).green}`);
                                                     loop.next();
                                                 } else if (villageLog.data.lastReport.notificationType == 1){
                                                     // if (debug === 2 || debug === 3){
@@ -302,7 +313,7 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
                                                     loop.next();
                                                 } else if (villageLog.data.lastReport.notificationType == 2){
                                                     if (debug === 2 || debug === 3){
-                                                        console.log('yellow log')
+                                                        //console.log('yellow log')
                                                     }
                                                     let toggleBody = {
                                                         "controller":"farmList",
@@ -324,22 +335,22 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
                                                         serverDomain: serverDomain
                                                     };
 
-                                                    console.log(options.info)
+                                                    //console.log(options.info)
 
 
                                                     httpRequest(options)
                                                         .then(
                                                             (body) => {
-                                                                console.log(body);
+                                                                //console.log(body);
                                                                 return httpRequest(options);
                                                             },
                                                             (error) => {
-                                                                console.log(error);
+                                                                //console.log(error);
                                                             }
                                                         )
                                                         .then(
                                                             (body) => {
-                                                                console.log(body);
+                                                                //console.log(body);
                                                                 if (debug === 3){
                                                                     console.log(body);
                                                                 }
@@ -648,11 +659,11 @@ function getToken(callback) {
 
     rp(options).then(
         (body) => {
-            console.log('Токен ' + body.response.privateApiKey);
+            //console.log('Токен ' + body.response.privateApiKey);
             callback(body);
         },
         (error) => {
-            console.log(error);
+            //console.log(error);
         }
     )
 }
@@ -680,7 +691,7 @@ function getMap(callback) {
                         callback(body);
                     },
                     (error) => {
-                        console.log(error);
+                        //console.log(error);
                     }
                 )
         }
@@ -1030,6 +1041,98 @@ function getMapInfo(type, token, serverDomain, timeForGame) {
                     });
             });
     };
+
+function autoUnitsBuild(villageId, unitsBarack, unitsStable, fixedTime, randomTime, session){
+    let rand = fixedTimeGenerator(fixedTime) + randomTimeGenerator(randomTime);
+
+    let getAllOptions = {
+        method: 'POST',
+        headers: {
+            'content-type' : 'application/json;charset=UTF-8'
+        },
+        json: true,
+        body: {"controller":"player","action":"getAll","params":{deviceDimension: "1920:1080"},"session":session},
+        serverDomain: serverDomain
+    };
+
+    httpRequest(getAllOptions)
+    .then(
+        (body) => {
+            let location = {};
+            body.cache.forEach(function (item, i, arr) {
+                if (item.name === `Collection:Building:${villageId}`){
+                    item.data.cache.forEach(function (building, i, arr) {
+                        //Конюшня
+                        if(building.data.buildingType == "20"){
+                            location.stable = building.data.locationId;
+                        }
+                        //Казарма
+                        if(building.data.buildingType == "19"){
+                            location.barack = building.data.locationId;
+                        }
+                    })
+                }
+            });
+
+            console.log(location)
+
+            let barackOptions = {
+                method: 'POST',
+                headers: {
+                    'content-type' : 'application/json;charset=UTF-8'
+                },
+                json: true,
+                body: {"controller":"building","action":"recruitUnits","params":{"villageId":villageId,"locationId":location.barack,"buildingType":19,"units":unitsBarack},"session":session},
+                serverDomain: serverDomain
+            };
+
+            let stableOptions = {
+                method: 'POST',
+                headers: {
+                    'content-type' : 'application/json;charset=UTF-8'
+                },
+                json: true,
+                body: {"controller":"building","action":"recruitUnits","params":{"villageId":villageId,"locationId":location.stable,"buildingType":20,"units":unitsStable},"session":session},
+                serverDomain: serverDomain
+            };
+
+            function build() {
+                if (location.barack){
+                    httpRequest(barackOptions)
+                        .then(
+                            (body) => {
+                                console.log('barack')
+                                // console.log(body)
+                            },
+                            (error) => {
+                                console.log(error);
+                            }
+                        );
+                }
+
+                if (location.stable) {
+                    httpRequest(stableOptions)
+                        .then(
+                            (body) => {
+
+                                console.log('stable')
+                                // console.log(body)
+                            },
+                            (error) => {
+                                console.log(error);
+                            }
+                        );
+                }
+            }
+
+            build();
+            setInterval(build, rand);
+        },
+        (error) => {
+            console.log(error);
+        }
+    );
+}
 
 /**
  * Асинх луп, служит для итераций после колбека. Важно для эмуляции действий пользователя - так как есть возможность добавить 400 деревней за 2 секунду, но это немного палевно
@@ -1521,33 +1624,44 @@ function farmListCreator(name, xCor, yCor, filter) {
 // };
 
 /**
+ * Автобилд войнов
+ */
+// autoUnitsBuild('536035362', {2: 7}, {4: 8}, 3600, 1200, '7ff33d82f4a9a8dca460');
+
+/**
  * Добавления юнитов по улсовиям
  */
 // farmListCreator('withoutKing', '13', '-40', withoutKingdomsFilter);
-// farmListCreator('death', '13', '-40', deathsFilter);
+// farmListCreator('f', '8', '-43', deathsFilter);
 
 /**
  * Фармлисты
  */
-autoFarmList(3600, 1200, listPayload.Wahlberg , 'com3', true);
-autoFarmList(3600, 1200, listPayload.Wahlberg2 , 'com3', true);
-autoFarmList(3600, 1200, listPayload.Morpoh, 'com3', true);
-autoFarmList(3600, 1200, listPayload.Morpoh2, 'com3', true);
-autoFarmList(3600, 1200, listPayload.grando, 'com3', true);
-autoFarmList(3600, 1200, listPayload.rinko, 'com3', true);
-autoFarmList(3600, 1200, listPayload.lolko, 'com3', true);
+autoFarmList(3600, 1200, listPayload.Wahlberg ,      'com3', false);
+autoFarmList(3600, 1200, listPayload.cheetah,        'com3', false);
+autoFarmList(3600, 1200, listPayload.Wahlberg2 ,     'com3', false);
+autoFarmList(3600, 1200, listPayload.hedin ,         'com3', false);
+autoFarmList(3600, 1200, listPayload.hedin2 ,        'com3', false);
+autoFarmList(3600, 1200, listPayload.pushgun ,       'com3', true);
+autoFarmList(3600, 1200, listPayload.Morpoh,         'com3', false);
+autoFarmList(3600, 1200, listPayload.Morpoh2,        'com3', false);
+autoFarmList(3600, 1200, listPayload.grando,         'com3', false);
+autoFarmList(3600, 1200, listPayload.andrew,         'com3', false);
+autoFarmList(3600, 1200, listPayload.rinko,          'com3', false);
+autoFarmList(3600, 1200, listPayload.lolko,          'com3', false);
+autoFarmList(3600, 1200, listPayload.engal,          'com3', false);
 
 /**
  * Крокодилы
  */
 //Переписать вызов
-let repeatFn = function(fn){
- getMapInfo('animal', token, serverDomain, timeForGame);
- setTimeout(repeatFn, 600000);
-};
-
-getMapInfo('animal', token, serverDomain, timeForGame);
-setTimeout(repeatFn, 600000);
+// let repeatFn = function(fn){
+//  getMapInfo('animal', token, serverDomain, timeForGame);
+//  setTimeout(repeatFn, 600000);
+// };
+//
+// getMapInfo('animal', token, serverDomain, timeForGame);
+// setTimeout(repeatFn, 600000);
 
 /**
  * Кроп
