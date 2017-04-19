@@ -30,19 +30,21 @@ const debug = 1;
 
 
 let listPayload = {
-    Wahlberg:  {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[7628, 7629, 7630, 7631, 7632],"villageId":535576589},"session":"7ba3e70e90a05539e9b6"},
-    Wahlberg2: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[7628, 7629, 7630],"villageId":535543833},"session":"7ba3e70e90a05539e9b6"},
-    lolko:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[7801, 7802],"villageId":536231973},"session":"512bf1edb8e02fb8cfc8"},
-    cheetah:   {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[7854, 7855, 7856],"villageId":535674893},"session":"ebfca8388dead74e845c"},
-    Morpoh:    {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[7835, 7836, 7837, 7838],"villageId":535904265},"session":"5c22e6e5f3aac421d752"},
-    Morpoh2:   {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[3237],"villageId":535543819},"session":"5c22e6e5f3aac421d752"},
-    grando:    {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[7757,7758],"villageId":535969825},"session":"8736c7539713f1d7e2fe"},
-    andrew:    {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[7456, 7457, 7696, 7697, 7698, 7699, 7700, 7701, 7702],"villageId":536035383},"session":"85810e145e2af6b691e7"},
-    pushgun:   {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[7777, 7778, 7779, 7780, 7781, 7782],"villageId":536133667},"session":"277f3ee941e5bf712f7b"},
-    engal:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8162, 8163, 8164, 8165],"villageId":536231970},"session":"4e4ad78c792acd4b76ce"},
-    rinko:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8077, 8078, 8079, 8080, 8081, 8082, 8083],"villageId":535478280},"session":"33acca742e7447bda636"},
-    hedin:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[7721, 7722, 7723, 7724],"villageId":535576588},"session":"c10c4a5b835cf9fd46dc"},
-    hedin2:    {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[7718, 7719, 7720],"villageId":535642126},"session":"c10c4a5b835cf9fd46dc"}
+    Wahlberg:  {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8186, 8187, 8188],"villageId":535576589},"session":"6a5b8ddde7826a3b22f1"},
+    Wahlberg2: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8184, 8185],"villageId":535543833},"session":"6a5b8ddde7826a3b22f1"},
+    lolko:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8363, 8364],"villageId":536231973},"session":"c0a5f23d757cfdbd5113"},
+    cheetah:   {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8383, 8384, 8385],"villageId":535674893},"session":"ceb0eaea2611793b775a"},
+    Morpoh:    {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8335, 8336, 8337, 8338],"villageId":535904265},"session":"377d1314bc7d967581d7"},
+    Morpoh2:   {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8335],"villageId":535543819},"session":"377d1314bc7d967581d7"},
+    grando:    {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8324, 8325, 8326],"villageId":535969825},"session":"2b01829fd4b4bbd948b8"},
+    andrew:    {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[7456, 7457, 7696, 7697, 7698, 7699, 7700, 7701, 7702],"villageId":536035383},"session":"5cfdec11ee0c61b32223"},
+    pushgun:   {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8242, 8243, 8244],"villageId":536133667},"session":"14316eeac8f031aa269e"},
+    pushgun2:  {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8269],"villageId":535609357},"session":"14316eeac8f031aa269e"},
+    engal:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8162, 8163, 8164, 8165],"villageId":536231970},"session":"cb9df04ced4f50a5a9fe"},
+    maxi:      {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8353,8354],"villageId":535937055},"session":"a97a41b8d537bde13eee"},
+    rinko:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8077, 8078, 8079, 8080, 8081, 8082, 8083],"villageId":535478280},"session":"47ca938612a17f42828c"},
+    hedin:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8198, 8199, 8200, 8201],"villageId":535576588},"session":"a266e25ba87d6b44f638"},
+    hedin2:    {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[7720, 7721, 7722],"villageId":535642126},"session":"a266e25ba87d6b44f638"}
 };
 let cookie = userDate.cookie;
 let apiData = {
@@ -1632,24 +1634,26 @@ function farmListCreator(name, xCor, yCor, filter) {
  * Добавления юнитов по улсовиям
  */
 // farmListCreator('withoutKing', '13', '-40', withoutKingdomsFilter);
-farmListCreator('f', '35', '-22', deathsFilter);
+// farmListCreator('cheet', '37', '-20', deathsFilter);
 
 /**
  * Фармлисты
  */
-// autoFarmList(3600, 1200, listPayload.Wahlberg ,      'com3', true);
-// autoFarmList(3600, 1200, listPayload.cheetah,        'com3', true);
-// autoFarmList(3600, 1200, listPayload.Wahlberg2 ,     'com3', true);
-// autoFarmList(3600, 1200, listPayload.hedin ,         'com3', true);
-// autoFarmList(3600, 1200, listPayload.hedin2 ,        'com3', true);
-// autoFarmList(3600, 1200, listPayload.pushgun ,       'com3', true);
-// autoFarmList(3600, 1200, listPayload.Morpoh,         'com3', true);
-// autoFarmList(3600, 1200, listPayload.Morpoh2,        'com3', true);
-// autoFarmList(3600, 1200, listPayload.grando,         'com3', true);
-// autoFarmList(3600, 1200, listPayload.andrew,         'com3', true);
-// autoFarmList(3600, 1200, listPayload.rinko,          'com3', true);
-// autoFarmList(3600, 1200, listPayload.lolko,          'com3', true);
-// autoFarmList(3600, 1200, listPayload.engal,          'com3', true);
+autoFarmList(3600, 1200, listPayload.Wahlberg ,      'com3', true);
+autoFarmList(3600, 1200, listPayload.cheetah,        'com3', true);
+autoFarmList(3600, 1200, listPayload.Wahlberg2 ,     'com3', true);
+autoFarmList(3600, 1200, listPayload.hedin ,         'com3', true);
+autoFarmList(3600, 1200, listPayload.hedin2 ,        'com3', true);
+autoFarmList(3600, 1200, listPayload.pushgun ,       'com3', true);
+autoFarmList(3600, 1200, listPayload.pushgun2 ,      'com3', true);
+autoFarmList(3600, 1200, listPayload.Morpoh,         'com3', true);
+autoFarmList(3600, 1200, listPayload.Morpoh2,        'com3', true);
+autoFarmList(3600, 1200, listPayload.grando,         'com3', true);
+autoFarmList(3600, 1200, listPayload.andrew,         'com3', true);
+autoFarmList(3600, 1200, listPayload.rinko,          'com3', true);
+autoFarmList(3600, 1200, listPayload.lolko,          'com3', true);
+autoFarmList(3600, 1200, listPayload.engal,          'com3', true);
+autoFarmList(3600, 1200, listPayload.maxi,           'com3', true);
 
 
 
