@@ -1532,6 +1532,13 @@ function farmListCreator(name, xCor, yCor, filter) {
 }
 
 
+/**
+ *
+ * @param villages - список айди деревень
+ * @param count - кол-во раз сколько послать
+ * @param session - ключ, с акка котороого будут слать
+ * @param villageId - айди деревни, с которого идёт отсыл
+ */
 function heroChecker(villages, count, session, villageId) {
 
     asyncLoop(
