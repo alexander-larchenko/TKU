@@ -30,22 +30,25 @@ const debug = 1;
 
 
 let listPayload = {
-    Wahlberg:  {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8546],"villageId":535576589},"session":"ab6fc4420a1fd111d19f"},
-    Wahlberg2: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8544, 8545],"villageId":535543833},"session":"ab6fc4420a1fd111d19f"},
-    lolko:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8593, 8594],"villageId":536231973},"session":"c0a5f23d757cfdbd5113"},
-    cheetah:   {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8383, 8384, 8385],"villageId":535674893},"session":"da769186419a90be1ae2"},
-    Morpoh:    {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8335, 8336, 8337, 8338],"villageId":535904265},"session":"377d1314bc7d967581d7"},
-    Morpoh2:   {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8335],"villageId":535543819},"session":"377d1314bc7d967581d7"},
-    grando:    {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8324, 8325, 8326, 8533, 8534],"villageId":535969825},"session":"2b01829fd4b4bbd948b8"},
-    andrew:    {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8525, 8526, 8527, 8528, 8529],"villageId":536035383},"session":"c1ac1b5b59c9c3d2aab4"},
-    pushgun:   {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8242, 8243, 8244, 8245],"villageId":536133667},"session":"697ab8bb36d78227d0e1"},
-    pushgun2:  {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8269, 8270],"villageId":535609357},"session":"697ab8bb36d78227d0e1"},
-    engal:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8586, 8587, 8588, 8589],"villageId":536231970},"session":"cb9df04ced4f50a5a9fe"},
-    maxi:      {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8353,8354],"villageId":535937055},"session":"a97a41b8d537bde13eee"},
-    rinko:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8578, 8579, 8580],"villageId":535478280},"session":"47ca938612a17f42828c"},
-    hedin:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8198, 8199, 8200, 8201],"villageId":535576588},"session":"e380987adc2789462b34"},
-    hedin2:    {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[7720, 7721, 7722],"villageId":535642126},"session":"e380987adc2789462b34"},
-    hume:      {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8623,8624,8625,8626,8627],"villageId":535674907},"session":"35427aefb2642b879ece"}
+    Wahlberg:    {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8546, 8547, 8548],              "villageId":535576589},"session":"ab6fc4420a1fd111d19f"},
+    Wahlberg2:   {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8544, 8545],                    "villageId":535543833},"session":"ab6fc4420a1fd111d19f"},
+    lolko:       {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8593, 8594, 8595, 8596],        "villageId":536231973},"session":"d43d2b320230358b6de0"},
+    lolko2:      {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8703],                          "villageId":535478291},"session":"d43d2b320230358b6de0"},
+    cheetah:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8383, 8384, 8385],              "villageId":535674893},"session":"da769186419a90be1ae2"},
+    Morpoh:      {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8335, 8336, 8337, 8338],        "villageId":535904265},"session":"377d1314bc7d967581d7"},
+    Morpoh2:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8335],                          "villageId":535543819},"session":"377d1314bc7d967581d7"},
+    grando:      {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8533, 8534, 8535, 8536],        "villageId":535969825},"session":"2b01829fd4b4bbd948b8"},
+    grandoStart: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8533],                          "villageId":536133664},"session":"2b01829fd4b4bbd948b8"},
+    andrew:      {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8525, 8526, 8527, 8528, 8529],  "villageId":536035383},"session":"c1ac1b5b59c9c3d2aab4"},
+    pushgun:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8690, 8691, 8692, 8693, 8694],  "villageId":536133667},"session":"697ab8bb36d78227d0e1"},
+    pushgun2:    {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8690, 8691, 8692, 8693, 8694],  "villageId":535609357},"session":"697ab8bb36d78227d0e1"},
+    engal:       {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8586, 8587, 8588, 8589],        "villageId":536231970},"session":"cb9df04ced4f50a5a9fe"},
+    maxi:        {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8353, 8354, 8355, 8356],        "villageId":535937055},"session":"a97a41b8d537bde13eee"},
+    rinko:       {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8578, 8579, 8580],              "villageId":535478280},"session":"47ca938612a17f42828c"},
+    rinko2:      {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8703],                          "villageId":535478291},"session":"47ca938612a17f42828c"},
+    hedin:       {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8198, 8199, 8200, 8201],        "villageId":535576588},"session":"f5145d55f7b8188486b5"},
+    hedin2:      {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8666, 8667],                    "villageId":535642126},"session":"f5145d55f7b8188486b5"},
+    hume:        {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8623, 8624, 8625, 8626, 8627],  "villageId":535674907},"session":"39ad90cf25cc2a0ce152"}
 };
 let cookie = userDate.cookie;
 let apiData = {
@@ -73,16 +76,12 @@ let deathsFilter = {
         active: {
             different: "equal",
             value: "0"
-        },
-        population:{
-            different: "more",
-            value: 100
         }
     },
     villages: {
         population:{
             different: "more",
-            value: 100
+            value: 500
         }
     }
 };
@@ -204,7 +203,7 @@ function httpRequest(opt){
         json: true // Automatically stringifies the body to JSON
     };
 
-    //console.log(JSON.stringify(options).help)
+    // console.log(options)
 
     //RP - request promise, return deffered object.
     return rp(options);
@@ -326,7 +325,6 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
 
                     //console.log('Сформировали массив фарм листов');
 
-                    //TODO: ПРОВЕРИТЬ!
                     httpRequest(options)
                     .then(
                         (body) => {
@@ -357,7 +355,134 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
                                                     // if (debug === 2 || debug === 3){
                                                     //     console.log('green log')
                                                     // }
-                                                    loop.next();
+                                                    let toggleBody = {
+                                                        "controller":"reports",
+                                                        "action":"getLastReports",
+                                                        "params":{
+                                                            "collection":"search",
+                                                            "start":0,
+                                                            "count":10,
+                                                            "filters":["124",{"villageId":villageLog.data.villageId}],
+                                                            "alsoGetTotalNumber":true
+                                                        },
+                                                        "session":listPayload.session
+                                                    };
+
+                                                    let options = {
+                                                        method: 'POST',
+                                                        headers: {
+                                                            'content-type' : 'application/x-www-form-urlencoded'
+                                                        },
+                                                        json: true,
+                                                        body: toggleBody,
+                                                        serverDomain: serverDomain
+                                                    };
+
+                                                    httpRequest(options)
+                                                        .then(
+                                                            (body) => {
+                                                                //console.log(body);
+                                                                let capacity = 0, bounty = 0;
+                                                                body.response.reports.forEach((item, index, array)=>{
+                                                                  bounty += item.bounty;
+                                                                  capacity += item.capacity;
+                                                                });
+                                                                let rel = bounty/capacity;
+
+                                                                if ( rel >= 0.8 ){
+
+                                                                    for (let unitKey in villageLog.data.units) {
+                                                                        let unit = villageLog.data.units[unitKey];
+                                                                        if ( unit == 0 ){
+                                                                            //nothing?
+                                                                        } else if (unit < 4){
+                                                                            villageLog.data.units[unitKey] = parseInt(villageLog.data.units[unitKey]) + 3;
+                                                                        } else if (unit > 4 && unit < 20){
+                                                                            villageLog.data.units[unitKey] = parseInt(villageLog.data.units[unitKey]) + 7;
+                                                                        } else if (unit > 20){
+                                                                            villageLog.data.units[unitKey] = parseInt(villageLog.data.units[unitKey]) + 10;
+                                                                        }
+                                                                    }
+
+                                                                    let unitBody = {
+                                                                        "controller":"farmList",
+                                                                        "action":"editTroops",
+                                                                        "params":{
+                                                                            "entryIds":[parseInt(villageLog.data.entryId)],
+                                                                            "units":villageLog.data.units
+                                                                        },
+                                                                        "session":listPayload.session
+                                                                    };
+
+                                                                    let changeUnitOption = {
+                                                                        method: 'POST',
+                                                                        json: true,
+                                                                        body: unitBody,
+                                                                        serverDomain: serverDomain
+                                                                    };
+
+
+                                                                    httpRequest(changeUnitOption).then(
+                                                                        resolve => {
+                                                                            console.log('Кол-во войнов увеличено'.info);
+                                                                            loop.next();
+                                                                        },
+                                                                        reject => {
+                                                                            console.log(JSON.stringify(reject).warn);
+                                                                            loop.next();
+                                                                        }
+                                                                    )
+                                                                } else
+                                                                if ( rel < 0.1 ){
+
+                                                                    let sum = 0;
+                                                                    for (let unitKey in villageLog.data.units) {
+                                                                        let unit = villageLog.data.units[unitKey];
+                                                                        if (unit > 1){
+                                                                            villageLog.data.units[unitKey]--;
+                                                                        }
+                                                                        sum += unit;
+                                                                    }
+
+                                                                    let unitBody = {
+                                                                        "controller":"farmList",
+                                                                        "action":"editTroops",
+                                                                        "params":{
+                                                                            "entryIds":[parseInt(villageLog.data.entryId)],
+                                                                            "units":villageLog.data.units
+                                                                        },
+                                                                        "session":listPayload.session
+                                                                    };
+
+                                                                    let changeUnitOption = {
+                                                                        method: 'POST',
+                                                                        json: true,
+                                                                        body: unitBody,
+                                                                        serverDomain: serverDomain
+                                                                    };
+
+                                                                    httpRequest(changeUnitOption).then(
+                                                                        resolve => {
+                                                                            console.log('Кол-во войнов уменьшено'.info);
+                                                                            loop.next();
+                                                                        },
+                                                                        reject => {
+                                                                            console.log(JSON.stringify(reject).warn);
+                                                                            loop.next();
+                                                                        }
+                                                                    )
+                                                                    //    Добавить уменьшение войнов
+                                                                } else {
+                                                                    //nothing now
+                                                                    loop.next();
+                                                                }
+
+                                                            },
+                                                            (error) => {
+                                                                //console.log(error);
+                                                            }
+                                                        )
+
                                                 } else if (villageLog.data.lastReport.notificationType == 2){
                                                     if (debug === 2 || debug === 3){
                                                         //console.log('yellow log')
@@ -470,9 +595,8 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
 
                                     },
                                     function () {
-                                        console.log('cycle list ended');
                                         console.log('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session +'] запуск: [' + now.toString()+']');
-                                        fn(listPayload);
+                                        // fn(listPayload);
                                     }
                                 )
                             }
@@ -490,146 +614,10 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
                 }
 
                 console.log('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session +'] следующий запуск: [' + dateNext.toString()+']');
-
-
                 init = true;
-
                 setTimeout(checkList.bind(null, listPayload), rand);
 
             }
-        }
-
-        function rowInListChanger(body, i, j){
-            let objFromCache = body.cache[j].data.cache[i],
-                lastReport = objFromCache.data.lastReport;
-
-            // console.log(j, i);
-
-            let newObjUnits = {
-                "controller": "farmList",
-                "action": "editTroops",
-                "params": {
-                    "entryIds": [objFromCache.data.entryId],
-                    "units": objFromCache.data.units
-                },
-                "session": listPayload.session
-            };
-
-            //TODO: переписывать в зависимости от рассы
-            let romeTroops = {
-                1: 50,
-                2: 20,
-                3: 50,
-                4: 0,
-                5: 100,
-                6: 70
-            };
-
-            if (!lastReport) return false;
-            // console.log(lastReport);
-            if (lastReport.notificationType == '1') {
-                let sum = 0;
-
-                for (let unitKey in objFromCache.data.units) {
-                    sum += parseInt(objFromCache.data.units[unitKey]);
-                }
-
-                //Если полный хабар то увеличиваем счётчик юнита
-                if (lastReport.capacity === lastReport.raidedResSum) {
-                    for (let unitKey in objFromCache.data.units) {
-
-                        if (objFromCache.data.units[unitKey] != 0) {
-                            objFromCache.data.units[unitKey]++;
-                        }
-
-                        // console.log('Зелёный лог: увеличилось на 1 юнита');
-
-                    }
-                }
-
-                //Если хабар не полный, то грузподъемность пополам
-                else if (lastReport.capacity / 2 > lastReport.raidedResSum || sum > 10) {
-                    if (objFromCache.data.units[unitKey] != 0) {
-                        objFromCache.data.units[unitKey]--;
-                    }
-
-                    // console.log('Зелёный лог: уменьшилось на 1 юнита');
-
-                }
-
-                else {
-                    //console.log('Зелёный лог: оставить без изменений');
-                    return false;
-                }
-
-            }
-            else if (lastReport.notificationType == '2') {
-                let capacity = 0;
-
-                for (let unitKey in objFromCache.data.units) {
-                    // console.log(parseInt(objFromCache.data.units[unitKey]));
-                    // console.log(romeTroops[unitKey]);
-                    capacity += parseInt(objFromCache.data.units[unitKey]) * romeTroops[unitKey];
-                }
-
-                //Если потери будут меньше чем указанный процент, то кол-во юнитов увеличивается в два раза
-
-                // console.log('Capacity: ' + capacity);
-                // console.log('LastReport: ' + lastReport.capacity * percentLose);
-                if (capacity > lastReport.capacity * percentLose && capacity/4 < lastReport.capacity * percentLose) {
-                    for (let unitKey in objFromCache.data.units) {
-                        objFromCache.data.units[unitKey] *= 2
-                    }
-                    // console.log('Жёлтый лог: отправлен запрос');
-                } else {
-
-                    for (let unitKey in objFromCache.data.units) {
-                        sum += parseInt(objFromCache.data.units[unitKey]);
-                        objFromCache.data.units[unitKey] = 0;
-                    }
-
-                    objFromCache.data.units[1] = 1;
-
-                    // console.log('Жёлтый лог: убран');
-                }
-            }
-            else if (lastReport.notificationType == '3'){
-
-                let sum = 0;
-
-                for (let unitKey in objFromCache.data.units) {
-                    sum += parseInt(objFromCache.data.units[unitKey]);
-                    objFromCache.data.units[unitKey] = 0;
-                }
-
-                objFromCache.data.units[2] = 1;
-
-                if (sum == 1) {
-                    // console.log('Красный лог: оставлен без изменения');
-                    return false;
-                } else {
-                    // console.log('Название деревни' + objFromCache.data.villageName);
-                    // console.log('Красный лог: отправлен запрос');
-                }
-            }
-
-            // console.log(newObjUnits);
-
-            //TODO: вынести options в начале функции
-
-            let options = {
-                serverDomain: serverDomain,
-                body: newObjUnits
-            };
-
-            httpRequest(options).then(
-                function (body) {
-                    console.log(body);
-                },
-                function (err) {
-                    console.log(err);
-                }
-            );
         }
 
         function listTimer(body, i){
@@ -644,12 +632,6 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
                     j++;
                 }
             }
-
-            // console.log(sum);
-            // console.log(sum);
-
-            //+1 от Kingdom:undefined
-            // let rowInListChangerTimerObj = rowInListChanger(body, i-diffI+1 , j);
         }
 
         let options = {
@@ -1591,6 +1573,7 @@ function heroChecker(villages, count, session, villageId) {
 
                     httpRequest(options).then(
                         function (body) {
+                            console.log(body)
                             if (body && body.response && body.response.errors){
                                 console.log(body.response.errors.message);
                             }
@@ -1791,31 +1774,33 @@ function attackList(filter, xCor, yCor, paramsAttack ){
  * Добавления юнитов по улсовиям
  */
 // farmListCreator('withoutKing', '13', '-40', withoutKingdomsFilter);
-// farmListCreator('>100', '25', '-36', deathsFilter);
+// farmListCreator('>500', '8', '-43', deathsFilter);
 
 /**
  * Фармлисты
  */
-// autoFarmList(3600, 1200, listPayload.Wahlberg ,      'com3', true);
-// autoFarmList(3600, 1200, listPayload.cheetah,        'com3', true);
-// autoFarmList(3600, 1200, listPayload.Wahlberg2 ,     'com3', true);
-// autoFarmList(3600, 1200, listPayload.hedin ,         'com3', true);
-// autoFarmList(3600, 1200, listPayload.hedin2 ,        'com3', true);
-// // autoFarmList(3600, 1200, listPayload.hume,           'com3', false);
+autoFarmList(3600, 1200, listPayload.Wahlberg ,      'com3', true);
+autoFarmList(3600, 1200, listPayload.cheetah,        'com3', true);
+autoFarmList(3600, 1200, listPayload.Wahlberg2 ,     'com3', true);
+autoFarmList(3600, 1200, listPayload.hedin ,         'com3', true);
+autoFarmList(3600, 1200, listPayload.hedin2 ,        'com3', true);
+autoFarmList(3600, 1200, listPayload.hume,           'com3', true);
 // autoFarmList(3600, 1200, listPayload.pushgun ,       'com3', true);
 // autoFarmList(3600, 1200, listPayload.pushgun2 ,      'com3', true);
-// autoFarmList(3600, 1200, listPayload.Morpoh,         'com3', true);
-// autoFarmList(3600, 1200, listPayload.Morpoh2,        'com3', true);
-// autoFarmList(3600, 1200, listPayload.grando,         'com3', true);
-// autoFarmList(3600, 1200, listPayload.andrew,         'com3', true);
-// autoFarmList(3600, 1200, listPayload.rinko,          'com3', true);
-// autoFarmList(3600, 1200, listPayload.lolko,          'com3', true);
-// autoFarmList(3600, 1200, listPayload.engal,          'com3', true);
-// autoFarmList(3600, 1200, listPayload.maxi,           'com3', true);
-//
+autoFarmList(3600, 1200, listPayload.Morpoh,         'com3', true);
+autoFarmList(3600, 1200, listPayload.Morpoh2,        'com3', true);
+autoFarmList(3600, 1200, listPayload.grando,         'com3', true);
+autoFarmList(3600, 1200, listPayload.grandoStart,    'com3', true);
+autoFarmList(3600, 1200, listPayload.andrew,         'com3', true);
+autoFarmList(3600, 1200, listPayload.rinko,          'com3', true);
+autoFarmList(3600, 1200, listPayload.lolko,          'com3', true);
+autoFarmList(3600, 1200, listPayload.lolko2,         'com3', true);
+autoFarmList(3600, 1200, listPayload.engal,          'com3', true);
+autoFarmList(3600, 1200, listPayload.maxi,           'com3', true);
 
 
-heroChecker([535838714], 90, "53657d7bd8e0227559e6", 535937033);
+
+// heroChecker([535478265], 100, "9a266bec9de54d6bb19f", 535674891);
 // heroChecker([535478265, 535216127], 75, "e0efd325e311da85705d", 535937033);
 
 
