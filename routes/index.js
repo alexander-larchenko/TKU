@@ -596,7 +596,7 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
                                     },
                                     function () {
                                         console.log('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session +'] запуск: [' + now.toString()+']');
-                                        // fn(listPayload);
+                                        fn(listPayload);
                                     }
                                 )
                             }
