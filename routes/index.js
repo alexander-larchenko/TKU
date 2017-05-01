@@ -30,22 +30,22 @@ const debug = 1;
 
 
 let listPayload = {
-    Wahlberg:    {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8546, 8547, 8548],              "villageId":535576589},"session":"ab6fc4420a1fd111d19f"},
-    Wahlberg2:   {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8544, 8545],                    "villageId":535543833},"session":"ab6fc4420a1fd111d19f"},
+    Wahlberg:    {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8546, 8547, 8548],              "villageId":535576589},"session":"e4f53826bb22a3667756"},
+    Wahlberg2:   {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8544, 8545],                    "villageId":535543833},"session":"e4f53826bb22a3667756"},
     lolko:       {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8593, 8594, 8595, 8596],        "villageId":536231973},"session":"d43d2b320230358b6de0"},
     lolko2:      {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8703],                          "villageId":535478291},"session":"d43d2b320230358b6de0"},
     cheetah:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8383, 8384, 8385],              "villageId":535674893},"session":"da769186419a90be1ae2"},
-    Morpoh:      {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8335, 8336, 8337, 8338],        "villageId":535904265},"session":"377d1314bc7d967581d7"},
-    Morpoh2:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8335],                          "villageId":535543819},"session":"377d1314bc7d967581d7"},
+    Morpoh:      {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8335, 8336, 8337, 8338],        "villageId":535904265},"session":"714f568abd8e8b195e8b"},
+    Morpoh2:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8335],                          "villageId":535543819},"session":"714f568abd8e8b195e8b"},
     grando:      {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8533, 8534, 8535, 8536],        "villageId":535969825},"session":"2b01829fd4b4bbd948b8"},
     grandoStart: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8533],                          "villageId":536133664},"session":"2b01829fd4b4bbd948b8"},
     andrew:      {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8525, 8526, 8527, 8528, 8529],  "villageId":536035383},"session":"c1ac1b5b59c9c3d2aab4"},
-    pushgun:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8690, 8691, 8692, 8693, 8694],  "villageId":536133667},"session":"697ab8bb36d78227d0e1"},
-    pushgun2:    {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8690, 8691, 8692, 8693, 8694],  "villageId":535609357},"session":"697ab8bb36d78227d0e1"},
-    engal:       {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8586, 8587, 8588, 8589],        "villageId":536231970},"session":"cb9df04ced4f50a5a9fe"},
+    pushgun:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8690, 8691, 8692, 8693, 8694],  "villageId":536133667},"session":"0ace24c75aa243e14eec"},
+    pushgun2:    {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8763, 8764, 8765, 8766],        "villageId":535609357},"session":"0ace24c75aa243e14eec"},
+    engal:       {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8586, 8587, 8588, 8589],        "villageId":536231970},"session":"b3fd0c242f175d2bc86e"},
     maxi:        {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8353, 8354, 8355, 8356],        "villageId":535937055},"session":"a97a41b8d537bde13eee"},
-    rinko:       {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8578, 8579, 8580],              "villageId":535478280},"session":"47ca938612a17f42828c"},
-    rinko2:      {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8703],                          "villageId":535478291},"session":"47ca938612a17f42828c"},
+    rinko:       {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8578, 8579, 8580, 8581, 8582, 8774],  "villageId":535478280},"session":"3fc99c770fde1632fd31"},
+    rinko2:      {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8703],                          "villageId":535478291},"session":"3fc99c770fde1632fd31"},
     hedin:       {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8198, 8199, 8200, 8201],        "villageId":535576588},"session":"f5145d55f7b8188486b5"},
     hedin2:      {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8666, 8667],                    "villageId":535642126},"session":"f5145d55f7b8188486b5"},
     hume:        {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8623, 8624, 8625, 8626, 8627],  "villageId":535674907},"session":"39ad90cf25cc2a0ce152"}
@@ -348,6 +348,7 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
 
                                                 // console.log(`Чек этого  ${JSON.stringify(villageLog).green}`);
 
+
                                                 if (!villageLog || !villageLog.data || !villageLog.data.lastReport){
                                                     //console.log(`Чек этого  ${JSON.stringify(villageLog.data).green}`);
                                                     loop.next();
@@ -355,6 +356,66 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
                                                     // if (debug === 2 || debug === 3){
                                                     //     console.log('green log')
                                                     // }
+
+
+
+                                                    let villagesBody = {
+                                                        "action":"get",
+                                                        "controller":"cache",
+                                                        "params":{
+                                                            "names":[`Player:${villageLog.data.targetOwnerId}`],
+                                                        },
+                                                        "session":listPayload.session
+                                                    };
+
+                                                    let villagesOptions = {
+                                                        method: 'POST',
+                                                        json: true,
+                                                        body: villagesBody,
+                                                        serverDomain: serverDomain
+                                                    };
+
+
+                                                    httpRequest(villagesOptions)
+                                                    .then(
+                                                        (body) => {
+                                                            if (body && body.cache[0].data.active != 0){
+                                                                let toggleBody = {
+                                                                    "controller":"farmList",
+                                                                    "action":"toggleEntry",
+                                                                    "params":{
+                                                                        "villageId":villageLog.data.villageId,
+                                                                        "listId":   FarmListEntry
+                                                                    },
+                                                                    "session":listPayload.session
+                                                                };
+
+                                                                let options = {
+                                                                    method: 'POST',
+                                                                    headers: {
+                                                                        'content-type' : 'application/x-www-form-urlencoded'
+                                                                    },
+                                                                    json: true,
+                                                                    body: toggleBody,
+                                                                    serverDomain: serverDomain
+                                                                };
+
+                                                                httpRequest(options)
+                                                                .then(
+                                                                    (body) => {
+                                                                        console.log('Удаленая захваченная деревня.'.warn)
+                                                                    },
+                                                                    (error) => {
+                                                                        console.log(error);
+                                                                    }
+                                                                )
+                                                            }
+                                                        },
+                                                        (error) => {
+                                                            console.log(error);
+                                                        }
+                                                    )
+
                                                     let toggleBody = {
                                                         "controller":"reports",
                                                         "action":"getLastReports",
@@ -389,18 +450,14 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
                                                                 });
                                                                 let rel = bounty/capacity;
 
-                                                                if ( rel >= 0.8 ){
+                                                                if ( rel >= 1 ){
 
                                                                     for (let unitKey in villageLog.data.units) {
                                                                         let unit = villageLog.data.units[unitKey];
                                                                         if ( unit == 0 ){
                                                                             //nothing?
-                                                                        } else if (unit < 4){
-                                                                            villageLog.data.units[unitKey] = parseInt(villageLog.data.units[unitKey]) + 3;
-                                                                        } else if (unit > 4 && unit < 20){
-                                                                            villageLog.data.units[unitKey] = parseInt(villageLog.data.units[unitKey]) + 7;
-                                                                        } else if (unit > 20){
-                                                                            villageLog.data.units[unitKey] = parseInt(villageLog.data.units[unitKey]) + 10;
+                                                                        } else{
+                                                                            villageLog.data.units[unitKey] = parseInt(villageLog.data.units[unitKey]) + 1;
                                                                         }
                                                                     }
 
@@ -433,15 +490,13 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
                                                                         }
                                                                     )
                                                                 } else
-                                                                if ( rel < 0.1 ){
+                                                                if ( rel < 0.5 ){
 
-                                                                    let sum = 0;
                                                                     for (let unitKey in villageLog.data.units) {
                                                                         let unit = villageLog.data.units[unitKey];
                                                                         if (unit > 1){
                                                                             villageLog.data.units[unitKey]--;
                                                                         }
-                                                                        sum += unit;
                                                                     }
 
                                                                     let unitBody = {
@@ -562,28 +617,28 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
 
 
                                                     httpRequest(options)
-                                                        .then(
-                                                            (body) => {
+                                                    .then(
+                                                        (body) => {
+                                                            console.log(body);
+                                                            return httpRequest(options);
+                                                        },
+                                                        (error) => {
+                                                            console.log(error);
+                                                        }
+                                                    )
+                                                    .then(
+                                                        (body) => {
+                                                            console.log(body);
+                                                            if (debug === 3){
                                                                 console.log(body);
-                                                                return httpRequest(options);
-                                                            },
-                                                            (error) => {
-                                                                console.log(error);
                                                             }
-                                                        )
-                                                        .then(
-                                                            (body) => {
-                                                                console.log(body);
-                                                                if (debug === 3){
-                                                                    console.log(body);
-                                                                }
-                                                                console.log('Красный лог обработан.'.silly)
-                                                                loop.next();
-                                                            },
-                                                            (error) => {
-                                                                console.log(error);
-                                                            }
-                                                        )
+                                                            console.log('Красный лог обработан.'.silly)
+                                                            loop.next();
+                                                        },
+                                                        (error) => {
+                                                            console.log(error);
+                                                        }
+                                                    )
                                                 } else {
                                                     console.log(`Странный лог ${villageLog.lastReport.notificationType}`);
                                                 }
@@ -1779,24 +1834,24 @@ function attackList(filter, xCor, yCor, paramsAttack ){
 /**
  * Фармлисты
  */
-autoFarmList(3600, 1200, listPayload.Wahlberg ,      'com3', true);
-autoFarmList(3600, 1200, listPayload.cheetah,        'com3', true);
-autoFarmList(3600, 1200, listPayload.Wahlberg2 ,     'com3', true);
-autoFarmList(3600, 1200, listPayload.hedin ,         'com3', true);
-autoFarmList(3600, 1200, listPayload.hedin2 ,        'com3', true);
-autoFarmList(3600, 1200, listPayload.hume,           'com3', true);
+// autoFarmList(3600, 1200, listPayload.Wahlberg ,      'com3', true);
+// autoFarmList(3600, 1200, listPayload.cheetah,        'com3', true);
+// autoFarmList(3600, 1200, listPayload.Wahlberg2 ,     'com3', true);
+// autoFarmList(3600, 1200, listPayload.hedin ,         'com3', true);
+// autoFarmList(3600, 1200, listPayload.hedin2 ,        'com3', true);
+// autoFarmList(3600, 1200, listPayload.hume,           'com3', true);
 // autoFarmList(3600, 1200, listPayload.pushgun ,       'com3', true);
 // autoFarmList(3600, 1200, listPayload.pushgun2 ,      'com3', true);
-autoFarmList(3600, 1200, listPayload.Morpoh,         'com3', true);
-autoFarmList(3600, 1200, listPayload.Morpoh2,        'com3', true);
-autoFarmList(3600, 1200, listPayload.grando,         'com3', true);
-autoFarmList(3600, 1200, listPayload.grandoStart,    'com3', true);
-autoFarmList(3600, 1200, listPayload.andrew,         'com3', true);
-autoFarmList(3600, 1200, listPayload.rinko,          'com3', true);
+// autoFarmList(3600, 1200, listPayload.Morpoh,         'com3', true);
+// autoFarmList(3600, 1200, listPayload.Morpoh2,        'com3', true);
+// autoFarmList(3600, 1200, listPayload.grando,         'com3', true);
+// autoFarmList(3600, 1200, listPayload.grandoStart,    'com3', true);
+// autoFarmList(3600, 1200, listPayload.andrew,         'com3', true);
+// autoFarmList(3600, 1200, listPayload.rinko,          'com3', true);
 autoFarmList(3600, 1200, listPayload.lolko,          'com3', true);
-autoFarmList(3600, 1200, listPayload.lolko2,         'com3', true);
-autoFarmList(3600, 1200, listPayload.engal,          'com3', true);
-autoFarmList(3600, 1200, listPayload.maxi,           'com3', true);
+// autoFarmList(3600, 1200, listPayload.lolko2,         'com3', true);
+// autoFarmList(3600, 1200, listPayload.engal,          'com3', true);
+// autoFarmList(3600, 1200, listPayload.maxi,           'com3', true);
 
 
 
