@@ -30,26 +30,27 @@ const debug = 1;
 
 
 let listPayload = {
-    Wahlberg:    {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8546, 8547, 8548],              "villageId":535576589},"session":"e4f53826bb22a3667756"},
-    Wahlberg2:   {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8544, 8545],                    "villageId":535543833},"session":"e4f53826bb22a3667756"},
-    lolko:       {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8593, 8594, 8595, 8596],        "villageId":536231973},"session":"d43d2b320230358b6de0"},
-    lolko2:      {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8703],                          "villageId":535478291},"session":"d43d2b320230358b6de0"},
-    cheetah:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8383, 8384, 8385],              "villageId":535674893},"session":"da769186419a90be1ae2"},
-    Morpoh:      {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8335, 8336, 8337, 8338],        "villageId":535904265},"session":"714f568abd8e8b195e8b"},
-    Morpoh2:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8335],                          "villageId":535543819},"session":"714f568abd8e8b195e8b"},
-    grando:      {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8533, 8534, 8535, 8536],        "villageId":535969825},"session":"2b01829fd4b4bbd948b8"},
-    grandoStart: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8533],                          "villageId":536133664},"session":"2b01829fd4b4bbd948b8"},
-    andrew:      {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8525, 8526, 8527, 8528, 8529],  "villageId":536035383},"session":"c1ac1b5b59c9c3d2aab4"},
-    pushgun:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8690, 8691, 8692, 8693, 8694],  "villageId":536133667},"session":"0ace24c75aa243e14eec"},
-    pushgun2:    {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8763, 8764, 8765, 8766],        "villageId":535609357},"session":"0ace24c75aa243e14eec"},
-    engal:       {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8586, 8587, 8588, 8589],        "villageId":536231970},"session":"b3fd0c242f175d2bc86e"},
-    maxi:        {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8353, 8354, 8355, 8356],        "villageId":535937055},"session":"a97a41b8d537bde13eee"},
-    rinko:       {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8578, 8579, 8580, 8581, 8582, 8774],  "villageId":535478280},"session":"3fc99c770fde1632fd31"},
-    rinko2:      {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8703],                          "villageId":535478291},"session":"3fc99c770fde1632fd31"},
-    hedin:       {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8198, 8199, 8200, 8201],        "villageId":535576588},"session":"f5145d55f7b8188486b5"},
-    hedin2:      {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8666, 8667],                    "villageId":535642126},"session":"f5145d55f7b8188486b5"},
-    hume:        {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8623, 8624, 8625, 8626, 8627],  "villageId":535674907},"session":"39ad90cf25cc2a0ce152"}
+    Wahlberg:    {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8872, 8873, 8874, 8875, 8876, 8877],  "villageId":535576589},"session":"680e1eafac169535879a"},
+    Wahlberg2:   {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8872, 8873, 8874],                    "villageId":535543833},"session":"680e1eafac169535879a"},
+    lolko:       {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8878, 8879, 8880, 8881, 8882],        "villageId":536231973},"session":"3142226a70f39ac98e7e"},
+    lolko2:      {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8703],                                "villageId":535478291},"session":"3142226a70f39ac98e7e"},
+    cheetah:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8383, 8384, 8385],                    "villageId":535674893},"session":"da769186419a90be1ae2"},
+    Morpoh:      {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8890, 8891, 8892, 8893, 8894, 8895],  "villageId":535904265},"session":"a54616317e866804a425"},
+    Morpoh2:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8890],                                "villageId":535543819},"session":"a54616317e866804a425"},
+    grando:      {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8896, 8897, 8898, 8899, 8900],        "villageId":535969825},"session":"9bd6272dd097136c3a00"},
+    grandoStart: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8900],                                "villageId":536133664},"session":"9bd6272dd097136c3a00"},
+    andrew:      {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8903, 8904, 8905, 8906, 8907, 8908],  "villageId":536035383},"session":"2fdbf471d30b945f4d6b"},
+    pushgun:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8909, 8910, 8911, 8912, 8913],        "villageId":536133667},"session":"0ace24c75aa243e14eec"},
+    pushgun2:    {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8915, 8916, 8917, 8918, 8919],        "villageId":535609357},"session":"0ace24c75aa243e14eec"},
+    engal:       {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8921, 8922, 8923, 8924],              "villageId":536231970},"session":"b3fd0c242f175d2bc86e"},
+    maxi:        {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8927, 8928, 8929, 8930],              "villageId":535937055},"session":"6f2a9df1e563ca8d3f6f"},
+    rinko:       {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8933, 8934, 8935, 8936, 8937, 8938],  "villageId":535478280},"session":"01ba166bf7a019b1f97f"},
+    rinko2:      {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8936],                                "villageId":535281683},"session":"01ba166bf7a019b1f97f"},
+    hedin:       {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8939, 8940, 8943, 8944],              "villageId":535576588},"session":"7e6fe9a68d15938bb75b"},
+    hedin2:      {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8941, 8942],                          "villageId":535642126},"session":"7e6fe9a68d15938bb75b"},
+    hume:        {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[8945, 8946, 8947, 8948, 8949, 8950],  "villageId":535674907},"session":"39ad90cf25cc2a0ce152"}
 };
+
 let cookie = userDate.cookie;
 let apiData = {
     gameworld: null,
@@ -61,9 +62,9 @@ let apiData = {
 };
 let apiKey = {};
 let timeForGame = 't' + Date.now();
-let token = userDate.token;
+let token = "39ad90cf25cc2a0ce152";
 let serverDomain = userDate.serverDomain;
-
+// node ./bin/www
 //different = {less, equal, more}
 //value = value
 //TODO: вынести фильтры
@@ -81,7 +82,7 @@ let deathsFilter = {
     villages: {
         population:{
             different: "more",
-            value: 500
+            value: 100
         }
     }
 };
@@ -211,6 +212,476 @@ function httpRequest(opt){
 //fixedTime - фиксированное время
 //randomTime - разброс
 
+autoExtendLists(listPayload.Wahlberg, deathsFilter);
+
+function autoExtendLists(playerFarmList, filter) {
+
+    //TODO: выпилить хардкод координат
+    let xCor = '22',
+        yCor = '-25';
+
+    let body = {
+        "controller":"cache",
+        "action":"get",
+        "params":{
+            "names":[]
+        },
+        "session":playerFarmList.session
+    };
+
+    playerFarmList.params.listIds.forEach((item)=>{
+        body.params.names.push(`Collection:FarmListEntry:${item}`)
+    });
+
+
+    let options = {
+        method: 'POST',
+        json: true,
+        body: body,
+        serverDomain: serverDomain
+    };
+
+    httpRequest(options).then(
+        function (farmListEntry) {
+
+            let villagesFromLists = [];
+
+            farmListEntry.cache.forEach((collection)=>{
+                collection.data.cache.forEach((farmListEntryId)=>{
+                    villagesFromLists.push(farmListEntryId.data);
+                })
+            });
+
+            searchEnemy(function (villages) {
+                let listLength = Math.ceil(villages.length / 100);
+                let listMassive = [];
+
+
+
+                console.log(villages[0]);
+                console.log(villagesFromLists[0]);
+
+                console.log(villages.length);
+                console.log(villagesFromLists.length);
+
+                let diff = _.difference(_.pluck(villages, "villageId"), _.pluck(villagesFromLists, "villageId"));
+                let grayDiffVillage = _.filter(villages, (obj) => { return diff.indexOf(obj.villageId) >= 0; });
+
+                console.log(grayDiffVillage.length)
+                console.log(grayDiffVillage[0])
+
+                //TODO: остановился тут, необходимо вычислять длину каждого листа, и добавлять до конца, расчитать случайц если там забаненные юзеры.
+                //TODO: добавить авто удаление с помощью второго прогона диф списков.
+                farmListEntry.cache.forEach((collection)=>{
+                    console.log(collection.data.cache.length);
+                });
+
+                // Если нужен только первые 100 целей
+                // listLength = 3;
+                //TODO: улушчить эту часть
+                asyncLoop(
+                    farmListEntry.cache,
+                    function (loop) {
+                        let i = loop.iteration();
+
+                        asyncLoop(
+                            farmListEntry.cache[i].data.cache,
+                            function(loopCollection){
+                                let j = loop.iteration();
+                                if (farmListEntry.cache[i].data.cache[j].length < 100){
+                                    // let listObj = {
+                                    //     "controller": "farmList",
+                                    //     "action": "createList",
+                                    //     "params": {"name": `${name} ${i}`},
+                                    //     "session": token
+                                    // };
+                                    //
+                                    // let options = {
+                                    //     method: 'POST',
+                                    //     headers: {
+                                    //         'content-type' : 'application/x-www-form-urlencoded'
+                                    //     },
+                                    //     serverDomain: serverDomain,
+                                    //     json: true,
+                                    //     body: listObj
+                                    // };
+                                    //
+                                    // httpRequest(options)
+                                    //     .then(
+                                    //         function (body) {
+                                    //             if (body && body.error){
+                                    //                 console.log(body.error.message);
+                                    //             }
+                                    //
+                                    //             console.log(options)
+                                    //             console.log(body)
+                                    //             //Добавляем полученный массив в лист массивов
+                                    //             listMassive.push(body.cache[0].data.cache[0].data.listId);
+                                    //
+                                    //             if (listMassive.length == listLength) {
+                                    //                 addToFarmList(listMassive, villages);
+                                    //             }
+                                    //
+                                    //             loop.next();
+                                    //
+                                    //         },
+                                    //         function (error) {
+                                    //             console.log(error)
+                                    //         }
+                                    //     );
+                                } else {
+                                    loop.next();
+                                }
+                            },
+                            function () {
+                                console.log('Добавление в фармлист закончен')
+                            }
+                        )
+                    },
+                    function () {
+                        console.log('Все фармлисты заполнены')
+                    }
+                );
+
+                // let sortedAllGreyVillages
+            }, xCor, yCor, filter)
+
+        },
+        function (err) {
+            console.error('Произошла ошибка');
+            console.log(err);
+        }
+    );
+}
+
+
+function checkOnStatus(farmListsResponse, fn){
+    asyncLoop(
+        farmListsResponse.cache.length,
+        function(loopList){
+            let i = loopList.iteration();
+            let FarmListEntry = farmListsResponse.cache[i].name.split(":")[2];
+            // //console.log(`Подан фармлист с Айди ${FarmListEntry}`.info);
+
+            // console.log(FarmListEntry)
+            asyncLoop(
+                farmListsResponse.cache[i].data.cache.length,
+                function(loop){
+
+                    let j = loop.iteration();
+
+                    let villageLog = farmListsResponse.cache[i].data.cache[j];
+
+                    // console.log(`Чек этого  ${JSON.stringify(villageLog).green}`);
+
+
+                    if (!villageLog || !villageLog.data || !villageLog.data.lastReport){
+                        //console.log(`Чек этого  ${JSON.stringify(villageLog.data).green}`);
+                        loop.next();
+                    } else if (villageLog.data.lastReport.notificationType == 1){
+                        // if (debug === 2 || debug === 3){
+                        //     console.log('green log')
+                        // }
+
+                        //
+                        //
+                        // let villagesBody = {
+                        //     "action":"get",
+                        //     "controller":"cache",
+                        //     "params":{
+                        //         "names":[`Player:${villageLog.data.targetOwnerId}`],
+                        //     },
+                        //     "session":listPayload.session
+                        // };
+                        //
+                        // let villagesOptions = {
+                        //     method: 'POST',
+                        //     json: true,
+                        //     body: villagesBody,
+                        //     serverDomain: serverDomain
+                        // };
+                        //
+                        //
+                        // httpRequest(villagesOptions)
+                        // .then(
+                        //     (body) => {
+                        //         if (body && body.cache[0].data.active != 0){
+                        //             let toggleBody = {
+                        //                 "controller":"farmList",
+                        //                 "action":"toggleEntry",
+                        //                 "params":{
+                        //                     "villageId":villageLog.data.villageId,
+                        //                     "listId":   FarmListEntry
+                        //                 },
+                        //                 "session":listPayload.session
+                        //             };
+                        //
+                        //             let options = {
+                        //                 method: 'POST',
+                        //                 headers: {
+                        //                     'content-type' : 'application/x-www-form-urlencoded'
+                        //                 },
+                        //                 json: true,
+                        //                 body: toggleBody,
+                        //                 serverDomain: serverDomain
+                        //             };
+                        //
+                        //             httpRequest(options)
+                        //             .then(
+                        //                 (body) => {
+                        //                     console.log('Удаленая захваченная деревня.'.warn)
+                        //                 },
+                        //                 (error) => {
+                        //                     console.log(error);
+                        //                 }
+                        //             )
+                        //         }
+                        //     },
+                        //     (error) => {
+                        //         console.log(error);
+                        //     }
+                        // )
+
+                        let toggleBody = {
+                            "controller":"reports",
+                            "action":"getLastReports",
+                            "params":{
+                                "collection":"search",
+                                "start":0,
+                                "count":10,
+                                "filters":["124",{"villageId":villageLog.data.villageId}],
+                                "alsoGetTotalNumber":true
+                            },
+                            "session":listPayload.session
+                        };
+
+                        let options = {
+                            method: 'POST',
+                            headers: {
+                                'content-type' : 'application/x-www-form-urlencoded'
+                            },
+                            json: true,
+                            body: toggleBody,
+                            serverDomain: serverDomain
+                        };
+
+                        httpRequest(options)
+                            .then(
+                                (body) => {
+                                    //console.log(body);
+                                    let capacity = 0, bounty = 0;
+                                    body.response.reports.forEach((item, index, array)=>{
+                                        bounty += item.bounty;
+                                        capacity += item.capacity;
+                                    });
+                                    let rel = bounty/capacity;
+
+                                    if ( rel >= 1 ){
+
+                                        for (let unitKey in villageLog.data.units) {
+                                            let unit = villageLog.data.units[unitKey];
+                                            if ( unit == 0 ){
+                                                //nothing?
+                                            } else{
+                                                villageLog.data.units[unitKey] = parseInt(villageLog.data.units[unitKey]) + 1;
+                                            }
+                                        }
+
+                                        let unitBody = {
+                                            "controller":"farmList",
+                                            "action":"editTroops",
+                                            "params":{
+                                                "entryIds":[parseInt(villageLog.data.entryId)],
+                                                "units":villageLog.data.units
+                                            },
+                                            "session":listPayload.session
+                                        };
+
+                                        let changeUnitOption = {
+                                            method: 'POST',
+                                            json: true,
+                                            body: unitBody,
+                                            serverDomain: serverDomain
+                                        };
+
+
+                                        httpRequest(changeUnitOption).then(
+                                            resolve => {
+                                                // console.log('Кол-во войнов увеличено'.info);
+                                                loop.next();
+                                            },
+                                            reject => {
+                                                console.log(JSON.stringify(reject).warn);
+                                                loop.next();
+                                            }
+                                        )
+                                    } else
+                                    if ( rel < 0.5 ){
+
+                                        for (let unitKey in villageLog.data.units) {
+                                            let unit = villageLog.data.units[unitKey];
+                                            if (unit > 1){
+                                                villageLog.data.units[unitKey]--;
+                                            }
+                                        }
+
+                                        let unitBody = {
+                                            "controller":"farmList",
+                                            "action":"editTroops",
+                                            "params":{
+                                                "entryIds":[parseInt(villageLog.data.entryId)],
+                                                "units":villageLog.data.units
+                                            },
+                                            "session":listPayload.session
+                                        };
+
+                                        let changeUnitOption = {
+                                            method: 'POST',
+                                            json: true,
+                                            body: unitBody,
+                                            serverDomain: serverDomain
+                                        };
+
+                                        httpRequest(changeUnitOption).then(
+                                            resolve => {
+                                                // console.log('Кол-во войнов уменьшено'.info);
+                                                loop.next();
+                                            },
+                                            reject => {
+                                                console.log(JSON.stringify(reject).warn);
+                                                loop.next();
+                                            }
+                                        )
+                                        //    Добавить уменьшение войнов
+                                    } else {
+                                        //nothing now
+                                        loop.next();
+                                    }
+
+                                },
+                                (error) => {
+                                    //console.log(error);
+                                }
+                            )
+
+                    } else if (villageLog.data.lastReport.notificationType == 2){
+                        if (debug === 2 || debug === 3){
+                            //console.log('yellow log')
+                        }
+                        let toggleBody = {
+                            "controller":"farmList",
+                            "action":"toggleEntry",
+                            "params":{
+                                "villageId":villageLog.data.villageId,
+                                "listId":   FarmListEntry
+                            },
+                            "session":listPayload.session
+                        };
+
+                        let options = {
+                            method: 'POST',
+                            headers: {
+                                'content-type' : 'application/x-www-form-urlencoded'
+                            },
+                            json: true,
+                            body: toggleBody,
+                            serverDomain: serverDomain
+                        };
+
+                        //console.log(options.info)
+
+
+                        httpRequest(options)
+                            .then(
+                                (body) => {
+                                    //console.log(body);
+                                    return httpRequest(options);
+                                },
+                                (error) => {
+                                    //console.log(error);
+                                }
+                            )
+                            .then(
+                                (body) => {
+                                    //console.log(body);
+                                    if (debug === 3){
+                                        console.log(body);
+                                    }
+                                    console.log('Жёлтый лог обработан.'.silly)
+                                    loop.next();
+                                },
+                                (error) => {
+                                    console.log(error);
+                                }
+                            )
+                    } else if (villageLog.data.lastReport.notificationType == 3){
+                        if (debug === 2 || debug === 3){
+                        }
+                        console.log('red log'.debug)
+                        //TODO: вынести в отдельную функцию
+                        let toggleBody = {
+                            "controller":"farmList",
+                            "action":"toggleEntry",
+                            "params":{
+                                "villageId":villageLog.data.villageId,
+                                "listId":   FarmListEntry
+                            },
+                            "session":listPayload.session
+                        };
+
+                        let options = {
+                            method: 'POST',
+                            headers: {
+                                'content-type' : 'application/x-www-form-urlencoded'
+                            },
+                            json: true,
+                            body: toggleBody,
+                            serverDomain: serverDomain
+                        };
+
+                        console.log(options.info)
+
+
+                        httpRequest(options)
+                            .then(
+                                (body) => {
+                                    console.log(body);
+                                    return httpRequest(options);
+                                },
+                                (error) => {
+                                    console.log(error);
+                                }
+                            )
+                            .then(
+                                (body) => {
+                                    console.log(body);
+                                    if (debug === 3){
+                                        console.log(body);
+                                    }
+                                    console.log('Красный лог обработан.'.silly)
+                                    loop.next();
+                                },
+                                (error) => {
+                                    console.log(error);
+                                }
+                            )
+                    } else {
+                        console.log(`Странный лог ${villageLog.lastReport.notificationType}`);
+                    }
+                },
+                function () {
+                    loopList.next();
+                }
+            );
+
+        },
+        function () {
+            console.log('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session +'] запуск: [' + now.toString()+']');
+            fn(listPayload);
+        }
+    )
+}
+
 /**
  * Требуется рефакторинг и доработка
  * Фармлисты
@@ -328,334 +799,6 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
                     httpRequest(options)
                     .then(
                         (body) => {
-
-                            function checkOnStatus(farmListsResponse, fn){
-                                asyncLoop(
-                                    farmListsResponse.cache.length,
-                                    function(loopList){
-                                        let i = loopList.iteration();
-                                        let FarmListEntry = body.cache[i].name.split(":")[2];
-                                        // //console.log(`Подан фармлист с Айди ${FarmListEntry}`.info);
-
-                                        // console.log(FarmListEntry)
-                                        asyncLoop(
-                                            farmListsResponse.cache[i].data.cache.length,
-                                            function(loop){
-
-                                                let j = loop.iteration();
-
-                                                let villageLog = farmListsResponse.cache[i].data.cache[j];
-
-                                                // console.log(`Чек этого  ${JSON.stringify(villageLog).green}`);
-
-
-                                                if (!villageLog || !villageLog.data || !villageLog.data.lastReport){
-                                                    //console.log(`Чек этого  ${JSON.stringify(villageLog.data).green}`);
-                                                    loop.next();
-                                                } else if (villageLog.data.lastReport.notificationType == 1){
-                                                    // if (debug === 2 || debug === 3){
-                                                    //     console.log('green log')
-                                                    // }
-
-
-
-                                                    let villagesBody = {
-                                                        "action":"get",
-                                                        "controller":"cache",
-                                                        "params":{
-                                                            "names":[`Player:${villageLog.data.targetOwnerId}`],
-                                                        },
-                                                        "session":listPayload.session
-                                                    };
-
-                                                    let villagesOptions = {
-                                                        method: 'POST',
-                                                        json: true,
-                                                        body: villagesBody,
-                                                        serverDomain: serverDomain
-                                                    };
-
-
-                                                    httpRequest(villagesOptions)
-                                                    .then(
-                                                        (body) => {
-                                                            if (body && body.cache[0].data.active != 0){
-                                                                let toggleBody = {
-                                                                    "controller":"farmList",
-                                                                    "action":"toggleEntry",
-                                                                    "params":{
-                                                                        "villageId":villageLog.data.villageId,
-                                                                        "listId":   FarmListEntry
-                                                                    },
-                                                                    "session":listPayload.session
-                                                                };
-
-                                                                let options = {
-                                                                    method: 'POST',
-                                                                    headers: {
-                                                                        'content-type' : 'application/x-www-form-urlencoded'
-                                                                    },
-                                                                    json: true,
-                                                                    body: toggleBody,
-                                                                    serverDomain: serverDomain
-                                                                };
-
-                                                                httpRequest(options)
-                                                                .then(
-                                                                    (body) => {
-                                                                        console.log('Удаленая захваченная деревня.'.warn)
-                                                                    },
-                                                                    (error) => {
-                                                                        console.log(error);
-                                                                    }
-                                                                )
-                                                            }
-                                                        },
-                                                        (error) => {
-                                                            console.log(error);
-                                                        }
-                                                    )
-
-                                                    let toggleBody = {
-                                                        "controller":"reports",
-                                                        "action":"getLastReports",
-                                                        "params":{
-                                                            "collection":"search",
-                                                            "start":0,
-                                                            "count":10,
-                                                            "filters":["124",{"villageId":villageLog.data.villageId}],
-                                                            "alsoGetTotalNumber":true
-                                                        },
-                                                        "session":listPayload.session
-                                                    };
-
-                                                    let options = {
-                                                        method: 'POST',
-                                                        headers: {
-                                                            'content-type' : 'application/x-www-form-urlencoded'
-                                                        },
-                                                        json: true,
-                                                        body: toggleBody,
-                                                        serverDomain: serverDomain
-                                                    };
-
-                                                    httpRequest(options)
-                                                        .then(
-                                                            (body) => {
-                                                                //console.log(body);
-                                                                let capacity = 0, bounty = 0;
-                                                                body.response.reports.forEach((item, index, array)=>{
-                                                                  bounty += item.bounty;
-                                                                  capacity += item.capacity;
-                                                                });
-                                                                let rel = bounty/capacity;
-
-                                                                if ( rel >= 1 ){
-
-                                                                    for (let unitKey in villageLog.data.units) {
-                                                                        let unit = villageLog.data.units[unitKey];
-                                                                        if ( unit == 0 ){
-                                                                            //nothing?
-                                                                        } else{
-                                                                            villageLog.data.units[unitKey] = parseInt(villageLog.data.units[unitKey]) + 1;
-                                                                        }
-                                                                    }
-
-                                                                    let unitBody = {
-                                                                        "controller":"farmList",
-                                                                        "action":"editTroops",
-                                                                        "params":{
-                                                                            "entryIds":[parseInt(villageLog.data.entryId)],
-                                                                            "units":villageLog.data.units
-                                                                        },
-                                                                        "session":listPayload.session
-                                                                    };
-
-                                                                    let changeUnitOption = {
-                                                                        method: 'POST',
-                                                                        json: true,
-                                                                        body: unitBody,
-                                                                        serverDomain: serverDomain
-                                                                    };
-
-
-                                                                    httpRequest(changeUnitOption).then(
-                                                                        resolve => {
-                                                                            console.log('Кол-во войнов увеличено'.info);
-                                                                            loop.next();
-                                                                        },
-                                                                        reject => {
-                                                                            console.log(JSON.stringify(reject).warn);
-                                                                            loop.next();
-                                                                        }
-                                                                    )
-                                                                } else
-                                                                if ( rel < 0.5 ){
-
-                                                                    for (let unitKey in villageLog.data.units) {
-                                                                        let unit = villageLog.data.units[unitKey];
-                                                                        if (unit > 1){
-                                                                            villageLog.data.units[unitKey]--;
-                                                                        }
-                                                                    }
-
-                                                                    let unitBody = {
-                                                                        "controller":"farmList",
-                                                                        "action":"editTroops",
-                                                                        "params":{
-                                                                            "entryIds":[parseInt(villageLog.data.entryId)],
-                                                                            "units":villageLog.data.units
-                                                                        },
-                                                                        "session":listPayload.session
-                                                                    };
-
-                                                                    let changeUnitOption = {
-                                                                        method: 'POST',
-                                                                        json: true,
-                                                                        body: unitBody,
-                                                                        serverDomain: serverDomain
-                                                                    };
-
-                                                                    httpRequest(changeUnitOption).then(
-                                                                        resolve => {
-                                                                            console.log('Кол-во войнов уменьшено'.info);
-                                                                            loop.next();
-                                                                        },
-                                                                        reject => {
-                                                                            console.log(JSON.stringify(reject).warn);
-                                                                            loop.next();
-                                                                        }
-                                                                    )
-                                                                    //    Добавить уменьшение войнов
-                                                                } else {
-                                                                    //nothing now
-                                                                    loop.next();
-                                                                }
-
-                                                            },
-                                                            (error) => {
-                                                                //console.log(error);
-                                                            }
-                                                        )
-
-                                                } else if (villageLog.data.lastReport.notificationType == 2){
-                                                    if (debug === 2 || debug === 3){
-                                                        //console.log('yellow log')
-                                                    }
-                                                    let toggleBody = {
-                                                        "controller":"farmList",
-                                                        "action":"toggleEntry",
-                                                        "params":{
-                                                            "villageId":villageLog.data.villageId,
-                                                            "listId":   FarmListEntry
-                                                        },
-                                                        "session":listPayload.session
-                                                    };
-
-                                                    let options = {
-                                                        method: 'POST',
-                                                        headers: {
-                                                            'content-type' : 'application/x-www-form-urlencoded'
-                                                        },
-                                                        json: true,
-                                                        body: toggleBody,
-                                                        serverDomain: serverDomain
-                                                    };
-
-                                                    //console.log(options.info)
-
-
-                                                    httpRequest(options)
-                                                        .then(
-                                                            (body) => {
-                                                                //console.log(body);
-                                                                return httpRequest(options);
-                                                            },
-                                                            (error) => {
-                                                                //console.log(error);
-                                                            }
-                                                        )
-                                                        .then(
-                                                            (body) => {
-                                                                //console.log(body);
-                                                                if (debug === 3){
-                                                                    console.log(body);
-                                                                }
-                                                                console.log('Жёлтый лог обработан.'.silly)
-                                                                loop.next();
-                                                            },
-                                                            (error) => {
-                                                                console.log(error);
-                                                            }
-                                                        )
-                                                } else if (villageLog.data.lastReport.notificationType == 3){
-                                                    if (debug === 2 || debug === 3){
-                                                    }
-                                                    console.log('red log'.debug)
-                                                    //TODO: вынести в отдельную функцию
-                                                    let toggleBody = {
-                                                        "controller":"farmList",
-                                                        "action":"toggleEntry",
-                                                        "params":{
-                                                            "villageId":villageLog.data.villageId,
-                                                            "listId":   FarmListEntry
-                                                        },
-                                                        "session":listPayload.session
-                                                    };
-
-                                                    let options = {
-                                                        method: 'POST',
-                                                        headers: {
-                                                            'content-type' : 'application/x-www-form-urlencoded'
-                                                        },
-                                                        json: true,
-                                                        body: toggleBody,
-                                                        serverDomain: serverDomain
-                                                    };
-
-                                                    console.log(options.info)
-
-
-                                                    httpRequest(options)
-                                                    .then(
-                                                        (body) => {
-                                                            console.log(body);
-                                                            return httpRequest(options);
-                                                        },
-                                                        (error) => {
-                                                            console.log(error);
-                                                        }
-                                                    )
-                                                    .then(
-                                                        (body) => {
-                                                            console.log(body);
-                                                            if (debug === 3){
-                                                                console.log(body);
-                                                            }
-                                                            console.log('Красный лог обработан.'.silly)
-                                                            loop.next();
-                                                        },
-                                                        (error) => {
-                                                            console.log(error);
-                                                        }
-                                                    )
-                                                } else {
-                                                    console.log(`Странный лог ${villageLog.lastReport.notificationType}`);
-                                                }
-                                            },
-                                            function () {
-                                                loopList.next();
-                                            }
-                                        );
-
-                                    },
-                                    function () {
-                                        console.log('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session +'] запуск: [' + now.toString()+']');
-                                        fn(listPayload);
-                                    }
-                                )
-                            }
-
 
                             //TODO: add callback on checkOnStatus
                             // callback(body);
@@ -1540,9 +1683,12 @@ function farmListCreator(name, xCor, yCor, filter) {
                 httpRequest(options)
                 .then(
                     function (body) {
-                        if (body && body.response && body.response.errors){
-                            console.log(body.response.errors);
+                        if (body && body.error){
+                            console.log(body.error.message);
                         }
+
+                        console.log(options)
+                        console.log(body)
                         //Добавляем полученный массив в лист массивов
                         listMassive.push(body.cache[0].data.cache[0].data.listId);
 
@@ -1586,6 +1732,11 @@ function heroChecker(villages, count, session, villageId) {
                 function (loop) {
                     let i = loop.iteration();
 
+                    /*
+                    * проверить
+                    * 3: 1 - для галлов или немцев
+                    * 4: 1 - для римлян
+                    * */
                     let requestPayload = {
                         "controller":"troops",
                         "action":"send",
@@ -1598,8 +1749,8 @@ function heroChecker(villages, count, session, villageId) {
                                 "units":{
                                     "1":0,
                                     "2":0,
-                                    "3":0,
-                                    "4":1,
+                                    "3":1,
+                                    "4":0,
                                     "5":0,
                                     "6":0,
                                     "7":0,
@@ -1628,9 +1779,8 @@ function heroChecker(villages, count, session, villageId) {
 
                     httpRequest(options).then(
                         function (body) {
-                            console.log(body)
                             if (body && body.response && body.response.errors){
-                                console.log(body.response.errors.message);
+                                console.log(body.response.errors);
                             }
 
                             let rand = fixedTimeGenerator(6) + randomTimeGenerator(3);
@@ -1829,14 +1979,14 @@ function attackList(filter, xCor, yCor, paramsAttack ){
  * Добавления юнитов по улсовиям
  */
 // farmListCreator('withoutKing', '13', '-40', withoutKingdomsFilter);
-// farmListCreator('>500', '8', '-43', deathsFilter);
+// farmListCreator('4may', '22', '-25', deathsFilter);
 
 /**
  * Фармлисты
  */
 // autoFarmList(3600, 1200, listPayload.Wahlberg ,      'com3', true);
-// autoFarmList(3600, 1200, listPayload.cheetah,        'com3', true);
 // autoFarmList(3600, 1200, listPayload.Wahlberg2 ,     'com3', true);
+// autoFarmList(3600, 1200, listPayload.cheetah,        'com3', true);
 // autoFarmList(3600, 1200, listPayload.hedin ,         'com3', true);
 // autoFarmList(3600, 1200, listPayload.hedin2 ,        'com3', true);
 // autoFarmList(3600, 1200, listPayload.hume,           'com3', true);
@@ -1848,7 +1998,8 @@ function attackList(filter, xCor, yCor, paramsAttack ){
 // autoFarmList(3600, 1200, listPayload.grandoStart,    'com3', true);
 // autoFarmList(3600, 1200, listPayload.andrew,         'com3', true);
 // autoFarmList(3600, 1200, listPayload.rinko,          'com3', true);
-autoFarmList(3600, 1200, listPayload.lolko,          'com3', true);
+// autoFarmList(3600, 1200, listPayload.rinko2,          'com3', true);
+// autoFarmList(3600, 1200, listPayload.lolko,          'com3', true);
 // autoFarmList(3600, 1200, listPayload.lolko2,         'com3', true);
 // autoFarmList(3600, 1200, listPayload.engal,          'com3', true);
 // autoFarmList(3600, 1200, listPayload.maxi,           'com3', true);
@@ -1856,7 +2007,7 @@ autoFarmList(3600, 1200, listPayload.lolko,          'com3', true);
 
 
 // heroChecker([535478265], 100, "9a266bec9de54d6bb19f", 535674891);
-// heroChecker([535478265, 535216127], 75, "e0efd325e311da85705d", 535937033);
+// heroChecker([535478265, 535216127], 75, "c19d53f3f7b44df6b88c", 535543819);
 
 
 
