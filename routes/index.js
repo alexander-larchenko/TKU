@@ -266,9 +266,11 @@ function autoExtendLists(playerFarmList, filter) {
 
                 let diff = _.difference(_.pluck(villages, "villageId"), _.pluck(villagesFromLists, "villageId"));
                 let grayDiffVillage = _.filter(villages, (obj) => { return diff.indexOf(obj.villageId) >= 0; });
+                let grayIteration = 0;
 
                 console.log(grayDiffVillage.length)
                 console.log(grayDiffVillage[0])
+                console.log(farmListEntry.cache.length)
 
                 //TODO: остановился тут, необходимо вычислять длину каждого листа, и добавлять до конца, расчитать случайц если там забаненные юзеры.
                 //TODO: добавить авто удаление с помощью второго прогона диф списков.
@@ -280,61 +282,61 @@ function autoExtendLists(playerFarmList, filter) {
                 // listLength = 3;
                 //TODO: улушчить эту часть
                 asyncLoop(
-                    farmListEntry.cache,
+                    farmListEntry.cache.length,
                     function (loop) {
                         let i = loop.iteration();
 
                         asyncLoop(
-                            farmListEntry.cache[i].data.cache,
+                            farmListEntry.cache[i].data.cache.length,
                             function(loopCollection){
-                                let j = loop.iteration();
-                                if (farmListEntry.cache[i].data.cache[j].length < 100){
-                                    // let listObj = {
-                                    //     "controller": "farmList",
-                                    //     "action": "createList",
-                                    //     "params": {"name": `${name} ${i}`},
-                                    //     "session": token
-                                    // };
-                                    //
-                                    // let options = {
-                                    //     method: 'POST',
-                                    //     headers: {
-                                    //         'content-type' : 'application/x-www-form-urlencoded'
-                                    //     },
-                                    //     serverDomain: serverDomain,
-                                    //     json: true,
-                                    //     body: listObj
-                                    // };
-                                    //
-                                    // httpRequest(options)
-                                    //     .then(
-                                    //         function (body) {
-                                    //             if (body && body.error){
-                                    //                 console.log(body.error.message);
-                                    //             }
-                                    //
-                                    //             console.log(options)
-                                    //             console.log(body)
-                                    //             //Добавляем полученный массив в лист массивов
-                                    //             listMassive.push(body.cache[0].data.cache[0].data.listId);
-                                    //
-                                    //             if (listMassive.length == listLength) {
-                                    //                 addToFarmList(listMassive, villages);
-                                    //             }
-                                    //
-                                    //             loop.next();
-                                    //
-                                    //         },
-                                    //         function (error) {
-                                    //             console.log(error)
-                                    //         }
-                                    //     );
+                                let j = loopCollection.iteration();
+                                if (farmListEntry.cache[i].data.cache.length < 100 && grayDiffVillage[grayIteration]){
+
+
+                                    let bodyReq = {
+                                        "action": "toggleEntry",
+                                        "controller": "farmList",
+                                        "params": {
+                                            "villageId": grayDiffVillage[grayIteration].villageId,
+                                            "listId": farmListEntry.cache[i].name.split(':')[2]
+                                        },
+                                        "session": playerFarmList.session
+                                    };
+
+                                    let options = {
+                                        method: 'POST',
+                                        headers: {
+                                            'content-type' : 'application/x-www-form-urlencoded'
+                                        },
+                                        serverDomain: serverDomain,
+                                        json: true,
+                                        body: bodyReq
+                                    };
+
+                                    httpRequest(options)
+                                    .then(
+                                        function (body) {
+                                            let rand = fixedTimeGenerator(6) + randomTimeGenerator(3);
+                                            setTimeout(function () {
+                                                console.log('Рандомное время ' + i + ': ' + rand);
+                                                grayIteration++;
+                                                loopCollection.next();
+                                            }, rand);
+                                        },
+                                        function (error) {
+                                            grayIteration++;
+                                            loopCollection.next();
+                                            console.log(error)
+                                        }
+                                    );
+
                                 } else {
-                                    loop.next();
+                                    loopCollection.next();
                                 }
                             },
                             function () {
                                 console.log('Добавление в фармлист закончен')
+                                loop.next();
                             }
                         )
                     },
