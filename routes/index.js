@@ -34,38 +34,33 @@ let listPayload = {
   Wahlberg: {
     "controller": "troops",
     "action": "startFarmListRaid",
-    "params": {"listIds": [5402, 5403, 5404], "villageId": 536068149},
-    "session": "86ad10a8b3d15a362bd1"
+    "params": {"listIds": [6288, 6289, 6270, 6271], "villageId": 536068149},
+    "session": "d329a26e0a13271aa95d"
   },//T-01
   Wahlberg2: {
     "controller": "troops",
     "action": "startFarmListRaid",
     "params": {"listIds": [5402, 5403, 5404], "villageId": 536100918},
-    "session": "86ad10a8b3d15a362bd1"
+    "session": "d329a26e0a13271aa95d"
   },//T-02
   Wahlberg3: {
     "controller": "troops",
     "action": "startFarmListRaid",
     "params": {"listIds": [3708], "villageId": 536068149},
-    "session": "86ad10a8b3d15a362bd1"
+    "session": "d329a26e0a13271aa95d"
   },//T-01
   Wahlberg4: {
     "controller": "troops",
     "action": "startFarmListRaid",
     "params": {"listIds": [3708], "villageId": 536100918},
-    "session": "86ad10a8b3d15a362bd1"
+    "session": "d329a26e0a13271aa95d"
   },//T-02
   Krolik: {
     "controller":"troops",
     "action":"startFarmListRaid",
     "params":{"listIds":[5444,5445,5446,5447],"villageId":536199220},
-    "session":"bf174c4d2d07347a3daa"},
-  Krolik2: {
-    "controller":"troops",
-    "action":"startFarmListRaid",
-    "params":{"listIds":[5444,5445,5446,5447],"villageId":535445509},
-    "session":"bf174c4d2d07347a3daa"},
-  Ira: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6112,6113,6114,6115,6116,6117],"villageId":535248941},"session":"a7caa78d1016893912de"},
+    "session":"9a677024b8c908ba8407"},
+  Ira: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6112,6113,6114,6115,6116,6117],"villageId":535248941},"session":"b22cb5f1fab7c125082d"},
   King: {
     "controller":"troops",
     "action":"startFarmListRaid",
@@ -2241,7 +2236,7 @@ function attackList(filter, xCor, yCor, paramsAttack) {
  */
 // farmListCreator('Bandits', '13', '-40', Bandits);
 // farmListCreator('загул-', '53', '-25', withoutKingdomsFilter);
-// farmListCreator('>100-', '50', '-23', deathsFilter);
+// farmListCreator('15ka', '50', '-23', deathsFilter);
 // farmListCreator('FF', '53', '-25', kingdomsFilters);
 
 /**
@@ -2251,14 +2246,15 @@ autoFarmList(900, 300, listPayload.Wahlberg ,      'com1x3', true);
 autoFarmList(900, 300, listPayload.Wahlberg2,      'com1x3', true);
 autoFarmList(900, 300, listPayload.Wahlberg3,      'com1x3', true);
 autoFarmList(900, 300, listPayload.Wahlberg4,      'com1x3', true);
-autoFarmList(900, 300, listPayload.Krolik,         'com1x3', true);
-autoFarmList(900, 300, listPayload.Krolik2,        'com1x3', true);
-autoFarmList(900, 300, listPayload.King,              'com1x3', true);
-autoFarmList(1800, 600, listPayload.Ira,              'com1x3', false);
+// autoFarmList(900, 300, listPayload.Krolik,         'com1x3', true);
+// autoFarmList(900, 300, listPayload.King,              'com1x3', true);
+// autoFarmList(1800, 600, listPayload.Ira,              'com1x3', true);
 
 // autoExtendLists(listPayload.Wahlberg ,       deathsFilter);
 // autoExtendLists(listPayload.Wahlberg2 ,       deathsFilter);
 // autoExtendLists(listPayload.Krolik ,         deathsFilter);
+// autoExtendLists(listPayload.King ,         deathsFilter);
+// autoExtendLists(listPayload.Ira ,         deathsFilter);
 
 // playerFarmList, filter, fixedTime, randomTime, server
 // heroChecker([535478265], 100, "9a266bec9de54d6bb19f", 535674891);
