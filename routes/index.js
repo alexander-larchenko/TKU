@@ -29,43 +29,65 @@ const debug = 1;
 // debug - 2, идут логи из основных функций
 // debug - 3, идут полные логи
 
-
 let listPayload = {
+  malaoban:{"controller":"troops","action":"startFarmListRaid","params":{"listIds":[4290],"villageId":537772036},"session":"0e9fc2e85f2d9bce084c", "server": "com2"},
   Wahlberg: {
     "controller": "troops",
     "action": "startFarmListRaid",
-    "params": {"listIds": [6288, 6289, 6270, 6271], "villageId": 536068149},
-    "session": "d329a26e0a13271aa95d"
+    "params": {"listIds": [6288,6289,6290,6291, 6292, 6293], "villageId": 536068149},
+    "session": "c7a91ff603a42b864c80",
+    "server": "com1x3",
   },//T-01
   Wahlberg2: {
     "controller": "troops",
     "action": "startFarmListRaid",
-    "params": {"listIds": [5402, 5403, 5404], "villageId": 536100918},
-    "session": "d329a26e0a13271aa95d"
+    "params": {"listIds": [6288,6289,6290,6291, 6292, 6293], "villageId": 536100918},
+    "session": "c7a91ff603a42b864c80",
+    "server": "com1x3",
   },//T-02
   Wahlberg3: {
     "controller": "troops",
     "action": "startFarmListRaid",
-    "params": {"listIds": [3708], "villageId": 536068149},
-    "session": "d329a26e0a13271aa95d"
+    "params": {"listIds": [6288,6289,6290,6291, 6292, 6293], "villageId": 535773240},
+    "session": "c7a91ff603a42b864c80",
+    "server": "com1x3",
   },//T-01
-  Wahlberg4: {
-    "controller": "troops",
-    "action": "startFarmListRaid",
-    "params": {"listIds": [3708], "villageId": 536100918},
-    "session": "d329a26e0a13271aa95d"
-  },//T-02
   Krolik: {
     "controller":"troops",
     "action":"startFarmListRaid",
     "params":{"listIds":[5444,5445,5446,5447],"villageId":536199220},
-    "session":"9a677024b8c908ba8407"},
-  Ira: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6112,6113,6114,6115,6116,6117],"villageId":535248941},"session":"b22cb5f1fab7c125082d"},
+    "session":"2009c0c862fb978245b4",
+    "server": "com1x3",},
+  Krolik2: {
+    "controller":"troops",
+    "action":"startFarmListRaid",
+    "params":{"listIds":[5444,5445,5446,5447],"villageId":536133685},
+    "session":"2009c0c862fb978245b4",
+    "server": "com1x3",},
+  Krolik3: {
+    "controller":"troops",
+    "action":"startFarmListRaid",
+    "params":{"listIds":[5444,5445,5446,5447],"villageId":536166454},
+    "session":"2009c0c862fb978245b4",
+    "server": "com1x3",},
+  Krolik4: {
+    "controller":"troops",
+    "action":"startFarmListRaid",
+    "params":{"listIds":[5444,5445,5446,5447],"villageId":536035380},
+    "session":"2009c0c862fb978245b4",
+    "server": "com1x3",},
+  Ira: {
+    "controller":"troops",
+    "action":"startFarmListRaid",
+    "params":{"listIds":[6112,6113,6114,6115,6116,6117],"villageId":535248941},
+    "session":"8f69bafcc7a51e534865",
+    "server": "com1x3",},
   King: {
     "controller":"troops",
     "action":"startFarmListRaid",
     "params":{"listIds":[6075,6076,6077,6078,6079,6080],"villageId":536133682},
-    "session":"ec4bea86fa24228c05d1"},
+    "session":"5d7f40dcc00505ef675d",
+    "server": "com1x3",},
 };
 
 let cookie = userDate.cookie;
@@ -99,7 +121,7 @@ let deathsFilter = {
   villages: {
     population: {
       different: "more",
-      value: 100
+      value: "50"
     }
   }
 };
@@ -169,6 +191,25 @@ let Bandits = {
     population: {
       different: "more",
       value: "120"
+    }
+  }
+};
+
+let Ducheeze = {
+  players: {
+    kingdomId: {
+      different: "equal",
+      value: "78"
+    },
+    active: {
+      different: "equal",
+      value: "1"
+    }
+  },
+  villages: {
+    population: {
+      different: "more",
+      value: "1"
     }
   }
 };
@@ -342,6 +383,7 @@ function autoExtendLists(playerFarmList, filter, fixedTime, randomTime, server) 
                         }, rand);
                       },
                       (error) => {
+                        console.log('toggleEntry');
                         console.log(error);
                       }
                     )
@@ -442,9 +484,6 @@ function autoExtendLists(playerFarmList, filter, fixedTime, randomTime, server) 
                       return diff.indexOf(village.villageId) >= 0;
                     });
 
-
-                    // Если нужен только первые 100 целей
-                    // listLength = 3;
                     //TODO: улушчить эту часть
                     asyncLoop(
                       farmListEntry.cache.length,
@@ -531,14 +570,14 @@ function autoExtendLists(playerFarmList, filter, fixedTime, randomTime, server) 
 
       },
       function (err) {
-        console.error('Произошла ошибка');
+        console.error('Произошла ошибка autoExtendLists');
         console.log(err);
       }
     )
 }
 
 
-function checkOnStatus(farmListsResponse, listPayload, now, fn) {
+function checkOnStatus(farmListsResponse, listPayload, now, fn, serverDomain) {
   asyncLoop(
     farmListsResponse.cache.length,
     function (loopList) {
@@ -645,7 +684,7 @@ function checkOnStatus(farmListsResponse, listPayload, now, fn) {
               },
               json: true,
               body: toggleBody,
-              serverDomain: serverDomain
+              serverDomain: serverDomain,
             };
 
             httpRequest(options)
@@ -654,94 +693,103 @@ function checkOnStatus(farmListsResponse, listPayload, now, fn) {
 
                   let capacity = 0, bounty = 0;
 
-                  // console.log(body)
+                  if (body.errors) {
+                    console.log(body)
+                  }
 
-                  body.response.reports.forEach((item, index, array) => {
-                    bounty += item.bounty;
-                    capacity += item.capacity;
-                  });
-                  let rel = bounty / capacity;
+                  // console.log(body.response)
+                  if (body && body.response && body.response.reports){
 
-                  if (rel >= 1) {
+                    body.response.reports.forEach((item, index, array) => {
+                      bounty += item.bounty;
+                      capacity += item.capacity;
+                    });
 
-                    for (let unitKey in villageLog.data.units) {
-                      let unit = villageLog.data.units[unitKey];
-                      if (unit == 0) {
-                        //nothing?
-                      } else if (unit < 15) {
-                        villageLog.data.units[unitKey] = parseInt(villageLog.data.units[unitKey]) + 1;
-                      } else {
-                        //nothing?
+                    let rel = bounty / capacity;
+
+                    if (rel >= 1) {
+
+                      for (let unitKey in villageLog.data.units) {
+                        let unit = villageLog.data.units[unitKey];
+                        if (unit == 0) {
+                          //nothing?
+                        } else if (unit < 15) {
+                          villageLog.data.units[unitKey] = parseInt(villageLog.data.units[unitKey]) + 1;
+                        } else {
+                          //nothing?
+                        }
                       }
+
+                      let unitBody = {
+                        "controller": "farmList",
+                        "action": "editTroops",
+                        "params": {
+                          "entryIds": [parseInt(villageLog.data.entryId)],
+                          "units": villageLog.data.units
+                        },
+                        "session": listPayload.session
+                      };
+
+                      let changeUnitOption = {
+                        method: 'POST',
+                        json: true,
+                        body: unitBody,
+                        serverDomain: serverDomain
+                      };
+
+
+                      httpRequest(changeUnitOption).then(
+                        resolve => {
+                          // console.log('Кол-во войнов увеличено'.info);
+                          loop.next();
+                        },
+                        reject => {
+                          console.log(JSON.stringify(reject).warn);
+                          loop.next();
+                        }
+                      )
+                    } else if (rel < 0.5) {
+
+                      for (let unitKey in villageLog.data.units) {
+                        let unit = villageLog.data.units[unitKey];
+                        if (unit > 1) {
+                          villageLog.data.units[unitKey]--;
+                        }
+                      }
+
+                      let unitBody = {
+                        "controller": "farmList",
+                        "action": "editTroops",
+                        "params": {
+                          "entryIds": [parseInt(villageLog.data.entryId)],
+                          "units": villageLog.data.units
+                        },
+                        "session": listPayload.session
+                      };
+
+                      let changeUnitOption = {
+                        method: 'POST',
+                        json: true,
+                        body: unitBody,
+                        serverDomain: serverDomain
+                      };
+
+                      httpRequest(changeUnitOption).then(
+                        resolve => {
+                          // console.log('Кол-во войнов уменьшено'.info);
+                          loop.next();
+                        },
+                        reject => {
+                          console.log(JSON.stringify(reject).warn);
+                          loop.next();
+                        }
+                      )
+                      //    Добавить уменьшение войнов
+                    } else {
+                      //nothing now
+                      loop.next();
                     }
-
-                    let unitBody = {
-                      "controller": "farmList",
-                      "action": "editTroops",
-                      "params": {
-                        "entryIds": [parseInt(villageLog.data.entryId)],
-                        "units": villageLog.data.units
-                      },
-                      "session": listPayload.session
-                    };
-
-                    let changeUnitOption = {
-                      method: 'POST',
-                      json: true,
-                      body: unitBody,
-                      serverDomain: serverDomain
-                    };
-
-
-                    httpRequest(changeUnitOption).then(
-                      resolve => {
-                        // console.log('Кол-во войнов увеличено'.info);
-                        loop.next();
-                      },
-                      reject => {
-                        console.log(JSON.stringify(reject).warn);
-                        loop.next();
-                      }
-                    )
-                  } else if (rel < 0.5) {
-
-                    for (let unitKey in villageLog.data.units) {
-                      let unit = villageLog.data.units[unitKey];
-                      if (unit > 1) {
-                        villageLog.data.units[unitKey]--;
-                      }
-                    }
-
-                    let unitBody = {
-                      "controller": "farmList",
-                      "action": "editTroops",
-                      "params": {
-                        "entryIds": [parseInt(villageLog.data.entryId)],
-                        "units": villageLog.data.units
-                      },
-                      "session": listPayload.session
-                    };
-
-                    let changeUnitOption = {
-                      method: 'POST',
-                      json: true,
-                      body: unitBody,
-                      serverDomain: serverDomain
-                    };
-
-                    httpRequest(changeUnitOption).then(
-                      resolve => {
-                        // console.log('Кол-во войнов уменьшено'.info);
-                        loop.next();
-                      },
-                      reject => {
-                        console.log(JSON.stringify(reject).warn);
-                        loop.next();
-                      }
-                    )
-                    //    Добавить уменьшение войнов
                   } else {
-                    //nothing now
                     loop.next();
                   }
 
@@ -969,11 +1017,12 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
             "session": listPayload.session
           };
 
+
+          console.log(listPayload.params.listIds)
           for (let i = 0; i < listPayload.params.listIds.length; i++) {
             let list = listPayload.params.listIds[i];
             checkBodyObj.params.names.push("Collection:FarmListEntry:" + list);
-          }
-          ;
+          };
 
           let options = {
             method: 'POST',
@@ -996,7 +1045,7 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
                 } else {
                   //TODO: add callback on checkOnStatus
                   // callback(body);
-                  checkOnStatus(body, listPayload, now, startFarmListRaid.bind(null, listPayload));
+                  checkOnStatus(body, listPayload, now, startFarmListRaid.bind(null, listPayload), serverDomain);
                 }
 
               },
@@ -1776,7 +1825,7 @@ function searchEnemy(fn, xCor, yCor, filtersParam) {
 
       if (filtersParam.players[filter].different === 'equal') {
         allPlayers.cache.forEach(function (item, i, arr) {
-          if (item.data[filter] === filtersParam.players[filter].value) {
+          if (item.data[filter] == filtersParam.players[filter].value) {
             sortedPlayers.cache.push(item);
           }
         });
@@ -1792,8 +1841,22 @@ function searchEnemy(fn, xCor, yCor, filtersParam) {
 
       else if (filtersParam.players[filter].different === 'more') {
         allPlayers.cache.forEach(function (item, i, arr) {
-
           if (parseInt(item.data[filter]) > parseInt(filtersParam.players[filter].value)) {
+            //     console.log(`
+            //     item.data[filter]: ${item.data[filter]}
+            //     filtersParam.players[filter].value: ${filtersParam.players[filter].value}
+            //     boolean: ${item.data[filter] > filtersParam.players[filter].value}
+            // `);
+            sortedPlayers.cache.push(item);
+          }
+        });
+      }
+      else if (filtersParam.players[filter].different === 'between') {
+        allPlayers.cache.forEach(function (item, i, arr) {
+          if (
+            parseInt(item.data[filter]) > parseInt(filtersParam.players[filter].valueBottom) &&
+            parseInt(item.data[filter]) <= parseInt(filtersParam.players[filter].valueTop)
+          ) {
             //     console.log(`
             //     item.data[filter]: ${item.data[filter]}
             //     filtersParam.players[filter].value: ${filtersParam.players[filter].value}
@@ -1835,7 +1898,7 @@ function searchEnemy(fn, xCor, yCor, filtersParam) {
         sortedPlayers.cache.forEach(function (item, i, arr) {
           for (let j = 0; j < item.data.villages.length; j++) {
             let obj = item.data.villages[j];
-            if (obj[filter] === filtersParam.villages[filter].value) {
+            if (obj[filter] == filtersParam.villages[filter].value) {
               sortedVillages.cache.push(obj);
             }
           }
@@ -1846,7 +1909,7 @@ function searchEnemy(fn, xCor, yCor, filtersParam) {
         sortedPlayers.cache.forEach(function (item, i, arr) {
           for (let j = 0; j < item.data.villages.length; j++) {
             let obj = item.data.villages[j];
-            if (obj[filter] < filtersParam.villages[filter].value) {
+            if (parseInt(obj[filter]) < parseInt(filtersParam.villages[filter].value)) {
               sortedVillages.cache.push(obj);
             }
           }
@@ -1857,7 +1920,7 @@ function searchEnemy(fn, xCor, yCor, filtersParam) {
         sortedPlayers.cache.forEach(function (item, i, arr) {
           for (let j = 0; j < item.data.villages.length; j++) {
             let obj = item.data.villages[j];
-            if (obj[filter] > filtersParam.villages[filter].value) {
+            if (parseInt(obj[filter]) > parseInt(filtersParam.villages[filter].value)) {
               sortedVillages.cache.push(obj);
             }
           }
@@ -2073,7 +2136,7 @@ function attackList(filter, xCor, yCor, paramsAttack) {
           "params":
             {
               "destVillageId": villages[i].villageId,
-              "villageId": 536035379,
+              "villageId": 537772036,
               "movementType": 6,
               "redeployHero": false,
               "units": {
@@ -2192,6 +2255,10 @@ function attackList(filter, xCor, yCor, paramsAttack) {
   }, xCor, yCor, filter);
 }
 
+let repeatFn = function(fn){
+  getMapInfo('animal', token, serverDomain, timeForGame);
+  setTimeout(fn, 600000);
+};
 // let troops = {
 //     "controller": "troops",
 //     "action": "send",
@@ -2212,7 +2279,7 @@ function attackList(filter, xCor, yCor, paramsAttack) {
 //             "8": 10,
 //             "9": 0,
 //             "10": 0,
-//             "11": 0
+//             "11": 0l
 //         },
 //         "spyMission": "resources"
 //     },
@@ -2224,7 +2291,7 @@ function attackList(filter, xCor, yCor, paramsAttack) {
  */
 
 // attackList(withoutKingdomsFilter, 53, -25);
-// attackList(Bandits, 100, 0);
+attackList(Ducheeze, 4, 27);
 
 /**
  * Автобилд войнов
@@ -2236,20 +2303,24 @@ function attackList(filter, xCor, yCor, paramsAttack) {
  */
 // farmListCreator('Bandits', '13', '-40', Bandits);
 // farmListCreator('загул-', '53', '-25', withoutKingdomsFilter);
-// farmListCreator('15ka', '50', '-23', deathsFilter);
+// farmListCreator('>50', '4', '27', deathsFilter);
 // farmListCreator('FF', '53', '-25', kingdomsFilters);
 
 /**
  * Фармлисты
  */
-autoFarmList(900, 300, listPayload.Wahlberg ,      'com1x3', true);
-autoFarmList(900, 300, listPayload.Wahlberg2,      'com1x3', true);
-autoFarmList(900, 300, listPayload.Wahlberg3,      'com1x3', true);
-autoFarmList(900, 300, listPayload.Wahlberg4,      'com1x3', true);
-// autoFarmList(900, 300, listPayload.Krolik,         'com1x3', true);
+// autoFarmList(900, 300, listPayload.malaoban ,      'com2', true);
+// autoFarmList(900, 300, listPayload.Wahlberg,       'com1x3', true);
+// autoFarmList(900, 300, listPayload.Wahlberg2,      'com1x3', true);
+// autoFarmList(900, 300, listPayload.Wahlberg3,      'com1x3', true);
+// autoFarmList(900, 300, listPayload.Krolik,             'com1x3', true);
+// autoFarmList(900, 300, listPayload.Krolik2,            'com1x3', true);
+// autoFarmList(900, 300, listPayload.Krolik3,            'com1x3', true);
+// autoFarmList(900, 300, listPayload.Krolik4,            'com1x3', true);
 // autoFarmList(900, 300, listPayload.King,              'com1x3', true);
 // autoFarmList(1800, 600, listPayload.Ira,              'com1x3', true);
 
+// autoExtendLists(listPayload.malaoban ,      'com2', deathsFilter);
 // autoExtendLists(listPayload.Wahlberg ,       deathsFilter);
 // autoExtendLists(listPayload.Wahlberg2 ,       deathsFilter);
 // autoExtendLists(listPayload.Krolik ,         deathsFilter);
@@ -2269,14 +2340,10 @@ autoFarmList(900, 300, listPayload.Wahlberg4,      'com1x3', true);
 /**
  * Крокодилы
  */
-// Переписать вызов
-// let repeatFn = function(fn){
-//  getMapInfo('animal', token, serverDomain, timeForGame);
-//  setTimeout(repeatFn, 600000);
-// };
-//
+// setInterval(function() {
+//   getMapInfo('animal', token, serverDomain, timeForGame);
+// }, 600000);
 // getMapInfo('animal', token, serverDomain, timeForGame);
-// setTimeout(repeatFn, 600000);
 
 /**
  * Кроп
