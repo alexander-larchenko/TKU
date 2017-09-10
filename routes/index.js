@@ -3,10 +3,7 @@ const router = express.Router();
 const request = require('request');
 const _ = require('underscore');
 const rp = require('request-promise');
-const async = require('asyncawait/async');
-const await = require('asyncawait/await');
 const colors = require('colors');
-const fs = require('fs');
 
 colors.setTheme({
   silly: 'rainbow',
@@ -30,64 +27,9 @@ const debug = 1;
 // debug - 3, идут полные логи
 
 let listPayload = {
-  malaoban:{"controller":"troops","action":"startFarmListRaid","params":{"listIds":[4290],"villageId":537772036},"session":"0e9fc2e85f2d9bce084c", "server": "com2"},
-  Wahlberg: {
-    "controller": "troops",
-    "action": "startFarmListRaid",
-    "params": {"listIds": [6288,6289,6290,6291, 6292, 6293], "villageId": 536068149},
-    "session": "c7a91ff603a42b864c80",
-    "server": "com1x3",
-  },//T-01
-  Wahlberg2: {
-    "controller": "troops",
-    "action": "startFarmListRaid",
-    "params": {"listIds": [6288,6289,6290,6291, 6292, 6293], "villageId": 536100918},
-    "session": "c7a91ff603a42b864c80",
-    "server": "com1x3",
-  },//T-02
-  Wahlberg3: {
-    "controller": "troops",
-    "action": "startFarmListRaid",
-    "params": {"listIds": [6288,6289,6290,6291, 6292, 6293], "villageId": 535773240},
-    "session": "c7a91ff603a42b864c80",
-    "server": "com1x3",
-  },//T-01
-  Krolik: {
-    "controller":"troops",
-    "action":"startFarmListRaid",
-    "params":{"listIds":[5444,5445,5446,5447],"villageId":536199220},
-    "session":"2009c0c862fb978245b4",
-    "server": "com1x3",},
-  Krolik2: {
-    "controller":"troops",
-    "action":"startFarmListRaid",
-    "params":{"listIds":[5444,5445,5446,5447],"villageId":536133685},
-    "session":"2009c0c862fb978245b4",
-    "server": "com1x3",},
-  Krolik3: {
-    "controller":"troops",
-    "action":"startFarmListRaid",
-    "params":{"listIds":[5444,5445,5446,5447],"villageId":536166454},
-    "session":"2009c0c862fb978245b4",
-    "server": "com1x3",},
-  Krolik4: {
-    "controller":"troops",
-    "action":"startFarmListRaid",
-    "params":{"listIds":[5444,5445,5446,5447],"villageId":536035380},
-    "session":"2009c0c862fb978245b4",
-    "server": "com1x3",},
-  Ira: {
-    "controller":"troops",
-    "action":"startFarmListRaid",
-    "params":{"listIds":[6112,6113,6114,6115,6116,6117],"villageId":535248941},
-    "session":"8f69bafcc7a51e534865",
-    "server": "com1x3",},
-  King: {
-    "controller":"troops",
-    "action":"startFarmListRaid",
-    "params":{"listIds":[6075,6076,6077,6078,6079,6080],"villageId":536133682},
-    "session":"5d7f40dcc00505ef675d",
-    "server": "com1x3",},
+  malaoban: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[4291, 4292],"villageId":537772036},"session":"c9d9fd3d4031dc525158", "server": "com2"},
+  malaoban2:{"controller":"troops","action":"startFarmListRaid","params":{"listIds":[4290],"villageId":537739268},"session":"c9d9fd3d4031dc525158", "server": "com2"},
+  malaoban3:{"controller":"troops","action":"startFarmListRaid","params":{"listIds":[5205],"villageId":537739268},"session":"c9d9fd3d4031dc525158", "server": "com2"},
 };
 
 let cookie = userDate.cookie;
@@ -120,8 +62,9 @@ let deathsFilter = {
   },
   villages: {
     population: {
-      different: "more",
-      value: "50"
+      different: "between",
+      valueBottom: 60,
+      valueTop: 160
     }
   }
 };
@@ -200,6 +143,26 @@ let Ducheeze = {
     kingdomId: {
       different: "equal",
       value: "78"
+    },
+    active: {
+      different: "equal",
+      value: "1"
+    }
+  },
+  villages: {
+    population: {
+      different: "more",
+      value: "1"
+    }
+  }
+};
+
+
+let USNC = {
+  players: {
+    kingdomId: {
+      different: "equal",
+      value: "20"
     },
     active: {
       different: "equal",
@@ -307,11 +270,11 @@ function httpRequest(opt) {
 //fixedTime - фиксированное время
 //randomTime - разброс
 
-function autoExtendLists(playerFarmList, filter, fixedTime, randomTime, server) {
+function autoExtendLists(playerFarmList, filter, coor) {
 
   //TODO: выпилить хардкод координат
-  let xCor = '53',
-    yCor = '-25';
+  let xCor = coor.x,
+    yCor = coor.y;
 
   let bodyFL = {
     "controller": "cache",
@@ -336,15 +299,15 @@ function autoExtendLists(playerFarmList, filter, fixedTime, randomTime, server) 
 
   httpRequest(optionsFL)
     .then(
-      function (farmListEntry) {
+      (farmListEntry) => {
         console.log(playerFarmList.session)
         asyncLoop(
           farmListEntry.cache && farmListEntry.cache.length || 0,
-          function (loop) {
+          (loop)  => {
             let i = loop.iteration();
             asyncLoop(
               farmListEntry.cache[i].data.cache.length,
-              function (loopCollection) {
+              (loopCollection) => {
                 let j = loopCollection.iteration();
                 let sumTroops = 0;
 
@@ -378,7 +341,7 @@ function autoExtendLists(playerFarmList, filter, fixedTime, randomTime, server) 
                     .then(
                       (body) => {
                         let rand = fixedTimeGenerator(6) + randomTimeGenerator(3);
-                        setTimeout(function () {
+                        setTimeout(() => {
                           loopCollection.next();
                         }, rand);
                       },
@@ -391,18 +354,18 @@ function autoExtendLists(playerFarmList, filter, fixedTime, randomTime, server) 
                   loopCollection.next();
                 }
               },
-              function () {
+              () => {
                 console.log('Отчищение из фармлиста закончено')
                 loop.next();
               }
             );
           },
-          function () {
+          () => {
             console.log(`Все фармлисты отчищены ${playerFarmList.session}`);
             // autoFarmList(fixedTime, randomTime, playerFarmList, server, true);
             return httpRequest(optionsFL)
               .then(
-                function (farmListEntry) {
+                (farmListEntry) => {
                   if (farmListEntry && farmListEntry.error) {
                     console.log(farmListEntry.error.message);
                     return false;
@@ -415,7 +378,7 @@ function autoExtendLists(playerFarmList, filter, fixedTime, randomTime, server) 
                     })
                   });
 
-                  searchEnemy(function (villages) {
+                  searchEnemy((villages) => {
                     let listLength = Math.ceil(villages.length / 100);
                     let listMassive = [];
 
@@ -484,22 +447,23 @@ function autoExtendLists(playerFarmList, filter, fixedTime, randomTime, server) 
                       return diff.indexOf(village.villageId) >= 0;
                     });
 
+                    console.log(villages.length)
+                    
                     //TODO: улушчить эту часть
                     asyncLoop(
                       farmListEntry.cache.length,
-                      function (loop) {
+                      (loop) => {
                         let i = loop.iteration();
                         asyncLoop(
                           grayDiffVillage.length,
-                          function (loopCollection) {
+                          (loopCollection) => {
                             let j = loopCollection.iteration();
 
                             console.log(farmListEntry.cache[i].data.cache.length);
                             // console.log(grayDiffVillage.length);
 
                             if (farmListEntry.cache[i].data.cache.length + lengthOfFL < 100 && grayDiffVillage[grayIteration]) {
-
-
+                              
                               let bodyReq = {
                                 "action": "toggleEntry",
                                 "controller": "farmList",
@@ -522,16 +486,16 @@ function autoExtendLists(playerFarmList, filter, fixedTime, randomTime, server) 
 
                               httpRequest(options)
                                 .then(
-                                  function (body) {
+                                  (body) => {
                                     let rand = fixedTimeGenerator(6) + randomTimeGenerator(3);
-                                    setTimeout(function () {
+                                    setTimeout(() => {
                                       // console.log('Рандомное время ' + i + ': ' + rand);
                                       grayIteration++;
                                       lengthOfFL++;
                                       loopCollection.next();
                                     }, rand);
                                   },
-                                  function (error) {
+                                  (error) => {
                                     grayIteration++;
                                     lengthOfFL++;
                                     loopCollection.next();
@@ -549,12 +513,12 @@ function autoExtendLists(playerFarmList, filter, fixedTime, randomTime, server) 
                               loop.next();
                             }
                           },
-                          function () {
+                          () => {
                             console.log('Добавление в фармлист закончен')
                           }
                         )
                       },
-                      function () {
+                      () => {
                         console.log(`Все фармлисты заполнены ${playerFarmList.session}`);
 
                         // autoFarmList(fixedTime, randomTime, playerFarmList, server, true);
@@ -569,7 +533,7 @@ function autoExtendLists(playerFarmList, filter, fixedTime, randomTime, server) 
         );
 
       },
-      function (err) {
+      (err) => {
         console.error('Произошла ошибка autoExtendLists');
         console.log(err);
       }
@@ -580,7 +544,7 @@ function autoExtendLists(playerFarmList, filter, fixedTime, randomTime, server) 
 function checkOnStatus(farmListsResponse, listPayload, now, fn, serverDomain) {
   asyncLoop(
     farmListsResponse.cache.length,
-    function (loopList) {
+    (loopList) => {
       let i = loopList.iteration();
       let FarmListEntry = farmListsResponse.cache[i].name.split(":")[2];
       // //console.log(`Подан фармлист с Айди ${FarmListEntry}`.info);
@@ -588,7 +552,7 @@ function checkOnStatus(farmListsResponse, listPayload, now, fn, serverDomain) {
       // console.log(FarmListEntry)
       asyncLoop(
         farmListsResponse.cache[i].data.cache.length,
-        function (loop) {
+        (loop) => {
 
           let j = loop.iteration();
 
@@ -904,13 +868,13 @@ function checkOnStatus(farmListsResponse, listPayload, now, fn, serverDomain) {
             console.log(`Странный лог ${villageLog.lastReport.notificationType}`);
           }
         },
-        function () {
+        () => {
           loopList.next();
         }
       );
 
     },
-    function () {
+    () => {
       let now = new Date();
       console.log('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session + '] запуск: [' + now.toString() + ']');
       fn(listPayload);
@@ -948,7 +912,7 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
   console.log(listPayload.session)
   let percentLose = 0.75;
 
-  let startFarmListRaid = function (listPayload) {
+  let startFarmListRaid = (listPayload) => {
     //console.log(listPayload);
 
     let options = {
@@ -957,11 +921,11 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
     };
 
     httpRequest(options).then(
-      function (body) {
+      (body) => {
         //console.info('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session +'] отправлен');
         // console.log(body);
       },
-      function (err) {
+      (err) => {
         //console.error('Произошла ошибка');
         //console.log(err);
         //console.info('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session +'] отправлен');
@@ -972,14 +936,14 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
 
   };
 
-  let checkList = function (listPayload) {
+  let checkList = (listPayload) => {
     // console.log('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session +'] проверка');
 
     function start(counter, countMax, timeout, clearTimer, func, obj) {
 
       if (counter < countMax) {
 
-        setTimeout(function () {
+        setTimeout(() => {
 
           if (func) {
             func(obj, counter);
@@ -1082,7 +1046,7 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
     };
 
     httpRequest(options)
-      .then(function (body) {
+      .then( (body) => {
         let counter = 0;
         let countMax = 0;
 
@@ -1105,7 +1069,7 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
 
 
       })
-      .catch(function (err) {
+      .catch( (err) => {
         //console.log(err);
         console.log(err);
         // POST failed...
@@ -1144,7 +1108,7 @@ function getToken(callback) {
  */
 function getMap(callback) {
   getToken(
-    function (token) {
+    (token) => {
       let options = {
         method: 'GET',
         headers: {
@@ -1176,7 +1140,7 @@ function getMap(callback) {
  * @param callback
  */
 function getPlayers(callback) {
-  getMap(function (body) {
+  getMap((body) => {
     let players = _.pluck(body.response.players, 'playerId');
 
     let divineI = 1000;
@@ -1263,7 +1227,7 @@ function getMapInfo(type, token, serverDomain, timeForGame) {
     .get({
       headers: {'content-type': 'application/x-www-form-urlencoded'},
       url: 'http://' + serverDomain + '.kingdoms.com/api/external.php?action=requestApiKey&email=allin.nikita@yandex.ru&siteName=borsch&siteUrl=http://borsch-label.com&public=true'
-    }, function (error, response, body) {
+    }, (error, response, body) => {
 
       apiKey = JSON.parse(body);
       console.log('Получили токен');
@@ -1273,7 +1237,7 @@ function getMapInfo(type, token, serverDomain, timeForGame) {
         .get({
           headers: {'content-type': 'application/x-www-form-urlencoded'},
           url: 'http://' + serverDomain + '.kingdoms.com/api/external.php?action=getMapData&privateApiKey=' + apiKey.response.privateApiKey
-        }, function (error, response, body) {
+        },  (error, response, body) => {
           let toJson = JSON.parse(body);
           apiData.players = JSON.stringify(toJson.response.players);
           apiData.alliances = JSON.stringify(toJson.response.alliances);
@@ -1306,7 +1270,7 @@ function getMapInfo(type, token, serverDomain, timeForGame) {
                 },
                 url: 'http://' + serverDomain + '.kingdoms.com/api/?c=cache&a=get&' + timeForGame,
                 body: JSON.stringify(session)
-              }, function (error, response, body) {
+              },  (error, response, body) => {
                 //console.log(body);
                 let jsonBody = JSON.parse(body);
 
@@ -1416,7 +1380,7 @@ function getMapInfo(type, token, serverDomain, timeForGame) {
 
             asyncLoop(
               map.length,
-              function (loop) {
+               (loop) => {
 
                 let i = loop.iteration();
 
@@ -1464,10 +1428,10 @@ function getMapInfo(type, token, serverDomain, timeForGame) {
 
                   httpRequest(options)
                     .then(
-                      function (body) {
+                       (body) => {
                         setTimeout(loop.next, 6000);
                       },
-                      function (error) {
+                       (error) => {
                         console.log(error)
                       }
                     );
@@ -1513,12 +1477,12 @@ function getMapInfo(type, token, serverDomain, timeForGame) {
 
                   httpRequest(options)
                     .then(
-                      function (body) {
+                       (body) => {
                         console.log(body);
 
                         setTimeout(loop.next, 6000);
                       },
-                      function (error) {
+                       (error) => {
                         console.log(error)
                       }
                     );
@@ -1528,7 +1492,7 @@ function getMapInfo(type, token, serverDomain, timeForGame) {
                 }
 
               },
-              function () {
+               () => {
                 console.log('Добавление точек заверешено :)')
               }
             );
@@ -1565,9 +1529,9 @@ function autoUnitsBuild(villageId, unitsBarack, unitsStable, fixedTime, randomTi
     .then(
       (body) => {
         let location = {};
-        body.cache.forEach(function (item, i, arr) {
+        body.cache.forEach((item, i, arr) => {
           if (item.name === `Collection:Building:${villageId}`) {
-            item.data.cache.forEach(function (building, i, arr) {
+            item.data.cache.forEach( (building, i, arr) => {
               //Конюшня
               if (building.data.buildingType == "20") {
                 location.stable = building.data.locationId;
@@ -1661,7 +1625,7 @@ function asyncLoop(iterations, func, callback) {
   let index = 0;
   let done = false;
   let loop = {
-    next: function () {
+    next:  () => {
       if (done) {
         return;
       }
@@ -1676,11 +1640,11 @@ function asyncLoop(iterations, func, callback) {
       }
     },
 
-    iteration: function () {
+    iteration:  () => {
       return index - 1;
     },
 
-    break: function () {
+    break:  () => {
       done = true;
       callback();
     }
@@ -1704,7 +1668,7 @@ function addToFarmList(listMassive, villages) {
 
   asyncLoop(
     villages.length,
-    function (loop) {
+     (loop) => {
 
       let i = loop.iteration();
       if (i % 100 == 0 && i != 0) {
@@ -1737,20 +1701,20 @@ function addToFarmList(listMassive, villages) {
 
       httpRequest(options)
         .then(
-          function (body) {
+           (body) => {
             // console.log(body);
             let rand = fixedTimeGenerator(6) + randomTimeGenerator(3);
-            setTimeout(function () {
+            setTimeout( () => {
               // console.log('Рандомное время ' + i + ': ' + rand);
               loop.next();
             }, rand);
           },
-          function () {
+           () => {
 
           }
         );
     },
-    function () {
+     () => {
       // console.log('cycle addToFarmList ended')
     }
   )
@@ -1811,7 +1775,7 @@ function addToFarmList(listMassive, villages) {
  */
 
 function searchEnemy(fn, xCor, yCor, filtersParam) {
-  getPlayers(function (players) {
+  getPlayers( (players) => {
 
     let allPlayers = players;
     let sortedPlayers;
@@ -1824,7 +1788,7 @@ function searchEnemy(fn, xCor, yCor, filtersParam) {
       };
 
       if (filtersParam.players[filter].different === 'equal') {
-        allPlayers.cache.forEach(function (item, i, arr) {
+        allPlayers.cache.forEach( (item, i, arr) => {
           if (item.data[filter] == filtersParam.players[filter].value) {
             sortedPlayers.cache.push(item);
           }
@@ -1832,7 +1796,7 @@ function searchEnemy(fn, xCor, yCor, filtersParam) {
       }
 
       else if (filtersParam.players[filter].different === 'less') {
-        allPlayers.cache.forEach(function (item, i, arr) {
+        allPlayers.cache.forEach( (item, i, arr) => {
           if (parseInt(item.data[filter]) <= parseInt(filtersParam.players[filter].value)) {
             sortedPlayers.cache.push(item);
           }
@@ -1840,7 +1804,7 @@ function searchEnemy(fn, xCor, yCor, filtersParam) {
       }
 
       else if (filtersParam.players[filter].different === 'more') {
-        allPlayers.cache.forEach(function (item, i, arr) {
+        allPlayers.cache.forEach( (item, i, arr) => {
           if (parseInt(item.data[filter]) > parseInt(filtersParam.players[filter].value)) {
             //     console.log(`
             //     item.data[filter]: ${item.data[filter]}
@@ -1852,7 +1816,7 @@ function searchEnemy(fn, xCor, yCor, filtersParam) {
         });
       }
       else if (filtersParam.players[filter].different === 'between') {
-        allPlayers.cache.forEach(function (item, i, arr) {
+        allPlayers.cache.forEach( (item, i, arr) => {
           if (
             parseInt(item.data[filter]) > parseInt(filtersParam.players[filter].valueBottom) &&
             parseInt(item.data[filter]) <= parseInt(filtersParam.players[filter].valueTop)
@@ -1895,7 +1859,7 @@ function searchEnemy(fn, xCor, yCor, filtersParam) {
       };
 
       if (filtersParam.villages[filter].different === 'equal') {
-        sortedPlayers.cache.forEach(function (item, i, arr) {
+        sortedPlayers.cache.forEach( (item, i, arr) => {
           for (let j = 0; j < item.data.villages.length; j++) {
             let obj = item.data.villages[j];
             if (obj[filter] == filtersParam.villages[filter].value) {
@@ -1906,7 +1870,7 @@ function searchEnemy(fn, xCor, yCor, filtersParam) {
       }
 
       else if (filtersParam.villages[filter].different === 'less') {
-        sortedPlayers.cache.forEach(function (item, i, arr) {
+        sortedPlayers.cache.forEach( (item, i, arr) => {
           for (let j = 0; j < item.data.villages.length; j++) {
             let obj = item.data.villages[j];
             if (parseInt(obj[filter]) < parseInt(filtersParam.villages[filter].value)) {
@@ -1917,10 +1881,24 @@ function searchEnemy(fn, xCor, yCor, filtersParam) {
       }
 
       else if (filtersParam.villages[filter].different === 'more') {
-        sortedPlayers.cache.forEach(function (item, i, arr) {
+        sortedPlayers.cache.forEach( (item, i, arr) => {
           for (let j = 0; j < item.data.villages.length; j++) {
             let obj = item.data.villages[j];
             if (parseInt(obj[filter]) > parseInt(filtersParam.villages[filter].value)) {
+              sortedVillages.cache.push(obj);
+            }
+          }
+        });
+      }
+
+      else if (filtersParam.villages[filter].different === 'between') {
+        sortedPlayers.cache.forEach( (item, i, arr) => {
+          for (let j = 0; j < item.data.villages.length; j++) {
+            let obj = item.data.villages[j];
+            if (
+              parseInt(obj[filter]) >  parseInt(filtersParam.villages[filter].valueBottom) &&
+              parseInt(obj[filter]) <= parseInt(filtersParam.villages[filter].valueTop)
+            ) {
               sortedVillages.cache.push(obj);
             }
           }
@@ -1934,7 +1912,7 @@ function searchEnemy(fn, xCor, yCor, filtersParam) {
     // console.log(hackPlayer.cache[0].data.villages[0])
 
     let villages = hackPlayer.cache[0].data.villages.cache;
-    let sortedVillagesByCoor = _.sortBy(villages, function (villages) {
+    let sortedVillagesByCoor = _.sortBy(villages,  (villages) => {
       let len = Math.sqrt(Math.pow(villages.coordinates.x - xCor, 2) + Math.pow(villages.coordinates.y - yCor, 2));
       return len;
     });
@@ -1954,7 +1932,7 @@ function searchEnemy(fn, xCor, yCor, filtersParam) {
  */
 
 function farmListCreator(name, xCor, yCor, filter) {
-  searchEnemy(function (villages) {
+  searchEnemy( (villages) => {
 
     console.log('farmListCreator')
     let listLength = Math.ceil(villages.length / 100);
@@ -1964,7 +1942,7 @@ function farmListCreator(name, xCor, yCor, filter) {
     // listLength = 3;
     asyncLoop(
       listLength,
-      function (loop) {
+       (loop) => {
         let i = loop.iteration();
 
         let listObj = {
@@ -1988,7 +1966,7 @@ function farmListCreator(name, xCor, yCor, filter) {
 
         httpRequest(options)
           .then(
-            function (body) {
+             (body) => {
               if (body && body.error) {
                 console.log(body.error);
               }
@@ -2005,12 +1983,12 @@ function farmListCreator(name, xCor, yCor, filter) {
               loop.next();
 
             },
-            function (error) {
+             (error) => {
               // console.log(error)
             }
           );
       },
-      function () {
+       () => {
         // console.log('cycle farmListCreator ended')
       }
     );
@@ -2032,10 +2010,10 @@ function heroChecker(villages, count, session, villageId) {
 
   asyncLoop(
     count,
-    function (loopHero) {
+     (loopHero) => {
       asyncLoop(
         villages.length,
-        function (loop) {
+         (loop) => {
           let i = loop.iteration();
 
           /*
@@ -2084,7 +2062,7 @@ function heroChecker(villages, count, session, villageId) {
 
 
           httpRequest(options).then(
-            function (body) {
+             (body) => {
               if (body && body.response && body.response.errors) {
                 console.log(body.response.errors);
               }
@@ -2093,21 +2071,21 @@ function heroChecker(villages, count, session, villageId) {
               setTimeout(loop.next, rand);
               //console.info('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session +'] отправлен');
             },
-            function (err) {
+            (err) => {
               console.error('Произошла ошибка');
               console.log(err);
               //console.info('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session +'] отправлен');
             }
           );
         },
-        function () {
+         () => {
           // console.log('cycle heroChecker is end')
           let rand = fixedTimeGenerator(60) + randomTimeGenerator(30);
           setTimeout(loopHero.next, rand)
         }
       )
     },
-    function () {
+     () => {
       console.log('heroChecker is end')
     }
   )
@@ -2124,10 +2102,10 @@ function heroChecker(villages, count, session, villageId) {
 
 function attackList(filter, xCor, yCor, paramsAttack) {
   //'>100', '33', '-28', deathsFilter
-  searchEnemy(function (villages) {
+  searchEnemy( (villages) => {
     asyncLoop(
       villages.length,
-      function (loop) {
+      (loop) => {
         let i = loop.iteration();
 
         let requestPayload = {
@@ -2194,7 +2172,7 @@ function attackList(filter, xCor, yCor, paramsAttack) {
         };
 
         httpRequest(lastReportPayload).then(
-          function (body) {
+          (body) => {
             console.log(body);
             let rand = fixedTimeGenerator(6) + randomTimeGenerator(3);
 
@@ -2291,7 +2269,7 @@ let repeatFn = function(fn){
  */
 
 // attackList(withoutKingdomsFilter, 53, -25);
-attackList(Ducheeze, 4, 27);
+// attackList(Ducheeze, 4, 27);
 
 /**
  * Автобилд войнов
@@ -2303,13 +2281,18 @@ attackList(Ducheeze, 4, 27);
  */
 // farmListCreator('Bandits', '13', '-40', Bandits);
 // farmListCreator('загул-', '53', '-25', withoutKingdomsFilter);
-// farmListCreator('>50', '4', '27', deathsFilter);
+farmListCreator('60~150 ', '4', '27', deathsFilter);
 // farmListCreator('FF', '53', '-25', kingdomsFilters);
 
 /**
  * Фармлисты
  */
-// autoFarmList(900, 300, listPayload.malaoban ,      'com2', true);
+
+// setTimeout(
+// autoFarmList(1800, 600, listPayload.malaoban  ,      'com2', true);
+// autoFarmList(1800, 600, listPayload.malaoban2 ,      'com2', true);
+// autoFarmList(1800, 600, listPayload.malaoban3 ,      'com2', true);
+// );
 // autoFarmList(900, 300, listPayload.Wahlberg,       'com1x3', true);
 // autoFarmList(900, 300, listPayload.Wahlberg2,      'com1x3', true);
 // autoFarmList(900, 300, listPayload.Wahlberg3,      'com1x3', true);
@@ -2320,7 +2303,8 @@ attackList(Ducheeze, 4, 27);
 // autoFarmList(900, 300, listPayload.King,              'com1x3', true);
 // autoFarmList(1800, 600, listPayload.Ira,              'com1x3', true);
 
-// autoExtendLists(listPayload.malaoban ,      'com2', deathsFilter);
+// autoExtendLists(listPayload.malaoban, deathsFilter, {x: 4, y: 27});
+// autoExtendLists(listPayload.malaoban2 ,      'com2', deathsFilter);
 // autoExtendLists(listPayload.Wahlberg ,       deathsFilter);
 // autoExtendLists(listPayload.Wahlberg2 ,       deathsFilter);
 // autoExtendLists(listPayload.Krolik ,         deathsFilter);
