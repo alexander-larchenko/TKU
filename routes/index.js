@@ -27,10 +27,12 @@ const debug = 1;
 // debug - 3, идут полные логи
 
 let listPayload = {
-  malaoban1: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[5412, 5413, 5414, 5415, 5416, 5417],"villageId":537772036},"session":"0aae0f1eb3877023ad4f", "server": "com2"},
-  malaoban2:{"controller":"troops","action":"startFarmListRaid","params":{"listIds":[5412, 5413, 5414, 5415, 5416, 5417],"villageId":537739268},"session":"0aae0f1eb3877023ad4f", "server": "com2"},
-  malaoban3:{"controller":"troops","action":"startFarmListRaid","params":{"listIds":[5717, 5718, 5719, 5720, 5721, 5722],"villageId":537772036},"session":"0aae0f1eb3877023ad4f", "server": "com2"},
-  malaoban4:{"controller":"troops","action":"startFarmListRaid","params":{"listIds":[5717, 5718, 5719, 5720, 5721, 5722],"villageId":537739268},"session":"0aae0f1eb3877023ad4f", "server": "com2"},
+  malaoban1:{"controller":"troops","action":"startFarmListRaid","params":{"listIds":[5412, 5413],"villageId":537772036},"session":"0aae0f1eb3877023ad4f", "server": "com2"},//exploit
+  malaoban2:{"controller":"troops","action":"startFarmListRaid","params":{"listIds":[5414, 5415],"villageId":537739268},"session":"0aae0f1eb3877023ad4f", "server": "com2"},//script
+  malaoban3:{"controller":"troops","action":"startFarmListRaid","params":{"listIds":[5717, 5718, 5719, 5720],"villageId":537772036},"session":"0aae0f1eb3877023ad4f", "server": "com2"},//exploit
+  malaoban4:{"controller":"troops","action":"startFarmListRaid","params":{"listIds":[5717, 5718, 5719, 5720],"villageId":537739268},"session":"0aae0f1eb3877023ad4f", "server": "com2"},//script
+  malaoban5:{"controller":"troops","action":"startFarmListRaid","params":{"listIds":[5413],"villageId":537542664},"session":"0aae0f1eb3877023ad4f", "server": "com2"},//Baitcoin
+  malaoban6:{"controller":"troops","action":"startFarmListRaid","params":{"listIds":[5412],"villageId":537640972},"session":"0aae0f1eb3877023ad4f", "server": "com2"},//Trader 322
 };
 
 let cookie = userDate.cookie;
@@ -2243,7 +2245,8 @@ let repeatFn = function(fn){
  */
 // farmListCreator('Bandits', '13', '-40', Bandits);
 // farmListCreator('загул-', '53', '-25', withoutKingdomsFilter);
-// farmListCreator('150+ ', '4', '27', deathsFilter);
+// farmListCreator('60-150/ ', '4', '27', deathsFilterFrom60To150);
+// farmListCreator('150+/ ', '4', '27', deathsFilterFrom150);
 // farmListCreator('FF', '53', '-25', kingdomsFilters);
 
 /**
@@ -2251,10 +2254,14 @@ let repeatFn = function(fn){
  */
 
 // setTimeout(
-// autoFarmList(1800, 600, listPayload.malaoban1  ,      'com2', true);
-// autoFarmList(1800, 600, listPayload.malaoban2 ,      'com2', true);
-// autoFarmList(1800, 600, listPayload.malaoban3 ,      'com2', true);
-// autoFarmList(1800, 600, listPayload.malaoban4 ,      'com2', true);
+autoFarmList(1800, 600, listPayload.malaoban1 ,      'com2', true);
+setTimeout(() => {
+  autoFarmList(1800, 600, listPayload.malaoban2 ,      'com2', true);
+}, 7200);
+autoFarmList(1800, 600, listPayload.malaoban3 ,      'com2', true);
+autoFarmList(1800, 600, listPayload.malaoban4 ,      'com2', true);
+autoFarmList(1800, 600, listPayload.malaoban5 ,      'com2', true);
+autoFarmList(1800, 600, listPayload.malaoban6 ,      'com2', true);
 // );
 // autoFarmList(900, 300, listPayload.Wahlberg,       'com1x3', true);
 // autoFarmList(900, 300, listPayload.Wahlberg2,      'com1x3', true);
