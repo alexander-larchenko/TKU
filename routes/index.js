@@ -27,9 +27,10 @@ const debug = 1;
 // debug - 3, идут полные логи
 
 let listPayload = {
-  malaoban: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[4291, 4292],"villageId":537772036},"session":"c9d9fd3d4031dc525158", "server": "com2"},
-  malaoban2:{"controller":"troops","action":"startFarmListRaid","params":{"listIds":[4290],"villageId":537739268},"session":"c9d9fd3d4031dc525158", "server": "com2"},
-  malaoban3:{"controller":"troops","action":"startFarmListRaid","params":{"listIds":[5205],"villageId":537739268},"session":"c9d9fd3d4031dc525158", "server": "com2"},
+  malaoban1: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[5412, 5413, 5414, 5415, 5416, 5417],"villageId":537772036},"session":"0aae0f1eb3877023ad4f", "server": "com2"},
+  malaoban2:{"controller":"troops","action":"startFarmListRaid","params":{"listIds":[5412, 5413, 5414, 5415, 5416, 5417],"villageId":537739268},"session":"0aae0f1eb3877023ad4f", "server": "com2"},
+  malaoban3:{"controller":"troops","action":"startFarmListRaid","params":{"listIds":[5717, 5718, 5719, 5720, 5721, 5722],"villageId":537772036},"session":"0aae0f1eb3877023ad4f", "server": "com2"},
+  malaoban4:{"controller":"troops","action":"startFarmListRaid","params":{"listIds":[5717, 5718, 5719, 5720, 5721, 5722],"villageId":537739268},"session":"0aae0f1eb3877023ad4f", "server": "com2"},
 };
 
 let cookie = userDate.cookie;
@@ -53,7 +54,7 @@ let serverDomain = userDate.serverDomain;
  * Примеры фильров
  * @type {{players: {active: {different: string, value: string}}, villages: {population: {different: string, value: string}}}}
  */
-let deathsFilter = {
+let deathsFilterFrom60To150 = {
   players: {
     active: {
       different: "equal",
@@ -62,9 +63,22 @@ let deathsFilter = {
   },
   villages: {
     population: {
-      different: "between",
-      valueBottom: 60,
-      valueTop: 160
+      different: "more",
+      value: "150"
+    }
+  }
+};
+let deathsFilterFrom150 = {
+  players: {
+    active: {
+      different: "equal",
+      value: "0"
+    }
+  },
+  villages: {
+    population: {
+      different: "more",
+      value: "150"
     }
   }
 };
@@ -908,8 +922,7 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
   //for (let i = 0; i < listPayload.params.listIds.length; i++) {
   //  let obj = "Collection:FarmListEntry:" + listPayload.params.listIds[i];
   //  lastDataFromList.params.names.push(obj);
-  //}
-  console.log(listPayload.session)
+  //} 
   let percentLose = 0.75;
 
   let startFarmListRaid = (listPayload) => {
@@ -922,7 +935,7 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
 
     httpRequest(options).then(
       (body) => {
-        //console.info('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session +'] отправлен');
+        console.info('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session +'] отправлен');
         // console.log(body);
       },
       (err) => {
@@ -933,147 +946,96 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
       }
     );
 
-
   };
 
   let checkList = (listPayload) => {
     // console.log('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session +'] проверка');
 
-    function start(counter, countMax, timeout, clearTimer, func, obj) {
-
-      if (counter < countMax) {
-
-        setTimeout(() => {
-
-          if (func) {
-            func(obj, counter);
-          }
-
-          counter++;
-          start(counter, countMax, timeout, clearTimer, func, obj);
-
-        }, timeout);
-
-      } else {
-
-//                console.log('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session +'] проверка закончена');
-
-        let now = new Date();
-        let rand = fixedTimeGenerator(fixedTime) + randomTimeGenerator(randomTime);
-
-        //console.log(now+rand);
-
-        let tempTime = now.valueOf() + rand;
-        let dateNext = new Date(tempTime);
-        //запуск сразу
-        if (init) {
-
-          if (debug === 2 || debug === 3) {
-            //console.log(listPayload)
-          }
-
-          let checkBodyObj = {
-            "controller": "cache",
-            "action": "get",
-            "params": {
-              names: []
-            },
-            "session": listPayload.session
-          };
+    function start() {
 
 
-          console.log(listPayload.params.listIds)
-          for (let i = 0; i < listPayload.params.listIds.length; i++) {
-            let list = listPayload.params.listIds[i];
-            checkBodyObj.params.names.push("Collection:FarmListEntry:" + list);
-          };
+      let now = new Date();
+      let rand = fixedTimeGenerator(fixedTime) + randomTimeGenerator(randomTime);
 
-          let options = {
-            method: 'POST',
-            headers: {
-              'content-type': 'application/x-www-form-urlencoded'
-            },
-            json: true,
-            body: checkBodyObj,
-            serverDomain: serverDomain
-          };
+      //console.log(now+rand);
 
-          //console.log('Сформировали массив фарм листов');
+      let tempTime = now.valueOf() + rand;
+      let dateNext = new Date(tempTime);
+      //запуск сразу
+      if (init) {
 
-          httpRequest(options)
-            .then(
-              (body) => {
-                console.log(listPayload);
-                if (body.errors) {
-                  // console.log(body);
-                } else {
-                  //TODO: add callback on checkOnStatus
-                  // callback(body);
-                  checkOnStatus(body, listPayload, now, startFarmListRaid.bind(null, listPayload), serverDomain);
-                }
+        if (debug === 2 || debug === 3) {
+          //console.log(listPayload)
+        }
 
-              },
-              (error) => {
-                console.log(error);
+        let checkBodyObj = {
+          "controller": "cache",
+          "action": "get",
+          "params": {
+            names: []
+          },
+          "session": listPayload.session
+        };
+
+
+        console.log(listPayload.params.listIds)
+        for (let i = 0; i < listPayload.params.listIds.length; i++) {
+          let list = listPayload.params.listIds[i];
+          checkBodyObj.params.names.push("Collection:FarmListEntry:" + list);
+        };
+
+        let options = {
+          method: 'POST',
+          headers: {
+            'content-type': 'application/x-www-form-urlencoded'
+          },
+          json: true,
+          body: checkBodyObj,
+          serverDomain: serverDomain
+        };
+
+        //console.log('Сформировали массив фарм листов');
+
+        httpRequest(options)
+          .then(
+            (body) => {
+              console.log(listPayload);
+              if (!body.cache) {
+                console.log(body);
+              } else {
+                //TODO: add callback on checkOnStatus
+                // callback(body);
+                checkOnStatus(body, listPayload, now, startFarmListRaid.bind(null, listPayload), serverDomain);
+
+                setTimeout(() => {
+
+                  console.log(rand);
+                  
+                  start();
+
+                }, rand);
+
               }
-            )
-        }
 
-        console.log('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session + '] следующий запуск: [' + dateNext.toString() + ']');
-        init = true;
-        setTimeout(checkList.bind(null, listPayload), rand);
-
+            },
+            (error) => {
+              console.log(error);
+            }
+          )
       }
+
+      console.log('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session + '] следующий запуск: [' + dateNext.toString() + ']');
+      init = true;
+      
+
     };
 
-    function listTimer(body, i) {
-      let j = 1;
-      let diffI = 0;
-      let sum = body.cache[1].data.cache.length;
-
-      for (let k = 1; k < body.cache.length; k++) {
-        if (i >= sum) {
-          diffI = sum;
-          sum += body.cache[k].data.cache.length;
-          j++;
-        }
-      }
-    };
-
-    let options = {
-      serverDomain: serverDomain,
-      body: lastDataFromList
-    };
-
-    httpRequest(options)
-      .then( (body) => {
-        let counter = 0;
-        let countMax = 0;
-
-        if (body && body.error) {
-          console.log(body.error.message + " " + listPayload.session);
-        }
-
-        for (let i = 0; i < body.cache.length; i++) {
-          if (body.cache[i].name === "Kingdom:undefined") {
-            continue;
-          }
-          countMax += body.cache[i].data.cache.length;
-        }
-
-        //console.log(countMax);
-
-        let listTimerObj = 0;
-
-        listTimerObj = start(counter, countMax, 1000, listTimerObj, listTimer, body);
-
-
-      })
-      .catch( (err) => {
-        //console.log(err);
-        console.log(err);
-        // POST failed...
-      });
+    // let options = {
+    //   serverDomain: serverDomain,
+    //   body: lastDataFromList
+    // };
+    //
+    start(); 
 
   };
 
@@ -2281,7 +2243,7 @@ let repeatFn = function(fn){
  */
 // farmListCreator('Bandits', '13', '-40', Bandits);
 // farmListCreator('загул-', '53', '-25', withoutKingdomsFilter);
-farmListCreator('60~150 ', '4', '27', deathsFilter);
+// farmListCreator('150+ ', '4', '27', deathsFilter);
 // farmListCreator('FF', '53', '-25', kingdomsFilters);
 
 /**
@@ -2289,9 +2251,10 @@ farmListCreator('60~150 ', '4', '27', deathsFilter);
  */
 
 // setTimeout(
-// autoFarmList(1800, 600, listPayload.malaoban  ,      'com2', true);
+// autoFarmList(1800, 600, listPayload.malaoban1  ,      'com2', true);
 // autoFarmList(1800, 600, listPayload.malaoban2 ,      'com2', true);
 // autoFarmList(1800, 600, listPayload.malaoban3 ,      'com2', true);
+// autoFarmList(1800, 600, listPayload.malaoban4 ,      'com2', true);
 // );
 // autoFarmList(900, 300, listPayload.Wahlberg,       'com1x3', true);
 // autoFarmList(900, 300, listPayload.Wahlberg2,      'com1x3', true);
@@ -2303,8 +2266,9 @@ farmListCreator('60~150 ', '4', '27', deathsFilter);
 // autoFarmList(900, 300, listPayload.King,              'com1x3', true);
 // autoFarmList(1800, 600, listPayload.Ira,              'com1x3', true);
 
-// autoExtendLists(listPayload.malaoban, deathsFilter, {x: 4, y: 27});
-// autoExtendLists(listPayload.malaoban2 ,      'com2', deathsFilter);
+// autoExtendLists(listPayload.malaoban1, deathsFilterFrom60To150, {x: 4, y: 27});
+// autoExtendLists(listPayload.malaoban3, deathsFilterFrom150, {x: 4, y: 27});
+// autoExtendLists(listPayload.malaoban3 ,      'com2', deathsFilter);
 // autoExtendLists(listPayload.Wahlberg ,       deathsFilter);
 // autoExtendLists(listPayload.Wahlberg2 ,       deathsFilter);
 // autoExtendLists(listPayload.Krolik ,         deathsFilter);
