@@ -27,12 +27,25 @@ const debug = 1;
 // debug - 3, идут полные логи
 
 let listPayload = {
-  malaoban1:{"controller":"troops","action":"startFarmListRaid","params":{"listIds":[5412, 5413],"villageId":537772036},"session":"0aae0f1eb3877023ad4f", "server": "com2"},//exploit
-  malaoban2:{"controller":"troops","action":"startFarmListRaid","params":{"listIds":[5414, 5415],"villageId":537739268},"session":"0aae0f1eb3877023ad4f", "server": "com2"},//script
-  malaoban3:{"controller":"troops","action":"startFarmListRaid","params":{"listIds":[5717, 5718, 5719, 5720],"villageId":537772036},"session":"0aae0f1eb3877023ad4f", "server": "com2"},//exploit
-  malaoban4:{"controller":"troops","action":"startFarmListRaid","params":{"listIds":[5717, 5718, 5719, 5720],"villageId":537739268},"session":"0aae0f1eb3877023ad4f", "server": "com2"},//script
-  malaoban5:{"controller":"troops","action":"startFarmListRaid","params":{"listIds":[5413],"villageId":537542664},"session":"0aae0f1eb3877023ad4f", "server": "com2"},//Baitcoin
-  malaoban6:{"controller":"troops","action":"startFarmListRaid","params":{"listIds":[5412],"villageId":537640972},"session":"0aae0f1eb3877023ad4f", "server": "com2"},//Trader 322
+  malaoban1:    {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[5412, 5413],"villageId":537772036},"session":"65a8435804ab5bbe97df", "server": "com2"},//exploit
+  malaoban2:    {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[5414, 5415],"villageId":537739268},"session":"65a8435804ab5bbe97df", "server": "com2"},//script
+  malaoban3:    {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6457, 6458, 6459, 6460, 6461],"villageId":537772036},"session":"65a8435804ab5bbe97df", "server": "com2"},//exploit
+  malaoban4:    {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6457, 6458, 6459, 6460, 6461],"villageId":537739268},"session":"65a8435804ab5bbe97df", "server": "com2"},//script
+  malaoban6:    {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[5412, 5413],"villageId":537640972},"session":"65a8435804ab5bbe97df", "server": "com2"},//Trader 322
+  malaoban7:    {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6457, 6458, 6459, 6460, 6461],"villageId":538198021},"session":"65a8435804ab5bbe97df", "server": "com2"},//script
+  krolik:       {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6296, 6297, 6298, 6299],"villageId":536461368},"session":"b17b9370921a59d7357c", "server": "com2x3"},//Trader 322
+
+  wahlbergExp:    {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[5971, 5972, 5973, 5974, 5968, 5969, 5970],"villageId":537182225},"session":"22b71c4b25b4ce4c1118", "server": "com2x3"},//Trader 322
+  wahlbergScript: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[5971, 5972, 5973, 5974],"villageId":537051161},"session":"22b71c4b25b4ce4c1118", "server": "com2x3"},//Trader 322
+  wahlbergKop1:   {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[5975, 5976, 5971, 5972, 6457, 6458, 6459, 6460],"villageId":537051157},"session":"22b71c4b25b4ce4c1118", "server": "com2x3"},//Trader 322
+  wahlbergKop2:   {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[5975, 5976, 5971, 5972],"villageId":537018392},"session":"22b71c4b25b4ce4c1118", "server": "com2x3"},//Trader 322
+  wahlbergKop3:   {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[5975, 5976, 5971, 5972],"villageId":537018391},"session":"22b71c4b25b4ce4c1118", "server": "com2x3"},//Trader 322
+  wahlbergFig:    {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[5975, 5976, 5971, 5972],"villageId":537509919},"session":"22b71c4b25b4ce4c1118", "server": "com2x3"},//Trader 322
+  wahlbergFeed:   {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[3404],"villageId":537182225},"session":"22b71c4b25b4ce4c1118", "server": "com2x3"},//Trader 322
+
+  lolko:        {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[5839, 5840],"villageId":537215005},"session":"5a558ceb985f0e5bf984", "server": "com2x3"},//
+  julia:        {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[5987, 5988, 5989, 5990],"villageId":537051159},"session":"a6f45fbc34160f4f6e00", "server": "com2x3"},//
+
 };
 
 let cookie = userDate.cookie;
@@ -58,15 +71,29 @@ let serverDomain = userDate.serverDomain;
  */
 let deathsFilterFrom60To150 = {
   players: {
+    hasNoobProtection: {
+      different: "equal",
+      value: false,
+    },
+    kingdomId: {
+      different: "equal",
+      value: "0"
+    },
     active: {
       different: "equal",
       value: "0"
+    },
+    population: {
+      different: "between",
+      valueTop: "149",
+      valueBottom: "40",
     }
   },
   villages: {
     population: {
-      different: "more",
-      value: "150"
+      different: "between",
+      valueTop: "149",
+      valueBottom: "60",
     }
   }
 };
@@ -75,7 +102,15 @@ let deathsFilterFrom150 = {
     active: {
       different: "equal",
       value: "0"
-    }
+    },
+    hasNoobProtection: {
+      different: "equal",
+      value: false,
+    },
+    kingdomId: {
+      different: "equal",
+      value: "0"
+    },
   },
   villages: {
     population: {
@@ -84,8 +119,26 @@ let deathsFilterFrom150 = {
     }
   }
 };
+let deathsFilter = {
+  players: {
+    active: {
+      different: "equal",
+      value: "0"
+    }
+  },
+  villages: {
+    population: {
+      different: "more",
+      value: "1"
+    }
+  }
+};
 let withoutKingdomsFilter = {
   players: {
+    hasNoobProtection: {
+      different: "equal",
+      value: false,
+    },
     kingdomId: {
       different: "equal",
       value: "0"
@@ -93,12 +146,41 @@ let withoutKingdomsFilter = {
     active: {
       different: "equal",
       value: "1"
+    },
+    population: {
+      different: "between",
+      valueTop: "199",
+      valueBottom: "40",
     }
   },
   villages: {
     population: {
+      different: "between",
+      valueTop: "199",
+      valueBottom: "40",
+    }
+  }
+};
+
+let withoutKingdomsFilter2 = {
+  players: {
+    hasNoobProtection: {
+      different: "equal",
+      value: false,
+    },
+    kingdomId: {
+      different: "equal",
+      value: "0"
+    },
+    active: {
+      different: "equal",
+      value: "1"
+    },
+  },
+  villages: {
+    population: {
       different: "more",
-      value: "100"
+      value: "200",
     }
   }
 };
@@ -159,6 +241,175 @@ let Ducheeze = {
     kingdomId: {
       different: "equal",
       value: "78"
+    },
+    active: {
+      different: "equal",
+      value: "1"
+    }
+  },
+  villages: {
+    population: {
+      different: "more",
+      value: "1"
+    }
+  }
+};
+
+
+let BS = {
+  players: {
+    kingdomId: {
+      different: "equal",
+      value: "12"
+    },
+    active: {
+      different: "equal",
+      value: "1"
+    }
+  },
+  villages: {
+    population: {
+      different: "more",
+      value: "1"
+    }
+  }
+};
+let GoD = {
+  players: {
+    kingdomId: {
+      different: "equal",
+      value: "42"
+    },
+    active: {
+      different: "equal",
+      value: "1"
+    }
+  },
+  villages: {
+    population: {
+      different: "more",
+      value: "1"
+    }
+  }
+};
+let High5Inc = {
+  players: {
+    kingdomId: {
+      different: "equal",
+      value: "167"
+    },
+    active: {
+      different: "equal",
+      value: "1"
+    }
+  },
+  villages: {
+    population: {
+      different: "more",
+      value: "1"
+    }
+  }
+};
+let BSBS = {
+  players: {
+    kingdomId: {
+      different: "equal",
+      value: "269"
+    },
+    active: {
+      different: "equal",
+      value: "1"
+    }
+  },
+  villages: {
+    population: {
+      different: "more",
+      value: "1"
+    }
+  }
+};
+let Kelt = {
+  players: {
+    kingdomId: {
+      different: "equal",
+      value: "179"
+    },
+    active: {
+      different: "equal",
+      value: "1"
+    }
+  },
+  villages: {
+    population: {
+      different: "more",
+      value: "1"
+    }
+  }
+};
+
+let Happiness = {
+  players: {
+    kingdomId: {
+      different: "equal",
+      value: "92"
+    },
+    active: {
+      different: "equal",
+      value: "1"
+    }
+  },
+  villages: {
+    population: {
+      different: "more",
+      value: "1"
+    }
+  }
+};
+
+let Aero = {
+  players: {
+    kingdomId: {
+      different: "equal",
+      value: "28"
+    },
+    active: {
+      different: "equal",
+      value: "1"
+    }
+  },
+  villages: {
+    population: {
+      different: "more",
+      value: "1"
+    }
+  }
+};
+
+let Resolute = {
+  players: {
+    kingdomId: {
+      different: "equal",
+      value: "211"
+    },
+    active: {
+      different: "equal",
+      value: "1"
+    }
+  },
+  villages: {
+    population: {
+      different: "more",
+      value: "1"
+    }
+  }
+};
+
+
+let GF = {
+  players: {
+    kingdomId: {
+      different: "equal",
+      value: "6"
     },
     active: {
       different: "equal",
@@ -251,7 +502,7 @@ function randomTimeGenerator(seconds) {
 function setHttpHeaders(serverDomain, cookie, contentLength) {
 
   return {
-    'Content-Type': 'application/x-www-form-urlencoded',
+    'Content-Type': 'application/json;charset=UTF-8',
     'Cookie': cookie,
     'Host': serverDomain + '.kingdoms.com',
     'Origin': 'http://' + serverDomain + '.kingdoms.com',
@@ -269,11 +520,13 @@ function setHttpHeaders(serverDomain, cookie, contentLength) {
 function httpRequest(opt) {
   let timeForGame = 't' + Date.now();
 
+
+  //TODO: разобраться с тем нужно ли body или как
   let options = {
     headers: setHttpHeaders(opt.serverDomain, opt.cookie || cookie, JSON.stringify(opt.body).length),
     method: opt.method || 'GET',
     uri: `http://${opt.serverDomain}.kingdoms.com/api/?c=${opt.body.controller}&a=${opt.body.action}&${timeForGame}`,
-    body: JSON.stringify(opt.body),
+    body: opt.body,
     json: true // Automatically stringifies the body to JSON
   };
 
@@ -317,6 +570,7 @@ function autoExtendLists(playerFarmList, filter, coor) {
     .then(
       (farmListEntry) => {
         console.log(playerFarmList.session)
+        console.log(farmListEntry)
         asyncLoop(
           farmListEntry.cache && farmListEntry.cache.length || 0,
           (loop)  => {
@@ -1164,11 +1418,12 @@ function getPlayers(callback) {
           cache: []
         };
 
+        console.log(bodyAll)
+
         for (let i = 0; i < bodyAll.length; i++) {
           unionCache.cache = [...unionCache.cache, ...bodyAll[i].cache];
         }
         
-        console.log(unionCache)
 
         callback(unionCache);
       }
@@ -1202,6 +1457,9 @@ function getMapInfo(type, token, serverDomain, timeForGame) {
           headers: {'content-type': 'application/x-www-form-urlencoded'},
           url: 'http://' + serverDomain + '.kingdoms.com/api/external.php?action=getMapData&privateApiKey=' + apiKey.response.privateApiKey
         },  (error, response, body) => {
+          //TODO: холишит блять
+          //Переделай, стыдно же людям такое показывать. 
+          console.log('получили данные с опенапи')
           let toJson = JSON.parse(body);
           apiData.players = JSON.stringify(toJson.response.players);
           apiData.alliances = JSON.stringify(toJson.response.alliances);
@@ -1353,6 +1611,7 @@ function getMapInfo(type, token, serverDomain, timeForGame) {
                 if (obj.resType == '3339' && obj.oasis == 0 && obj.kingdomId == 0) {
 
                   //9ka добавлена
+                  console.log('9ka')
 
                   let listObj = {
                     "controller": "map",
@@ -1362,18 +1621,18 @@ function getMapInfo(type, token, serverDomain, timeForGame) {
                         {
                           "owner": 1,
                           "type": 3,
-                          "color": 6,
+                          "color": 3,
                           "editType": 3,
-                          "ownerId": 2338,
+                          "ownerId": 389,
                           "targetId": obj.id
                         }
                       ],
                       "fieldMessage": {
                         "text": "",
-                        "type": 4,
-                        "duration": 0,
+                        "type": 5,
+                        "duration": 12,
                         "cellId": obj.id,
-                        "targetId": 31
+                        "targetId": 389
                       }
                     },
                     "session": token
@@ -1382,18 +1641,18 @@ function getMapInfo(type, token, serverDomain, timeForGame) {
                   let options = {
                     method: 'POST',
                     headers: {
-                      'content-type': 'application/x-www-form-urlencoded'
+                      'content-type': 'application/json;charset=UTF-8'
                     },
                     serverDomain: serverDomain,
                     json: true,
                     body: listObj
                   };
 
-
                   httpRequest(options)
                     .then(
                        (body) => {
-                        setTimeout(loop.next, 6000);
+                         console.log(body)
+                        setTimeout(loop.next, 10);
                       },
                        (error) => {
                         console.log(error)
@@ -1402,6 +1661,7 @@ function getMapInfo(type, token, serverDomain, timeForGame) {
 
                 } else if (obj.resType == '11115' && obj.oasis == 0 && obj.kingdomId == 0) {
 
+                  console.log('15ka')
 
                   //15ka добавлена
                   let listObj = {
@@ -1414,7 +1674,7 @@ function getMapInfo(type, token, serverDomain, timeForGame) {
                           "type": 3,
                           "color": 10,
                           "editType": 3,
-                          "ownerId": 2338,
+                          "ownerId": 389,
                           "targetId": obj.id
                         }
                       ],
@@ -1423,7 +1683,7 @@ function getMapInfo(type, token, serverDomain, timeForGame) {
                         "type": 5,
                         "duration": 12,
                         "cellId": obj.id,
-                        "targetId": 31
+                        "targetId": 389
                       }
                     },
                     "session": token
@@ -1432,7 +1692,7 @@ function getMapInfo(type, token, serverDomain, timeForGame) {
                   let options = {
                     method: 'POST',
                     headers: {
-                      'content-type': 'application/x-www-form-urlencoded'
+                      'content-type': 'application/json;charset=UTF-8'
                     },
                     serverDomain: serverDomain,
                     json: true,
@@ -1443,8 +1703,7 @@ function getMapInfo(type, token, serverDomain, timeForGame) {
                     .then(
                        (body) => {
                         console.log(body);
-
-                        setTimeout(loop.next, 6000);
+                        setTimeout(loop.next, 10);
                       },
                        (error) => {
                         console.log(error)
@@ -1859,6 +2118,11 @@ function searchEnemy(fn, xCor, yCor, filtersParam) {
         sortedPlayers.cache.forEach( (item, i, arr) => {
           for (let j = 0; j < item.data.villages.length; j++) {
             let obj = item.data.villages[j];
+            console.log(
+              parseInt(obj[filter]) >  parseInt(filtersParam.villages[filter].valueBottom) &&
+              parseInt(obj[filter]) <= parseInt(filtersParam.villages[filter].valueTop)
+            )
+
             if (
               parseInt(obj[filter]) >  parseInt(filtersParam.villages[filter].valueBottom) &&
               parseInt(obj[filter]) <= parseInt(filtersParam.villages[filter].valueTop)
@@ -1997,8 +2261,8 @@ function heroChecker(villages, count, session, villageId) {
                 "units": {
                   "1": 0,
                   "2": 0,
-                  "3": 1,
-                  "4": 0,
+                  "3": 0,
+                  "4": 1,
                   "5": 0,
                   "6": 0,
                   "7": 0,
@@ -2057,6 +2321,89 @@ function heroChecker(villages, count, session, villageId) {
 }
 
 /**
+ * Отправить отчёты в секретные сообщества
+ * Reports
+ * session: string
+ * maxCount: number
+ * filters: string[]
+ */
+function shareReports(obj){
+  let bodyReports = {
+    "controller":"reports",
+    "action":"getLastReports",
+    "params":{
+      "collection":"own",
+      "start":obj.start,
+      "count":obj.maxCount,
+      "filters":obj.filters,
+      "alsoGetTotalNumber":true
+    },
+    "session": obj.session
+  };
+
+  let bodyReportsPayload = {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json;charset=UTF-8'
+    },
+    serverDomain: serverDomain,
+    json: true,
+    body: bodyReports
+  }; 
+
+  httpRequest(bodyReportsPayload).then(
+    (body) => { 
+      asyncLoop(
+        body.response.reports.length,
+        (loop) => {
+          let i = loop.iteration();
+          let report = body.response.reports[i];
+
+          let bodyReport = {
+            "controller":"reports",
+            "action":"shareReport",
+            "params":{
+              "id": report._id.$id,
+              "shareWith":"secretSociety",
+              "shareParam":0,
+              "shareMessage":"",
+              "collection":"own"
+            },
+            "session":obj.session
+          };
+
+          let bodyReportPayload = {
+            method: 'POST',
+            headers: {
+              'content-type': 'application/json;charset=UTF-8'
+            },
+            serverDomain: serverDomain,
+            json: true,
+            body: bodyReport
+          };
+
+
+          httpRequest(bodyReportPayload).then(
+            (body) => {
+              console.log(body)
+
+              let rand = fixedTimeGenerator(6) + randomTimeGenerator(3);
+
+              setTimeout(function () {
+                console.log('Рандомное время ' + i + ': ' + rand);
+                loop.next();
+              }, rand);
+            });
+        },
+        () => {
+          console.log('finally shared reports')
+        }
+      );
+    }
+  )
+}
+
+/**
  * Рассыл атак по условиям.
  * @param name - имя листа
  * @param xCor
@@ -2078,7 +2425,7 @@ function attackList(filter, xCor, yCor, paramsAttack) {
           "params":
             {
               "destVillageId": villages[i].villageId,
-              "villageId": 537772036,
+              "villageId": 537182227,
               "movementType": 6,
               "redeployHero": false,
               "units": {
@@ -2155,8 +2502,8 @@ function attackList(filter, xCor, yCor, paramsAttack) {
                   console.log(err)
                 }
               );
-              // console.log('body.response.reports > 0');
-              // console.log(body.response.reports[0]);
+              console.log('body.response.reports > 0');
+              console.log(body.response.reports[0]);
             } else if (body.response && body.response.reports && body.response.reports.length === 0) {
               console.log('body.response.reports === 0')
               httpRequest(options).then(
@@ -2197,10 +2544,10 @@ function attackList(filter, xCor, yCor, paramsAttack) {
   }, xCor, yCor, filter);
 }
 
-let repeatFn = function(fn){
-  getMapInfo('animal', token, serverDomain, timeForGame);
-  setTimeout(fn, 600000);
-};
+// let repeatFn = function(fn){
+//   getMapInfo('animal', token, serverDomain, timeForGame);
+//   setTimeout(fn, 600000);
+// };
 // let troops = {
 //     "controller": "troops",
 //     "action": "send",
@@ -2232,46 +2579,121 @@ let repeatFn = function(fn){
  * Скан по условию
  */
 
-// attackList(withoutKingdomsFilter, 53, -25);
+// attackList(deathsFilter, 29, 10);
+// attackList(withoutKingdomsFilter2, 28, 10);
 // attackList(Ducheeze, 4, 27);
+// setTimeout(() => {
+
+// attackList(Aero, 29, 10);
+// attackList(BS, 29, 10);
+// attackList(GoD, 29, 10);
+// attackList(High5Inc, 29, 10);
+// attackList(Happiness, 29, 10);
+// attackList(Kelt, 29, 10);
+// attackList(GF, 29, 10);
+
+// }, 3600 * 2000)
+
+// setTimeout(() => {
+//   shareReports(
+//     {
+//       session: "5a558ceb985f0e5bf984",
+//       start: 0,
+//       maxCount: 50,
+//       filters: ["15"]
+//     }
+//   );
+// }, 3600 * 1000);
+//
+// setTimeout(() => {
+//   shareReports(
+//     {
+//       session: "5a558ceb985f0e5bf984",
+//       start: 0,
+//       maxCount: 50,
+//       filters: ["15"]
+//     }
+//   );
+// }, 3600 * 2000);
+//
+// setTimeout(() => {
+//
+//   shareReports(
+//     {
+//       session: "5a558ceb985f0e5bf984",
+//       start: 0,
+//       maxCount: 50,
+//       filters: ["15"]
+//     }
+//   );
+//
+//   shareReports(
+//     {
+//       session: "5a558ceb985f0e5bf984",
+//       start: 50,
+//       maxCount: 50,
+//       filters: ["15"]
+//     }
+//   );
+//
+// }, 3600 * 3000);
+//
+// shareReports(
+//   {
+//     session: "19633e2b9f0e9f1e6050",
+//     start: 50,
+//     maxCount: 40,
+//     filters: ["15"]
+//   }
+// );
 
 /**
  * Автобилд войнов
  */
-// autoUnitsBuild('536035362', {2: 7}, {4: 8}, 3600, 1200, '7ff33d82f4a9a8dca460');
+// autoUnitsBuild('537051161', {11: 100}, {}, 2400, 1200, 'e9e5f3385917638cee4d');
+// autoUnitsBuild('537182225', {11: 33}, {15: 5}, 2400, 1200, 'e9e5f3385917638cee4d');
 
 /**
  * Добавления юнитов по улсовиям
  */
 // farmListCreator('Bandits', '13', '-40', Bandits);
-// farmListCreator('загул-', '53', '-25', withoutKingdomsFilter);
-// farmListCreator('60-150/ ', '4', '27', deathsFilterFrom60To150);
-// farmListCreator('150+/ ', '4', '27', deathsFilterFrom150);
+// setTimeout(() => {
+//   farmListCreator('#wkf-199/', '17', '9', withoutKingdomsFilter);
+//   farmListCreator('#60-149/ ', '17', '9', deathsFilterFrom60To150);
+//   farmListCreator('#150+/ '  , '17', '9', deathsFilterFrom150);
+// }, 3600 * 2000);
 // farmListCreator('FF', '53', '-25', kingdomsFilters);
 
 /**
  * Фармлисты
  */
+//
+// autoFarmList(1500, 600, listPayload.lolko ,      'com2x3', true);
+// autoFarmList(1500, 600, listPayload.julia ,      'com2x3', true);
+// //
+autoFarmList(1500, 600, listPayload.wahlbergExp ,      'com2x3', true);
+autoFarmList(1500, 600, listPayload.wahlbergScript ,   'com2x3', true);
+autoFarmList(1500, 600, listPayload.wahlbergKop1 ,     'com2x3', true);
+autoFarmList(1500, 600, listPayload.wahlbergKop2 ,     'com2x3', true);
+autoFarmList(1500, 600, listPayload.wahlbergKop3 ,     'com2x3', true);
+autoFarmList(1500, 600, listPayload.wahlbergFig ,     'com2x3', true);
+//
+// autoFarmList(1500, 600, listPayload.wahlbergFeed ,     'com2x3', true);
+//
+// autoFarmList(1500, 600, listPayload.krolik,             'com2x3', true);
 
-// setTimeout(
-autoFarmList(1800, 600, listPayload.malaoban1 ,      'com2', true);
-setTimeout(() => {
-  autoFarmList(1800, 600, listPayload.malaoban2 ,      'com2', true);
-}, 7200);
-autoFarmList(1800, 600, listPayload.malaoban3 ,      'com2', true);
-autoFarmList(1800, 600, listPayload.malaoban4 ,      'com2', true);
-autoFarmList(1800, 600, listPayload.malaoban5 ,      'com2', true);
-autoFarmList(1800, 600, listPayload.malaoban6 ,      'com2', true);
+// autoFarmList(1800, 600, listPayload.malaoban1 ,      'com2', true);
+// autoFarmList(1800, 600, listPayload.malaoban2 ,      'com2', true);
+// autoFarmList(1800, 600, listPayload.malaoban3 ,      'com2', true);
+// autoFarmList(1800, 600, listPayload.malaoban4 ,      'com2', true);
+// autoFarmList(1800, 600, listPayload.malaoban6 ,      'com2', true);
+// autoFarmList(1800, 600, listPayload.malaoban7 ,      'com2', true);
 // );
-// autoFarmList(900, 300, listPayload.Wahlberg,       'com1x3', true);
-// autoFarmList(900, 300, listPayload.Wahlberg2,      'com1x3', true);
-// autoFarmList(900, 300, listPayload.Wahlberg3,      'com1x3', true);
-// autoFarmList(900, 300, listPayload.Krolik,             'com1x3', true);
-// autoFarmList(900, 300, listPayload.Krolik2,            'com1x3', true);
-// autoFarmList(900, 300, listPayload.Krolik3,            'com1x3', true);
-// autoFarmList(900, 300, listPayload.Krolik4,            'com1x3', true);
-// autoFarmList(900, 300, listPayload.King,              'com1x3', true);
-// autoFarmList(1800, 600, listPayload.Ira,              'com1x3', true);
+
+// autoExtendLists(listPayload.wahlbergExp ,      deathsFilter, {x: 17, y: 9});
+// autoExtendLists(listPayload.wahlbergScript ,   deathsFilterFrom150, {x: 17, y: 9});
+// autoExtendLists(listPayload.wahlbergKop1 ,     deathsFilter, {x: 17, y: 9});
+// autoExtendLists(listPayload.wahlbergKop2 ,     deathsFilter, {x: 17, y: 9});
 
 // autoExtendLists(listPayload.malaoban1, deathsFilterFrom60To150, {x: 4, y: 27});
 // autoExtendLists(listPayload.malaoban3, deathsFilterFrom150, {x: 4, y: 27});
@@ -2283,7 +2705,9 @@ autoFarmList(1800, 600, listPayload.malaoban6 ,      'com2', true);
 // autoExtendLists(listPayload.Ira ,         deathsFilter);
 
 // playerFarmList, filter, fixedTime, randomTime, server
-// heroChecker([535478265], 100, "9a266bec9de54d6bb19f", 535674891);
+// heroChecker([536428539], 50, "3eb49d638573be727f86", 537247743);
+// heroChecker([536920052], 50, "3eb49d638573be727f86", 537247743);
+// heroChecker([537214982], 30, "f192292c4346c1fead7a", 537247743);
 
 
 /**
