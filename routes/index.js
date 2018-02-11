@@ -30,10 +30,12 @@ const debug = 1;
 
 let listPayload = {
   wahlbergExp:  {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[3660, 3661, 3662, 3663, 3664],"villageId":535871508},"session":"035a197783df2405d24f", "server": "ru1"},
-  ann:          {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[3655, 3656, 3657, 3658, 3659],"villageId":536133651},"session":"180cd126ce54b841b6f7", "server": "ru1"},//
-  ann2:         {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[3655, 3656, 3657, 3658, 3659],"villageId":536068116},"session":"180cd126ce54b841b6f7", "server": "ru1"},//
-  ann3:         {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[3655, 3656, 3657, 3658, 3659],"villageId":535478325},"session":"180cd126ce54b841b6f7", "server": "ru1"},//
+  Sok:          {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[1619, 1620],"villageId":535871477},"session":"b65a918cb863837cd39d", "server": "ru2x3"},
+  ann:          {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[3781, 3782, 3783, 3784],"villageId":536133651},"session":"78017fba72c38bdf5529", "server": "ru1"},//
+  ann2:         {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[3781, 3782, 3783, 3784],"villageId":536068116},"session":"78017fba72c38bdf5529", "server": "ru1"},//
+  ann3:         {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[3781, 3782, 3783, 3784],"villageId":535478325},"session":"78017fba72c38bdf5529", "server": "ru1"},//
 };
+
 
 let cookie = userDate.cookie;
 let apiData = {
@@ -1522,17 +1524,13 @@ function getMapInfo(type, token, serverDomain, timeForGame, ownerId) {
           //TODO: холишит блять
           //Переделай, стыдно же людям такое показывать. 
           console.log('получили данные с опенапи')
-          let toJson = JSON.parse(body);
-          apiData.players = JSON.stringify(toJson.response.players);
-          apiData.alliances = JSON.stringify(toJson.response.alliances);
-          apiData.gameworld = JSON.stringify(toJson.response.gameworld);
-          apiData.crop = {};
+          apiData = body.response;
 
 
           function oasis() {
 
             let oasisArr = [];
-            let oasisObj = JSON.parse(JSON.stringify(toJson.response.map.cells));
+            let oasisObj = body.response.map.cells;
             let j = 0;
             for (let i = 0; i < oasisObj.length; i++) {
               if (oasisObj[i].oasis != 0) {
@@ -1578,8 +1576,8 @@ function getMapInfo(type, token, serverDomain, timeForGame, ownerId) {
                 //console.log(jsonBody.cache);
 
                 for (let m = 0; m < jsonBody.cache.length; m++) {
-                  for (let k = 0; k < toJson.response.map.cells.length; k++) {
-                    if (toJson.response.map.cells[k].id == jsonBody.cache[m].data.troops.villageId) {
+                  for (let k = 0; k < apiData.map.cells.length; k++) {
+                    if (apiData.map.cells[k].id == jsonBody.cache[m].data.troops.villageId) {
 
                       let avgMaxDpsInfantry = 0;
                       let avgAllDpsInfantry = 0;
@@ -1622,8 +1620,8 @@ function getMapInfo(type, token, serverDomain, timeForGame, ownerId) {
                       }
 
                       map[l] = {
-                        x: toJson.response.map.cells[k].x,
-                        y: toJson.response.map.cells[k].y,
+                        x: apiData.map.cells[k].x,
+                        y: apiData.map.cells[k].y,
                         animal: jsonBody.cache[m].data.troops.units,
                         counterAnimalType: counterAnimalType,
                         avgAllDps: avgAllDpsInfantry + '/' + avgAllDpsMounted,
@@ -1643,7 +1641,7 @@ function getMapInfo(type, token, serverDomain, timeForGame, ownerId) {
                 apiData.map = map;
                 //console.log(apiData.map);
                 //console.log(jsonBody.cache);
-                //console.log(toJson.response.map.cells);
+                //console.log(apiData.map.cells);
                 console.log('Создали объект');
 
               });
@@ -1791,12 +1789,38 @@ function getMapInfo(type, token, serverDomain, timeForGame, ownerId) {
               oasis();
               break;
             case 'crop':
-              crop(toJson.response.map.cells);
+              crop(apiData.map.cells);
               break;
           }
         });
     });
 };
+
+/**
+ * Rome
+ * 1 - Legioner
+ * 2 - Pretorian
+ * 3 - Imperian
+ * 4 - Scouts
+ * 5 - Imperator
+ * 6 - Ceserian
+ *
+ * Germany
+ * 11 - Clubswinger
+ * 12 - Spearfighter
+ * 13 - Axefighter
+ * 14 - Scout
+ * 15 - Paladin
+ * 16 - Teutonic knight
+ *
+ * Gauls
+ * 21 - Phalanx
+ * 22 - Swordsman
+ * 23 - Scout
+ * 24 - Thunder T
+ * 25 - Druids
+ * 26 - Eduins
+ */
 
 function autoUnitsBuild(villageId, unitsBarack, unitsStable, fixedTime, randomTime, session) {
   let rand = fixedTimeGenerator(fixedTime) + randomTimeGenerator(randomTime);
@@ -2575,6 +2599,11 @@ function attackList(filter, xCor, yCor, paramsAttack) {
             console.log(body);
             let rand = fixedTimeGenerator(6) + randomTimeGenerator(3);
 
+            if (body.response && body.response.errors){
+              console.log("Выход так как закончилась разведка".warn)
+              loop.break();
+            }
+
             //15 - чистый лог
             //16 - с потерями
             //17 - всё проёбано блеать :(
@@ -2749,6 +2778,9 @@ function scanAndShareInSS(object){
 
 // TODO: Вынести в отдельную функцию.
 attackList(checkAll, -11, -31, {villageId: 535871477});
+// attackList(neutrals, -11, -31, {villageId: 535871477});
+// attackList(SNGFilter, -11, -31, {villageId: 535871477});
+
 
 
 // shareReports(n
@@ -2757,7 +2789,7 @@ attackList(checkAll, -11, -31, {villageId: 535871477});
  * Автобилд войнов
  */
 // autoUnitsBuild('537051161', {11: 100}, {}, 2400, 1200, 'e9e5f3385917638cee4d');
-// autoUnitsBuild('537182225', {11: 33}, {15: 5}, 2400, 1200, 'e9e5f3385917638cee4d');
+// autoUnitsBuild('535871477', {3: 33}, {5: 40}, 2400, 1200, '92f5ce8d8b26f296cea8');
 
 /**
  * Добавления юнитов по улсовиям
@@ -2766,8 +2798,10 @@ attackList(checkAll, -11, -31, {villageId: 535871477});
 // farmListCreator('Aero', '17', '9', Aero2);
 // setTimeout(() => {
 //   farmListCreator('#wkf-199/', '17', '9', withoutKingdomsFilter);
-//   farmListCreator('I60-149/ ', '19', '-23', deathsFilterFrom60To150);
-//   farmListCreator('I150+/ '  , '19', '-23', deathsFilterFrom150);
+//   farmListCreator('N60-149/ ', '19', '-23', deathsFilterFrom60To150);
+//   farmListCreator('N150+/ '  , '19', '-23', deathsFilterFrom150);
+//   farmListCreator('#60-149/ ', '-11', '-31', deathsFilterFrom60To150);
+//   farmListCreator('#150+/ '  , '-11', '-31', deathsFilterFrom150);
   // farmListCreator('#wkf-200+/ '  , '56', '-13', withoutKingdomsFilter2);
 // }, 3600 * 1000);
 // farmListCreator('FF', '53', '-25', kingdomsFilters);
@@ -2784,6 +2818,7 @@ attackList(checkAll, -11, -31, {villageId: 535871477});
 //   }, 1200 * 1000)
 // setTimeout(() => {
 //   autoFarmList(3000, 600, listPayload.wahlbergExp, 'ru1', true);
+//   autoFarmList(1500, 600, listPayload.Sok, 'ru2x3', true);
 // }, 7200 * 1000);
 // autoFarmList(1500, 600, listPayload.serega2 ,      'com2x3', true);
 // autoFarmList(1500, 600, listPayload.julia3 ,      'com2x3', true);
