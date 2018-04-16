@@ -29,24 +29,24 @@ const debug = 1;
 // debug - 3, идут полные логи
 
 let listPayload = {
-  wahlbergScript:  {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[5094, 5441, 5442, 5443],"villageId":537051121},"session":"03d33a2bcfadff0f9bc7", "server": "com2"},
-  wahlbergExploit:  {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[5441],"villageId":536756212},"session":"03d33a2bcfadff0f9bc7", "server": "com2"},
-  Rin:          {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[5102, 5103, 5104, 5105, 5445, 5446],"villageId":536821756},"session":"1c6e28ee641c90f748a5", "server": "com2"},
-  Pashgun:      {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[5435, 5436, 5437, 5438, 5439, 5455, 5456],"villageId":537313259},"session":"871ca45fbc0929b6f044", "server": "com2"},
-  Pashgun2:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[5435],"villageId":537083889},"session":"871ca45fbc0929b6f044", "server": "com2"},
-  Diuse:        {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[4625, 5071, 5451, 5463, 5449, 5450],"villageId":537640952},"session":"00152309dc977d85837a", "server": "com2"},
-  Starlord:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[5708, 5709, 5713, 5714],"villageId":537378807},"session":"745f6e3b0a81b7f51cdb", "server": "com2"},
-  Starlord2:    {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[5706, 5707, 5708, 5709],"villageId":537280506},"session":"745f6e3b0a81b7f51cdb", "server": "com2"},
-  quasi:        {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[3894],"villageId":537542650},"session":"50f03c1c6435db10b51e", "server": "com2"},
-  YourPapa:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[5028, 5029],"villageId":536854523},"session":"4ab45eb116c56ff212f8", "server": "com2"},
-  hysteria:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[5337, 5338],"villageId":537313250},"session":"9da3eaa9c1f21568ecb4", "server": "com2"},
-  chelovek:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2893, 4488, 5385],"villageId":536756212},"session":"0a70eb95bc3f5c770fa2", "server": "com2"},
-  engal:        {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[5789],"villageId":537247764},"session":"fac9b2d887c1c06fb666", "server": "com2"},
+  wahlbergScript:   {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6626, 6627, 6628, 6629],"villageId":537051121},"session":"c16786ec2708285d6a9e", "server": "com2"},
+  wahlbergExploit:  {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6362, 6363, 6364],"villageId":536756212},"session":"c16786ec2708285d6a9e", "server": "com2"},
+  Rin:          {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6630, 6631, 6632, 6633],"villageId":536821756},"session":"4316d3a66925085aef31", "server": "com2"},
+  Pashgun:      {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6424, 6425, 6426, 6421, 6422, 6423],"villageId":537313259},"session":"12fa1fd0ad20024960dd", "server": "com2"},
+  Pashgun2:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6424, 6425, 6426, 6421, 6422, 6423],"villageId":537083889},"session":"12fa1fd0ad20024960dd", "server": "com2"},
+  Pashgun3:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6424, 6425, 6426, 6421, 6422, 6423],"villageId":537444336},"session":"12fa1fd0ad20024960dd", "server": "com2"},
+  Diuse:        {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6352, 6353, 6355, 6356, 6357, 6358, 6359],"villageId":537640952},"session":"547c122a53cdfb28ea45", "server": "com2"},
+  Starlord:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6529, 6530, 6531, 6532],"villageId":537378807},"session":"0c573be5910f16b5978f", "server": "com2"},
+  Starlord2:    {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6537, 6538, 6539, 6540],"villageId":537280506},"session":"0c573be5910f16b5978f", "server": "com2"},
+  quasi:        {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6019, 6020, 6021, 6022, 6023, 6024],"villageId":536887294},"session":"ca16e3a1650e2e38e04f", "server": "com2"},
+  YourPapa:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6247, 6248, 6249, 6250],"villageId":536854523},"session":"084414c2d8eed97405c8", "server": "com2"},
+  hysteria:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6618, 6617, 6616, 6619],"villageId":537313250},"session":"62a1aeb7be05c49faa77", "server": "com2"},
+  engal:        {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6634, 6635, 6636, 6637],"villageId":537444343},"session":"320fc3a8c39d4edd7bdb", "server": "com2"},
 
-  ann:          {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[4024, 4025, 4026],"villageId":536133651},"session":"96b93eea59945473d593", "server": "ru1"},//
-  ann2:         {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[4024, 4025, 4026],"villageId":536068116},"session":"96b93eea59945473d593", "server": "ru1"},//
-  ann3:         {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[4024, 4025, 4026],"villageId":535478325},"session":"96b93eea59945473d593", "server": "ru1"},//
-  ann4:         {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[4024, 4025, 4026],"villageId":535412789},"session":"96b93eea59945473d593", "server": "ru1"},//
+  ann:          {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[4024, 4025, 4026],"villageId":536133651},"session":"a6e493f79fcc81075200", "server": "ru1"},//
+  ann2:         {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[4024, 4025, 4026],"villageId":536068116},"session":"a6e493f79fcc81075200", "server": "ru1"},//
+  ann3:         {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[4024, 4025, 4026],"villageId":535478325},"session":"a6e493f79fcc81075200", "server": "ru1"},//
+  ann4:         {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[4024, 4025, 4026],"villageId":535412789},"session":"a6e493f79fcc81075200", "server": "ru1"},//
 };
 
 
@@ -1009,7 +1009,7 @@ function checkOnStatus(farmListsResponse, listPayload, now, fn, serverDomain) {
                         let unit = villageLog.data.units[unitKey];
                         if (unit == 0) {
                           //nothing?
-                        } else if (unit < 5) {
+                        } else if (unit < 15) {
                           villageLog.data.units[unitKey] = parseInt(villageLog.data.units[unitKey]) + 1;
                         } else {
                           //nothing?
@@ -1241,6 +1241,8 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
 
         if (body && body.response && body.response.errors){
           console.log('Прерван потому что удалили список'.silly);
+          console.log(options.body);
+          console.log(body.response.errors);
           throw 'List has been deleted';
         }
 
@@ -1575,10 +1577,11 @@ function getMapInfo(type, token, serverDomain, timeForGame, ownerId) {
                 let l = 0;
 
 
-                //console.log(jsonBody.cache);
 
                 for (let m = 0; m < jsonBody.cache.length; m++) {
                   for (let k = 0; k < apiData.response.map.cells.length; k++) {
+
+                    console.log(jsonBody.cache[m].data);
                     if (apiData.response.map.cells[k].id == jsonBody.cache[m].data.troops.villageId) {
 
                       let avgMaxDpsInfantry = 0;
@@ -2577,7 +2580,7 @@ function attackList(filter, xCor, yCor, paramsAttack) {
               },
               "spyMission": "resources"
             },
-          "session": token
+          "session": paramsAttack.session
         }
 
         let options = {
@@ -2612,7 +2615,7 @@ function attackList(filter, xCor, yCor, paramsAttack) {
               ],
               "alsoGetTotalNumber": true
             },
-            "session": token
+            "session": paramsAttack.session
           }
         };
 
@@ -2778,11 +2781,12 @@ function scanAndShareInSS(object){
 /**
  * Скан по условию
  */
-
+//
+// attackList(neutrals, -17, 7, {villageId: 537116655, session: '3456d8ef02ed16de5ff0'});
 // setInterval(() => {
-//   attackList(neutrals, 28, 10);
+//   attackList(neutrals, -17, 7, {villageId: 537116655, session: '3456d8ef02ed16de5ff0'});
+//   // attackList(neutrals, 28, 10);
 // }, 4 * 3600 * 1000);
-// attackList(neutrals, 28, 10);
 
 // attackList(Ducheeze, 4, 27);
 // setTimeout(() => {
@@ -2812,7 +2816,7 @@ function scanAndShareInSS(object){
 /**
  * Автобилд войнов
  */
-// autoUnitsBuild('537051161', {11: 100}, {}, 2400, 1200, 'a474858740305e4cf296');
+// autoUnitsBuild('537444343', {11: 30}, {16: 3}, 2400, 1200, '320fc3a8c39d4edd7bdb');
 // autoUnitsBuild('535871477', {3: 33}, {5: 40}, 2400, 1200, 'a474858740305e4cf296');
 
 /**
@@ -2830,32 +2834,32 @@ function scanAndShareInSS(object){
 
 // setTimeout(() => {
 //   autoFarmList(2200, 600, listPayload.Starlord ,         'com2', true);
-//   autoFarmList(2200, 600, listPayload.Starlord2 ,         'com2', true);
+//   // autoFarmList(2200, 600, listPayload.Starlord2 ,         'com2', true);
 // }, 300 * 1000);
 //
 // setTimeout(() => {
-  autoFarmList(3000, 600, listPayload.ann , 'ru1', true);
-  autoFarmList(3000, 600, listPayload.ann2, 'ru1', true);
-  autoFarmList(3000, 600, listPayload.ann3, 'ru1', true);
-  autoFarmList(3000, 600, listPayload.ann4, 'ru1', true);
+//   autoFarmList(3000, 600, listPayload.ann , 'ru1', true);
+//   autoFarmList(3000, 600, listPayload.ann2, 'ru1', true);
+//   autoFarmList(3000, 600, listPayload.ann3, 'ru1', true);
+//   autoFarmList(3000, 600, listPayload.ann4, 'ru1', true);
 // }, 200 * 1000)
 // //
 // setTimeout(() => {
-//   autoFarmList(2200, 600, listPayload.wahlbergScript ,      'com2', true);
-//   autoFarmList(2200, 600, listPayload.wahlbergExploit ,      'com2', true);
+//   autoFarmList(1800, 600, listPayload.wahlbergScript ,      'com2', true);
+//   autoFarmList(1800, 600, listPayload.wahlbergExploit ,      'com2', true);
 //   autoFarmList(2200, 600, listPayload.Diuse ,            'com2', true);
 //   autoFarmList(2200, 600, listPayload.Pashgun ,          'com2', true);
 //   autoFarmList(2200, 600, listPayload.Pashgun2 ,          'com2', true);
+//   autoFarmList(2200, 600, listPayload.Pashgun3 ,          'com2', true);
 // }, 100 * 1000);
-//
+// //
 // setTimeout(()=>{
-//   autoFarmList(2200, 600, listPayload.Rin ,              'com2', true);
+//   autoFarmList(1800, 600, listPayload.Rin ,              'com2', true);
 // }, 400 * 1000)
 //
-// // // autoFarmList(2200, 600, listPayload.quasi, 'com2', true);
+// autoFarmList(2200, 600, listPayload.quasi, 'com2', true);
 // autoFarmList(2200, 600, listPayload.YourPapa, 'com2', true);
 // autoFarmList(2200, 600, listPayload.hysteria, 'com2', true);
-// // // autoFarmList(2200, 600, listPayload.chelovek, 'com2', true);
 // autoFarmList(2200, 600, listPayload.engal, 'com2', true);
 
 
@@ -2895,7 +2899,7 @@ function scanAndShareInSS(object){
 //   "10": 0,
 //   "11": 0
 // });
-// heroChecker([536920052], 20, "48cd4904e817effa8606", 537051121, {
+// heroChecker([536920052, 536920054], 14, "e4da44d59c90ef746c4a", 537051121, {
 //   "1": 0,
 //   "2": 0,
 //   "3": 0,
@@ -2920,10 +2924,10 @@ function scanAndShareInSS(object){
 /**
  * Крокодилы
  */
-// setInterval(function() {
-//   getMapInfo('animal', token, serverDomain, timeForGame);
-// }, 600000);
-// getMapInfo('animal', token, serverDomain, timeForGame);
+setInterval(function() {
+  getMapInfo('animal', token, serverDomain, timeForGame);
+}, 600000);
+getMapInfo('animal', token, serverDomain, timeForGame);
 
 /**
  * Кроп
