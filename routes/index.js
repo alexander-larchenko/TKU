@@ -6,6 +6,7 @@ const rp = require('request-promise');
 const colors = require('colors');
 
 const fs = require('fs');
+const fetch = require('node-fetch');
 
 colors.setTheme({
   silly: 'rainbow',
@@ -31,6 +32,10 @@ const debug = 1;
 let users = {
   wahlbergCom2: {"session":"14dbc3b37733f9848cbc"},
   rin: {"session":"4d2d65f9330f4ff8e80e"},
+  stechkin: {"session":"4d2d65f9330f4ff8e80e"},
+  quasi: {"session": "87f28baf4032888aae9e"},
+  pashgun: {"session": "fc72068edad847816372"},
+  starlord: {"session": "78995e8127da01897f80"},
 };
 
 let listPayload = {
@@ -38,20 +43,20 @@ let listPayload = {
   wahlbergExploit:  {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6876, 6879, 6881, 6882],"villageId":536756212},"session":users.wahlbergCom2.session, "server": "com2"},
   wahlbergCheats:   {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6876],"villageId":537116670},"session":users.wahlbergCom2.session, "server": "com2"},
   Rin:          {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6824, 6823, 6826, 6827],"villageId":536821756},"session":users.rin.session, "server": "com2"},
-  Pashgun:      {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6813, 6814, 6815, 6816, 6817, 6812],"villageId":537313259},"session":"fc72068edad847816372", "server": "com2"},
-  Pashgun2:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6813, 6814, 6815, 6816, 6817, 6812],"villageId":537083889},"session":"fc72068edad847816372", "server": "com2"},
-  Pashgun3:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6813, 6814, 6815, 6816, 6817, 6812],"villageId":537444336},"session":"fc72068edad847816372", "server": "com2"},
+  Pashgun:      {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6813, 6814, 6815, 6816, 6817, 6812],"villageId":537313259},"session":users.pashgun.session, "server": "com2"},
+  Pashgun2:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6813, 6814, 6815, 6816, 6817, 6812],"villageId":537083889},"session":users.pashgun.session, "server": "com2"},
+  Pashgun3:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6813, 6814, 6815, 6816, 6817, 6812],"villageId":537444336},"session":users.pashgun.session, "server": "com2"},
   Diuse:        {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6848, 6849, 6851],"villageId":537640952},"session":"94a1ee4ec48d626da0d7", "server": "com2"},
-  Starlord:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6846, 6847, 6850, 6856],"villageId":537378807},"session":"78995e8127da01897f80", "server": "com2"},
-  Starlord2:    {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6861, 6864, 6866, 6870],"villageId":537280506},"session":"78995e8127da01897f80", "server": "com2"},
-  quasi:        {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6643, 6644, 6645, 6646],"villageId":536887294},"session":"ca16e3a1650e2e38e04f", "server": "com2"},
+  Starlord:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6846, 6847, 6850, 6856],"villageId":537378807},"session":users.starlord.session, "server": "com2"},
+  Starlord2:    {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6861, 6864, 6866, 6870],"villageId":537280506},"session":users.starlord.session, "server": "com2"},
+  quasi:        {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6643, 6644, 6645, 6646],"villageId":536887294},"session":users.quasi.session, "server": "com2"},
   YourPapa:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6875, 6877, 6878, 6880],"villageId":536854523},"session":"10b528d85e32b79851fc", "server": "com2"},
   hysteria:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6841, 6843, 6852, 6853],"villageId":537313250},"session":"a55d404474419cd7d838", "server": "com2"},
   engal:        {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6634, 6635, 6636, 6637],"villageId":537444343},"session":"baf82b2030dde4f64dca", "server": "com2"},
   abaddon:      {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6830, 6833, 6838, 6844],"villageId":537214965},"session":"dbc3011f5513533e423d", "server": "com2"},
   astaroth:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6832, 6839, 6840, 6842],"villageId":536952818},"session":"43c9cd2a3ca42688a57d", "server": "com2"},
 
-  wahlbergSpeed: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[1321,1322],"villageId":536297449},"session":"9276a0724afd93d38349", "server": "ru1x3"},
+  wahlbergSpeed: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[1322],"villageId":536297449},"session":"71a615aa9080be58e297", "server": "ru1x3"},
   desertir:      {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[1345,1346],"villageId":537542616},"session":"2bba04071c3fc36ce41d", "server": "ru1x3"},
   desertir2:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[1345,1346],"villageId":536690641},"session":"2bba04071c3fc36ce41d", "server": "ru1x3"},
 
@@ -588,6 +593,15 @@ function setHttpHeaders(serverDomain, cookie, contentLength) {
 }
 
 /**
+ * Для асинх операций
+ * @param ms
+ * @returns {Promise<any>}
+ */
+async function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+/**
  * http request для травиан кингдомса, возвращает колбек ответа
  * @param opt
  */
@@ -612,6 +626,31 @@ function httpRequest(opt) {
 
 //fixedTime - фиксированное время
 //randomTime - разброс
+
+/**
+ * для асинх-авейт
+ * @param opt
+ * @returns {Promise<*>}
+ */
+async function httpRequestAsync(opt){
+    let timeForGame = 't' + Date.now();
+
+
+    //TODO: разобраться с тем нужно ли body или как
+    let options = {
+        headers: setHttpHeaders(opt.serverDomain, opt.cookie || cookie, JSON.stringify(opt.body).length),
+        method: opt.method || 'GET',
+        body: JSON.stringify(opt.body)
+    };
+
+    return fetch(
+        `https://${opt.serverDomain}.kingdoms.com/api/?c=${opt.body.controller}&a=${opt.body.action}&${timeForGame}`,
+        options
+    ).then((response) => {
+        return response.json();
+    });
+}
+
 
 function autoExtendLists(playerFarmList, filter, coor) {
 
@@ -2766,6 +2805,30 @@ function scanAndShareInSS(object){
 
 }
 
+/**
+ * Передаём параметры мерчантсов для того что бы зациклить
+ * @param merchantPlayers
+ */
+
+function merchants(merchantPlayers) {
+    let i = 0;
+    for (let player in merchantPlayers) {
+        i++;
+        setTimeout(() => {
+            autoMerchants(merchantPlayers[player].params, merchantPlayers[player].cred);
+        }, i * 1000 * 20)
+    }
+
+    setInterval(() => {
+        i = 0;
+        for (let player in merchantPlayers) {
+            i++;
+            setTimeout(() => {
+                autoMerchants(merchantPlayers[player].params, merchantPlayers[player].cred);
+            }, i * 1000 * 20)
+        }
+    }, 3600 * 1000);
+}
 
 /**
  * Автоматический рынок при амбаре меньше процента
@@ -2990,6 +3053,172 @@ function findMinResourseId(wood, clay, iron) {
 
 
 
+/**
+ * Копирует зелёные атаки из аккаунта from в аккаунт to
+ * @param donor - listPayload
+ * @param to - listPayload
+ * @returns {Promise<void>}
+ */
+async function copyLists(donor, to, listName) {
+
+    let greenAttacks = [];
+
+    for (let i = 0; i < donor.params.listIds.length; i++) {
+        let toggleBody = {
+            "controller": "cache",
+            "action": "get",
+            "params": {"names": ["Collection:FarmListEntry:" + donor.params.listIds[i]]},
+            "session": donor.session
+        };
+        let options = {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            json: true,
+            body: toggleBody,
+            serverDomain: donor.server
+        };
+        await httpRequestAsync(options).then(
+            (body) => {
+                console.log("\nList: " + donor.params.listIds[i]);
+                let entriesCache = body.cache[0].data.cache;
+                for (let i = 0; i < entriesCache.length; i++) {
+                    let entry = entriesCache[i];
+                    if (entry.data.lastReport && entry.data.lastReport.notificationType == 1) {
+                        greenAttacks.push(entry.data);
+                        console.log(entry.data.villageName + " - green")
+                    }
+                }
+                // console.log(entriesCache[0].data);
+            },
+            (error) => {
+                console.log(error);
+            }
+        );
+    }
+    await sleep(1000);
+
+    let createdListIds = [];
+    console.log("\nCount of green attacks: " + greenAttacks.length);
+    let countOfLists = greenAttacks.length / 100;
+    if (greenAttacks.length - countOfLists * 100 > 0)
+        countOfLists++;
+
+    for (let i = 0; i < countOfLists; i++) {
+
+        let name = "Green attacks " + i;
+
+        let toggleBody = {
+            "controller": "farmList",
+            "action": "createList",
+            "params": {"name": name},
+            "session": to.session
+        };
+
+        let options = {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            json: true,
+            body: toggleBody,
+            serverDomain: to.server
+        };
+
+        await httpRequestAsync(options).then(
+            (body) => {
+                createdListIds.push(body.cache[0].data.cache[0].data.listId);
+                console.log("Created list:");
+                console.log(body.cache[0].data.cache[0].data);
+                let name = listName + " " + body.cache[0].data.cache[0].data.listId;
+                let toggleBody = {
+                    "controller": "farmList",
+                    "action": "editList",
+                    "params": {
+                        "name": name,
+                        "listId": body.cache[0].data.cache[0].data.listId
+                    },
+                    "session": to.session
+                };
+                let options = {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    json: true,
+                    body: toggleBody,
+                    serverDomain: to.server
+                };
+                httpRequest(options).then(
+                    (body) => {
+                        console.log("List renamed");
+                    },
+                    (error) => {
+                        console.log(error);
+                    }
+                );
+            },
+            (error) => {
+                console.log(error);
+            }
+        );
+
+        await sleep(1000);
+    }
+
+    let list = 0;
+
+    for (let i = 0; i < greenAttacks.length; i++) {
+        let toggleBody = {
+            "controller": "farmList",
+            "action": "toggleEntry",
+            "params": {"villageId": greenAttacks[i].villageId, "listId": createdListIds[list]},
+            "session": to.session
+        };
+        let options = {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            json: true,
+            body: toggleBody,
+            serverDomain: to.server
+        };
+
+        await httpRequestAsync(options)
+        .then(
+          (body) => {
+            console.log(body);
+            if (body && body.response && body.response.errors){
+              console.log(options)
+              console.log(body.response);
+            } else {
+                console.log(body.cache[0].data.cache[0].data.villageName + ": added");
+            }
+          },
+          (error) => {
+              console.log(error);
+          }
+        );
+
+        await sleep(1000);
+
+        if (parseInt((i + 1) / 100) == list + 1) {
+            list++;
+        }
+    }
+
+}
+
+async function copyListsToAll(from, to, listName) {
+    for (let i = 0; i < to.length; i++) {
+        await copyLists(from, to[i], listName);
+    }
+}
+
+
+
 // let repeatFn = function(fn){
 //   getMapInfo('crop', token, serverDomain, timeForGame);
 //   setTimeout(fn, 600000);
@@ -3068,6 +3297,10 @@ function findMinResourseId(wood, clay, iron) {
  */
 
 let merchantPlayers = {
+  quasi: {
+      params: {percent: 85, villageId: 536887294, playerId: '350'},
+      cred: {session: users.quasi.session, serverDomain: 'com2'}
+  },
   wahlbergExploit: {
     params: {percent: 85, villageId: 536756212, playerId: '103'},
     cred: {session: users.wahlbergCom2.session, serverDomain: 'com2'}
@@ -3079,19 +3312,24 @@ let merchantPlayers = {
   rin: {
     params: {percent: 85, villageId: 536821756, playerId: '125'},
     cred: {session: users.rin.session, serverDomain: 'com2'}
-  }
+  },
+  stechkin: {
+    params: {percent: 70, villageId: 537051127, playerId: '117'},
+    cred: {session: users.stechkin.session, serverDomain: 'com2'}
+  },
+  pashgun: {
+    params: {percent: 70, villageId: 537313259, playerId: '396'},
+    cred: {session: users.pashgun.session, serverDomain: 'com2'}
+  },
 };
 
+// merchants(merchantPlayers);
 
-for (let player in merchantPlayers) {
-    autoMerchants(merchantPlayers[player].params, merchantPlayers[player].cred);
-}
-setInterval(() => {
-    for (let player in merchantPlayers) {
-        autoMerchants(merchantPlayers[player].params, merchantPlayers[player].cred);
-    }
-}, 3600 * 1000);
+/**
+ * Копирование списков
+ */
 
+copyListsToAll(listPayload.wahlbergSpeed, [listPayload.wahlbergSpeed, listPayload.wahlbergSpeed], "25April_");
 
 /**
  * Добавления юнитов по улсовиям
