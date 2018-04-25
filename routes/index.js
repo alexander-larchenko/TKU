@@ -28,11 +28,16 @@ const debug = 1;
 // debug - 2, идут логи из основных функций
 // debug - 3, идут полные логи
 
+let users = {
+  wahlbergCom2: {"session":"14dbc3b37733f9848cbc"},
+  rin: {"session":"4d2d65f9330f4ff8e80e"},
+};
+
 let listPayload = {
-  wahlbergScript:   {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6876, 6879, 6881, 6882],"villageId":537051121},"session":"3e447835236eee46842b", "server": "com2"},
-  wahlbergExploit:  {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6876, 6879, 6881, 6882],"villageId":536756212},"session":"3e447835236eee46842b", "server": "com2"},
-  wahlbergCheats:   {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6876],"villageId":537116670},"session":"3e447835236eee46842b", "server": "com2"},
-  Rin:          {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6824, 6823, 6826, 6827],"villageId":536821756},"session":"0b7317514d6ddbd49fe3", "server": "com2"},
+  wahlbergScript:   {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6876, 6879, 6881, 6882],"villageId":537051121},"session":users.wahlbergCom2.session, "server": "com2"},
+  wahlbergExploit:  {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6876, 6879, 6881, 6882],"villageId":536756212},"session":users.wahlbergCom2.session, "server": "com2"},
+  wahlbergCheats:   {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6876],"villageId":537116670},"session":users.wahlbergCom2.session, "server": "com2"},
+  Rin:          {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6824, 6823, 6826, 6827],"villageId":536821756},"session":users.rin.session, "server": "com2"},
   Pashgun:      {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6813, 6814, 6815, 6816, 6817, 6812],"villageId":537313259},"session":"fc72068edad847816372", "server": "com2"},
   Pashgun2:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6813, 6814, 6815, 6816, 6817, 6812],"villageId":537083889},"session":"fc72068edad847816372", "server": "com2"},
   Pashgun3:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6813, 6814, 6815, 6816, 6817, 6812],"villageId":537444336},"session":"fc72068edad847816372", "server": "com2"},
@@ -2761,6 +2766,230 @@ function scanAndShareInSS(object){
 
 }
 
+
+/**
+ * Автоматический рынок при амбаре меньше процента
+ * @param params - объект с данными
+ * @param params.percent - процент кропа в амбаре, ниже которого начинается покупка кропа - имя деревни, которую смотрим
+ * @param params.villageId - id деревни, которую смотрим (наверняка можно обойтись без одного из этих параметров)
+ * @param params.playerId - id игрока, чтобы запросить данные
+ *
+ * @param cred
+ * @param cred.session - уникальный индификатор
+ * @param cred.serverDomain - сервер
+ */
+function autoMerchants(params, cred) {
+    let options = {
+        method: 'POST',
+        headers: {
+            'content-type': 'application/json;charset=UTF-8'
+        },
+        json: true,
+        body: {
+            "controller": "cache",
+            "action": "get",
+            "params": {
+                "names": ["Merchants:" + params.villageId, "Player:" + params.playerId]
+            },
+            "session": cred.session
+        },
+        serverDomain: cred.serverDomain
+    };
+
+    httpRequest(options)
+        .then(
+            (body) => {
+                if(body.error) {
+                  console.log(options)
+                  console.log(body.error.message.help);
+                }
+
+                let data = body.cache.find(x => x.name.split(':')[0] == 'Merchants').data;
+                params.countOfMerchants = data.max - data.inOffers - data.inTransport;
+                params.merchants = data.carry;
+                // console.log(data);
+                let cache = body.cache;
+                let village = cache.find(x => x.name.split(':')[0] == 'Player').data.villages.find(x => x.villageId == params.villageId);
+                // console.log(village);
+                // console.log(params);
+                params.storage = village.storage;
+                params.storageCapacity = village.storageCapacity;
+                params.wood = params.storage['1'];
+                params.clay = params.storage['2'];
+                params.iron = params.storage['3'];
+                params.crop = params.storage['4'];
+                params.cropPercent = params.crop / (params.storageCapacity['4'] / 100);
+                params.maxResource = findMaxResourseId(params.wood, params.clay, params.iron);
+                params.minResource = findMinResourseId(params.wood, params.clay, params.iron);
+                // console.log(params)
+                // console.log(params);
+                if (params.maxResource != 0 && params.minResource != 0)
+                    if (params.cropPercent <= params.percent) {
+                        sendTradesForCrop(params, cred);
+                    } else {
+                        sendTradesForResources(params, cred);
+                    }
+            },
+            (error) => {
+                // TODO: debug if have error
+                console.log(error);
+            }
+        );
+}
+
+function sendTradesForResources(params, cred) {
+    for (let i = 0; i < params.countOfMerchants; i++) {
+
+        if (params.maxResource == 1 && params.wood < params.merchants){ break; }
+        if (params.maxResource == 2 && params.clay < params.merchants){ break; }
+        if (params.maxResource == 3 && params.iron < params.merchants){ break; }
+
+        let tradeOptions = {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json;charset=UTF-8'
+            },
+            json: true,
+            body: {
+                "controller": "trade",
+                "action": "createOffer",
+                "params": {
+                    "villageId": params.villageId,
+                    "offeredResource": params.maxResource,
+                    "offeredAmount": params.merchants,
+                    "searchedResource": params.minResource,
+                    "searchedAmount": parseInt(params.merchants * 1.33),
+                    "kingdomOnly": false
+                },
+                "session": cred.session
+            },
+            serverDomain: cred.serverDomain
+        };
+
+        switch (params.minResource) {
+            case 1:
+                params.wood += parseInt(params.merchants * 1.33);
+                break;
+            case 2:
+                params.clay += parseInt(params.merchants * 1.33);
+                break;
+            case 3:
+                params.iron += parseInt(params.merchants * 1.33);
+                break;
+            default:
+                break;
+        }
+        switch (params.maxResource) {
+            case 1:
+                params.wood -= params.merchants;
+                break;
+            case 2:
+                params.clay -= params.merchants;
+                break;
+            case 3:
+                params.iron -= params.merchants;
+                break;
+            default:
+                break;
+        }
+        params.maxResource = findMaxResourseId(params.wood, params.clay, params.iron);
+        params.minResource = findMinResourseId(params.wood, params.clay, params.iron);
+
+        if (params.minResource != params.maxResource)
+            httpRequest(tradeOptions)
+                .then(
+                    (body) => {
+                        let max = tradeOptions.body.params.offeredResource == 1 ? 'wood' : tradeOptions.body.params.offeredResource == 2 ? 'clay' : 'iron';
+                        let min = tradeOptions.body.params.searchedResource == 1 ? 'wood' : tradeOptions.body.params.searchedResource == 2 ? 'clay' : 'iron';
+                        console.log('Posted ' + params.merchants + ' ' + max + ' for ' + parseInt(params.merchants * 1.33) + ' ' + min);
+                    }, (error) => {
+                        console.log(error);
+                    }
+                );
+    }
+}
+
+function sendTradesForCrop(params, cred) {
+    for (let i = 0; i < params.countOfMerchants; i++) {
+
+        if (params.maxResource == 1 && params.wood < params.merchants){ break; }
+        if (params.maxResource == 2 && params.clay < params.merchants){ break; }
+        if (params.maxResource == 3 && params.iron < params.merchants){ break; }
+
+        let tradeOptions = {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json;charset=UTF-8'
+            },
+            json: true,
+            body: {
+                "controller": "trade",
+                "action": "createOffer",
+                "params": {
+                    "villageId": params.villageId,
+                    "offeredResource": params.maxResource,
+                    "offeredAmount": params.merchants,
+                    "searchedResource": 4,
+                    "searchedAmount": params.merchants * 2,
+                    "kingdomOnly": false
+                },
+                "session": cred.session
+            },
+            serverDomain: cred.serverDomain
+        };
+
+        switch (params.maxResource) {
+            case 1:
+                params.wood -= params.merchants;
+                break;
+            case 2:
+                params.clay -= params.merchants;
+                break;
+            case 3:
+                params.iron -= params.merchants;
+                break;
+            default:
+                break;
+        }
+        params.maxResource = findMaxResourseId(params.wood, params.clay, params.iron);
+
+        httpRequest(tradeOptions)
+            .then(
+                (body) => {
+                  // console.log(body)
+                    let max = tradeOptions.body.params.offeredResource == 1 ? 'wood' : tradeOptions.body.params.offeredResource == 2 ? 'clay' : 'iron';
+                    console.log('Posted ' + params.merchants + ' ' + max + ' for ' + (params.merchants * 2) + ' crop');
+                }, (error) => {
+                  console.log(error);
+                }
+            );
+    }
+}
+
+function findMaxResourseId(wood, clay, iron) {
+    if (wood > clay && wood > iron)
+        return 1;
+    else if (clay > wood && clay > iron)
+        return 2;
+    else if (iron > clay && iron > wood)
+        return 3;
+    else
+        return 0;
+}
+
+function findMinResourseId(wood, clay, iron) {
+    if (wood < clay && wood < iron)
+        return 1;
+    else if (clay < wood && clay < iron)
+        return 2;
+    else if (iron < clay && iron < wood)
+        return 3;
+    else
+        return 0;
+}
+
+
+
 // let repeatFn = function(fn){
 //   getMapInfo('crop', token, serverDomain, timeForGame);
 //   setTimeout(fn, 600000);
@@ -2827,12 +3056,42 @@ function scanAndShareInSS(object){
 // shareReports(n
 
 /**
- * Автобилд войнов
+ * Билд войнов
  */
 // autoUnitsBuild('537444343', {11: 30}, {16: 3}, 2400, 1200, '320fc3a8c39d4edd7bdb');
-autoUnitsBuild('537051121', {3: 14}, {5: 12}, 3600, 200, 'd8efc425263d11d0f4a3');
-autoUnitsBuild('536756212', {3: 14}, {5: 12}, 3600, 200, 'd8efc425263d11d0f4a3');
-autoUnitsBuild('536821756', {3: 14}, {5: 12}, 3600, 200, 'ef403b0afd590accf790');
+// autoUnitsBuild('537051121', {3: 14}, {5: 12}, 3600, 200, 'd8efc425263d11d0f4a3');
+// autoUnitsBuild('536756212', {3: 14}, {5: 12}, 3600, 200, 'd8efc425263d11d0f4a3');
+// autoUnitsBuild('536821756', {3: 14}, {5: 12}, 3600, 200, 'ef403b0afd590accf790');
+
+/**
+ * Торговцы
+ */
+
+let merchantPlayers = {
+  wahlbergExploit: {
+    params: {percent: 85, villageId: 536756212, playerId: '103'},
+    cred: {session: users.wahlbergCom2.session, serverDomain: 'com2'}
+  },
+  wahlbergScript: {
+    params: {percent: 85, villageId: 537051121, playerId: '103'},
+    cred: {session: users.wahlbergCom2.session, serverDomain: 'com2'}
+  },
+  rin: {
+    params: {percent: 85, villageId: 536821756, playerId: '125'},
+    cred: {session: users.rin.session, serverDomain: 'com2'}
+  }
+};
+
+
+for (let player in merchantPlayers) {
+    autoMerchants(merchantPlayers[player].params, merchantPlayers[player].cred);
+}
+setInterval(() => {
+    for (let player in merchantPlayers) {
+        autoMerchants(merchantPlayers[player].params, merchantPlayers[player].cred);
+    }
+}, 3600 * 1000);
+
 
 /**
  * Добавления юнитов по улсовиям
