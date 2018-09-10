@@ -29,531 +29,6 @@ const debug = 1;
 // debug - 2, идут логи из основных функций
 // debug - 3, идут полные логи
 
-let users = {
-  wahlbergCom2: {"session":"14dbc3b37733f9848cbc"},
-  rin: {"session":"4d2d65f9330f4ff8e80e"},
-  stechkin: {"session":"4d2d65f9330f4ff8e80e"},
-  quasi: {"session": "87f28baf4032888aae9e"},
-  pashgun: {"session": "fc72068edad847816372"},
-  starlord: {"session": "78995e8127da01897f80"},
-};
-
-let listPayload = {
-  wahlbergScript:   {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6876, 6879, 6881, 6882],"villageId":537051121},"session":users.wahlbergCom2.session, "server": "com2"},
-  wahlbergExploit:  {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6876, 6879, 6881, 6882],"villageId":536756212},"session":users.wahlbergCom2.session, "server": "com2"},
-  wahlbergCheats:   {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6876],"villageId":537116670},"session":users.wahlbergCom2.session, "server": "com2"},
-  Rin:          {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6824, 6823, 6826, 6827],"villageId":536821756},"session":users.rin.session, "server": "com2"},
-  Pashgun:      {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6813, 6814, 6815, 6816, 6817, 6812],"villageId":537313259},"session":users.pashgun.session, "server": "com2"},
-  Pashgun2:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6813, 6814, 6815, 6816, 6817, 6812],"villageId":537083889},"session":users.pashgun.session, "server": "com2"},
-  Pashgun3:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6813, 6814, 6815, 6816, 6817, 6812],"villageId":537444336},"session":users.pashgun.session, "server": "com2"},
-  Diuse:        {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6848, 6849, 6851],"villageId":537640952},"session":"94a1ee4ec48d626da0d7", "server": "com2"},
-  Starlord:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6846, 6847, 6850, 6856],"villageId":537378807},"session":users.starlord.session, "server": "com2"},
-  Starlord2:    {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6861, 6864, 6866, 6870],"villageId":537280506},"session":users.starlord.session, "server": "com2"},
-  quasi:        {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6643, 6644, 6645, 6646],"villageId":536887294},"session":users.quasi.session, "server": "com2"},
-  YourPapa:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6875, 6877, 6878, 6880],"villageId":536854523},"session":"10b528d85e32b79851fc", "server": "com2"},
-  hysteria:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6841, 6843, 6852, 6853],"villageId":537313250},"session":"a55d404474419cd7d838", "server": "com2"},
-  engal:        {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6634, 6635, 6636, 6637],"villageId":537444343},"session":"baf82b2030dde4f64dca", "server": "com2"},
-  abaddon:      {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6830, 6833, 6838, 6844],"villageId":537214965},"session":"dbc3011f5513533e423d", "server": "com2"},
-  astaroth:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[6832, 6839, 6840, 6842],"villageId":536952818},"session":"43c9cd2a3ca42688a57d", "server": "com2"},
-
-  wahlbergSpeed: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[1322],"villageId":536297449},"session":"71a615aa9080be58e297", "server": "ru1x3"},
-  desertir:      {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[1345,1346],"villageId":537542616},"session":"2bba04071c3fc36ce41d", "server": "ru1x3"},
-  desertir2:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[1345,1346],"villageId":536690641},"session":"2bba04071c3fc36ce41d", "server": "ru1x3"},
-
-  ann:          {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[4024, 4025, 4026],"villageId":536133651},"session":"a6e493f79fcc81075200", "server": "ru1"},//
-  ann2:         {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[4024, 4025, 4026],"villageId":536068116},"session":"a6e493f79fcc81075200", "server": "ru1"},//
-  ann3:         {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[4024, 4025, 4026],"villageId":535478325},"session":"a6e493f79fcc81075200", "server": "ru1"},//
-  ann4:         {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[4024, 4025, 4026],"villageId":535412789},"session":"a6e493f79fcc81075200", "server": "ru1"},//
-};
-
-
-
-let cookie = userDate.cookie;
-let apiData = {
-  gameworld: null,
-  players: null,
-  alliances: null,
-  map: null,
-  fromGame: null,
-  crop: null
-};
-let apiKey = {};
-let timeForGame = 't' + Date.now();
-let token = userDate.token;
-let serverDomain = userDate.serverDomain;
-// node ./bin/wwwY
-//different = {less, equal, more}
-//value = value
-//TODO: вынести фильтры
-/**
- * Примеры фильров
- * @type {{players: {active: {different: string, value: string}}, villages: {population: {different: string, value: string}}}}
- */
-let deathsFilterFrom60To150 = {
-  players: {
-    hasNoobProtection: {
-      different: "equal",
-      value: false,
-    },
-    kingdomId: {
-      different: "equal",
-      value: "0"
-    },
-    active: {
-      different: "equal",
-      value: "0"
-    },
-    population: {
-      different: "between",
-      valueTop: "149",
-      valueBottom: "40",
-    }
-  },
-  villages: {
-    population: {
-      different: "between",
-      valueTop: "149",
-      valueBottom: "60",
-    }
-  }
-};
-let deathsFilterFrom150 = {
-  players: {
-    active: {
-      different: "equal",
-      value: "0"
-    },
-    hasNoobProtection: {
-      different: "equal",
-      value: false,
-    },
-    kingdomId: {
-      different: "equal",
-      value: "0"
-    },
-  },
-  villages: {
-    population: {
-      different: "more",
-      value: "150"
-    }
-  }
-};
-let deathsFilter = {
-  players: {
-    active: {
-      different: "equal",
-      value: "0"
-    }
-  },
-  villages: {
-    population: {
-      different: "more",
-      value: "1"
-    }
-  }
-};
-let lowVillage = {
-  players: {
-    active: {
-      different: "equal",
-      value: "1"
-    },
-    hasNoobProtection: {
-      different: "equal",
-      value: false,
-    },
-    tribeId: {
-      different: "equal",
-      value: "2"
-    },
-  },
-  villages: {
-    population: {
-      different: "less",
-      value: "200"
-    }
-  },
-
-};
-let withoutKingdomsFilter = {
-  players: {
-    hasNoobProtection: {
-      different: "equal",
-      value: false,
-    },
-    kingdomId: {
-      different: "equal",
-      value: "0"
-    },
-    active: {
-      different: "equal",
-      value: "1"
-    },
-    population: {
-      different: "between",
-      valueTop: "199",
-      valueBottom: "40",
-    }
-  },
-  villages: {
-    population: {
-      different: "between",
-      valueTop: "199",
-      valueBottom: "40",
-    }
-  }
-};
-
-let withoutKingdomsFilter2 = {
-  players: {
-    hasNoobProtection: {
-      different: "equal",
-      value: false,
-    },
-    kingdomId: {
-      different: "equal",
-      value: "0"
-    },
-    active: {
-      different: "equal",
-      value: "1"
-    },
-  },
-  villages: {
-    population: {
-      different: "less",
-      value: "1200",
-    }
-  }
-};
-
-let checkAll = {
-  players: {
-    hasNoobProtection: {
-      different: "equal",
-      value: false,
-    },
-    kingdomId: {
-      different: "notEqual",
-      value: "189"
-    },
-    active: {
-      different: "equal",
-      value: "1"
-    },
-  },
-  villages: {
-    population: {
-      different: "less",
-      value: "400",
-    }
-  }
-};
-
-let kingdomsFilters = {
-  players: {
-    kingdomId: {
-      different: "equal",
-      value: "503"
-    },
-    active: {
-      different: "equal",
-      value: "1"
-    }
-  },
-  villages: {
-    population: {
-      different: "more",
-      value: "100"
-    }
-  }
-};
-let neutrals = {
-  players: {
-    kingdomId: {
-      different: "equal",
-      value: "0"
-    },
-    active: {
-      different: "equal",
-      value: "1"
-    }
-  },
-  villages: {
-    population: {
-      different: "more",
-      value: "1"
-    }
-  }
-};
-
-let WiC = {
-  players: {
-    kingdomId: {
-      different: "equal",
-      value: "48"
-    },
-    active: {
-      different: "equal",
-      value: "1"
-    }
-  },
-  villages: {
-    population: {
-      different: "more",
-      value: "1"
-    }
-  }
-};
-
-
-let BS = {
-  players: {
-    kingdomId: {
-      different: "equal",
-      value: "30"
-    },
-    active: {
-      different: "equal",
-      value: "1"
-    }
-  },
-  villages: {
-    population: {
-      different: "more",
-      value: "1"
-    }
-  }
-};
-let GoD = {
-  players: {
-    kingdomId: {
-      different: "equal",
-      value: "42"
-    },
-    active: {
-      different: "equal",
-      value: "1"
-    }
-  },
-  villages: {
-    population: {
-      different: "more",
-      value: "1"
-    }
-  }
-};
-let High5Inc = {
-  players: {
-    kingdomId: {
-      different: "equal",
-      value: "167"
-    },
-    active: {
-      different: "equal",
-      value: "1"
-    }
-  },
-  villages: {
-    population: {
-      different: "more",
-      value: "1"
-    }
-  }
-};
-let BSBS = {
-  players: {
-    kingdomId: {
-      different: "equal",
-      value: "269"
-    },
-    active: {
-      different: "equal",
-      value: "1"
-    }
-  },
-  villages: {
-    population: {
-      different: "more",
-      value: "1"
-    }
-  }
-};
-let Kelt = {
-  players: {
-    kingdomId: {
-      different: "equal",
-      value: "179"
-    },
-    active: {
-      different: "equal",
-      value: "1"
-    }
-  },
-  villages: {
-    population: {
-      different: "more",
-      value: "1"
-    }
-  }
-};
-
-let Bandits = {
-  players: {
-    kingdomId: {
-      different: "equal",
-      value: "27"
-    },
-    active: {
-      different: "equal",
-      value: "1"
-    }
-  },
-  villages: {
-    population: {
-      different: "more",
-      value: "120"
-    }
-  }
-};
-
-let SNGFilter = {
-  players: {
-    kingdomId: {
-      different: "equal",
-      value: "117"
-    },
-    active: {
-      different: "equal",
-      value: "1"
-    }
-  },
-  villages: {
-    population: {
-      different: "more",
-      value: "1"
-    }
-  }
-};
-
-let Aero2 = {
-  players: {
-    kingdomId: {
-      different: "equal",
-      value: "28"
-    },
-    active: {
-      different: "equal",
-      value: "1"
-    }
-  },
-  villages: {
-    population: {
-      different: "more",
-      value: "1"
-    },
-    isMainVillage: {
-      different: "equal",
-      value: false
-    },
-    isTown: {
-      different: "equal",
-      value: false
-    },
-  }
-};
-
-let Resolute = {
-  players: {
-    kingdomId: {
-      different: "equal",
-      value: "211"
-    },
-    active: {
-      different: "equal",
-      value: "1"
-    }
-  },
-  villages: {
-    population: {
-      different: "more",
-      value: "1"
-    }
-  }
-};
-
-
-let GF = {
-  players: {
-    kingdomId: {
-      different: "equal",
-      value: "6"
-    },
-    active: {
-      different: "equal",
-      value: "1"
-    }
-  },
-  villages: {
-    population: {
-      different: "more",
-      value: "1"
-    }
-  }
-};
-
-
-let USNC = {
-  players: {
-    kingdomId: {
-      different: "equal",
-      value: "20"
-    },
-    active: {
-      different: "equal",
-      value: "1"
-    }
-  },
-  villages: {
-    population: {
-      different: "more",
-      value: "1"
-    }
-  }
-};
-
-let FingertipAlbino = {
-  players: {
-    playerId: {
-      different: "equal",
-      value: "3201"
-    }
-  },
-  villages: {
-    name: {
-      different: "equal",
-      value: "Albino"
-    }
-  }
-};
-let FingertipBravisimo = {
-  players: {
-    playerId: {
-      different: "equal",
-      value: "3201"
-    }
-  },
-  villages: {
-    name: {
-      different: "equal",
-      value: "Albino"
-    }
-  }
-};
-
-//TODO: переписать на класс, добавить es6 , ts
-
 /** Генераторы времени
  * @param seconds
  * @returns {Number}
@@ -1585,7 +1060,7 @@ function getMapInfo(type, token, serverDomain, timeForGame, ownerId) {
           console.log('получили данные с опенапи')
           apiData = JSON.parse(body);
 
-          console.log(JSON.parse(body));
+          // console.log(JSON.parse(body));
 
           function oasis() {
 
@@ -1599,7 +1074,7 @@ function getMapInfo(type, token, serverDomain, timeForGame, ownerId) {
               }
             }
 
-            console.log(apiData.response.map);
+            // console.log(apiData.response.map);
 
             console.log('Сформировали массив');
 
@@ -2314,9 +1789,12 @@ function searchEnemy(fn, xCor, yCor, filtersParam) {
     // console.log(hackPlayer.cache[0].data.villages[0])
 
     let villages = hackPlayer.cache[0].data.villages.cache;
-    let sortedVillagesByCoor = _.sortBy(villages,  (villages) => {
-      let len = Math.sqrt(Math.pow(villages.coordinates.x - xCor, 2) + Math.pow(villages.coordinates.y - yCor, 2));
+    let sortedVillagesByCoor = _.sortBy(villages,  (village) => {
+      let len = Math.sqrt(Math.pow(village.coordinates.x - xCor, 2) + Math.pow(village.coordinates.y - yCor, 2));
       return len;
+    });
+    sortedVillagesByCoor.map((village, index, array) => {
+      village.lenToPoint = len;
     });
 
     console.log(`Количество ${sortedVillagesByCoor.length}`);
@@ -2459,7 +1937,7 @@ function heroChecker(villages, count, session, villageId, troops) {
                 "movementType": 6,
                 "redeployHero": false,
                 "units": troops,
-                "spyMission": "resources"
+                "spyMission": "defence"
               },
             "session": session
           };
@@ -2478,7 +1956,7 @@ function heroChecker(villages, count, session, villageId, troops) {
 
           // http://rux3.kingdoms.com/api/?c=troops&a=send&t1486071488668
 
-         let rand = fixedTimeGenerator(6) + randomTimeGenerator(3);
+         let rand = fixedTimeGenerator(60) + randomTimeGenerator(30);
 
           httpRequest(options).then(
              (body) => {
@@ -2623,19 +2101,7 @@ function attackList(filter, xCor, yCor, paramsAttack) {
               "villageId": paramsAttack.villageId,
               "movementType": 6,
               "redeployHero": false,
-              "units": {
-                "1": 0,
-                "2": 0,
-                "3": 0,
-                "4": 1,
-                "5": 0,
-                "6": 0,
-                "7": 0,
-                "8": 0,
-                "9": 0,
-                "10": 0,
-                "11": 0
-              },
+              "units": paramsAttack.units,
               "spyMission": "resources"
             },
           "session": paramsAttack.session
@@ -2841,6 +2307,8 @@ function merchants(merchantPlayers) {
  * @param cred.session - уникальный индификатор
  * @param cred.serverDomain - сервер
  */
+
+//TODO: check on ===
 function autoMerchants(params, cred) {
     let options = {
         method: 'POST',
@@ -2896,6 +2364,7 @@ function autoMerchants(params, cred) {
             (error) => {
                 // TODO: debug if have error
                 console.log(error);
+                console.log(options.body);
             }
         );
 }
@@ -2937,7 +2406,7 @@ function sendTradesForResources(params, cred) {
                 params.clay += parseInt(params.merchants * 1.33);
                 break;
             case 3:
-                params.iron += parseInt(params.merchants * 1.33);
+                params.iron += parseInt(params.merchants * 2);
                 break;
             default:
                 break;
@@ -2993,7 +2462,7 @@ function sendTradesForCrop(params, cred) {
                     "offeredResource": params.maxResource,
                     "offeredAmount": params.merchants,
                     "searchedResource": 4,
-                    "searchedAmount": params.merchants * 2,
+                    "searchedAmount": params.merchants * 1.76,
                     "kingdomOnly": false
                 },
                 "session": cred.session
@@ -3021,8 +2490,7 @@ function sendTradesForCrop(params, cred) {
                 (body) => {
                   // console.log(body)
                     let max = tradeOptions.body.params.offeredResource == 1 ? 'wood' : tradeOptions.body.params.offeredResource == 2 ? 'clay' : 'iron';
-                    console.log('Posted ' + params.merchants + ' ' + max + ' for ' + (params.merchants * 2) + ' crop');
-                }, (error) => {
+                    console.log('Posted ' + params.merchants + ' ' + max + ' for ' + (params.merchants * 1.8) + ' crop');                }, (error) => {
                   console.log(error);
                 }
             );
@@ -3085,9 +2553,9 @@ async function copyLists(donor, to, listName) {
                 let entriesCache = body.cache[0].data.cache;
                 for (let i = 0; i < entriesCache.length; i++) {
                     let entry = entriesCache[i];
-                    if (entry.data.lastReport && entry.data.lastReport.notificationType == 1) {
+                    if (!entry.data.lastReport || entry.data.lastReport && entry.data.lastReport.notificationType == 1) {
                         greenAttacks.push(entry.data);
-                        console.log(entry.data.villageName + " - green")
+                        // console.log(entry.data.villageName + " - green")
                     }
                 }
                 // console.log(entriesCache[0].data);
@@ -3129,8 +2597,8 @@ async function copyLists(donor, to, listName) {
         await httpRequestAsync(options).then(
             (body) => {
                 createdListIds.push(body.cache[0].data.cache[0].data.listId);
-                console.log("Created list:");
-                console.log(body.cache[0].data.cache[0].data);
+                // console.log("Created list:");
+                // console.log(body.cache[0].data.cache[0].data);
                 let name = listName + " " + body.cache[0].data.cache[0].data.listId;
                 let toggleBody = {
                     "controller": "farmList",
@@ -3152,7 +2620,7 @@ async function copyLists(donor, to, listName) {
                 };
                 httpRequest(options).then(
                     (body) => {
-                        console.log("List renamed");
+                        // console.log("List renamed");
                     },
                     (error) => {
                         console.log(error);
@@ -3186,15 +2654,21 @@ async function copyLists(donor, to, listName) {
             serverDomain: to.server
         };
 
+        // console.log(createdListIds)
+        // console.log(toggleBody)
+
+
         await httpRequestAsync(options)
         .then(
           (body) => {
-            console.log(body);
-            if (body && body.response && body.response.errors){
+            // console.log(body);
+            if (body && body.response && body.response.errors || body.error){
               console.log(options)
               console.log(body.response);
+              console.log()
+
             } else {
-                console.log(body.cache[0].data.cache[0].data.villageName + ": added");
+                // console.log(body.cache[0].data.cache[0].data.villageName + ": added");
             }
           },
           (error) => {
@@ -3209,6 +2683,9 @@ async function copyLists(donor, to, listName) {
         }
     }
 
+    // console.log(createdListIds)
+    console.log(`{"controller":"troops","action":"startFarmListRaid","params":{"listIds":[${to.params.listIds.toString()}],"villageId":${to.params.villageId},"session":${to.session}, "server": ${to.server}}`)
+
 }
 
 async function copyListsToAll(from, to, listName) {
@@ -3217,6 +2694,1222 @@ async function copyListsToAll(from, to, listName) {
     }
 }
 
+async function growNewVillage(payloadData) {
+  let payload = payloadData;
+  const villageWhichGrowId = payload.villageWhichGrowId;
+  const villageToGrowId = payload.villageToGrowId;
+  const percent = payload.percentWarehouse;
+  const levelCap = payload.slotsLvlCap;
+  const warehouseLvl = payload.warehouse;
+  const granaryLvl = payload.granary;
+  const playerId = payload.playerId;
+  const token = payload.token;
+  let date = Date.now() / 1000;
+  date = date - (date % 1);
+  console.log("NOW        : " + new Date(date * 1000));
+  let options = {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json;charset=UTF-8'
+    },
+    json: true,
+    body: {
+      "controller": "cache",
+      "action": "get",
+      "params": {
+        "names": [
+          "Collection:Building:" + villageWhichGrowId,
+          "Collection:Building:" + villageToGrowId,
+          "BuildingQueue:" + villageToGrowId,
+          "Player:" + playerId,
+          "Merchants:" + villageWhichGrowId
+        ]
+      },
+      "session": token
+    },
+    serverDomain: payload.serverDomain
+  };
+  httpRequest(options).then(async (body) => {
+    let villageWhichGrow = body.cache.find(x => x.name == "Player:" + playerId).data.villages.find(x => x.villageId == villageWhichGrowId);
+    let villageToGrow = body.cache.find(x => x.name == "Player:" + playerId).data.villages.find(x => x.villageId == villageToGrowId);
+    let merchants = body.cache.find(x => x.name.startsWith("Merchants:")).data;
+    let buildingsOfVillageToGrow = body.cache.find(x => x.name == "Collection:Building:" + villageToGrowId).data.cache;
+    let buildingQueue = body.cache.find(x => x.name.startsWith("BuildingQueue:")).data;
+    let buildingHouses = buildingQueue.queues['1'][0];
+    let buildingResources = buildingQueue.queues['2'][0];
+    if (!buildingHouses && !buildingResources) {
+      let warehouse = body.cache.find(x => x.name == "Collection:Building:" + villageToGrowId).data.cache.find(x => x.data.buildingType == "10");
+      if (warehouse) {
+        console.log("Warehouse lvl: " + warehouse.data.lvl);
+        if (warehouse.data.lvlNext <= warehouseLvl) {
+          if (checkIfEnoughResources(warehouse.data.upgradeCosts, villageToGrow.storage)) {
+            console.log("Enough resources to lvl up warehouse:");
+            let options = {
+              method: 'POST',
+              headers: {
+                'content-type': 'application/json;charset=UTF-8'
+              },
+              json: true,
+              body: {
+                "controller": "building",
+                "action": "upgrade",
+                "params": {
+                  "buildingType": warehouse.data.buildingType,
+                  "locationId": warehouse.data.locationId,
+                  "villageId": villageToGrowId
+                },
+                "session": token
+              },
+              serverDomain: payload.serverDomain
+            };
+            httpRequest(options).then(body => {
+              console.log("Warehouse building started");
+              let building = body.cache[0].data.queues['1'][0];
+              let finish = building.finished;
+              console.log("Time finish: " + finish);
+              let dateNow = Date.now() / 1000;
+              dateNow = dateNow - (dateNow % 1);
+              console.log("Now        : " + dateNow);
+              console.log("Check in   : " + new Date(finish * 1000));
+              let timeToSleep = ((finish - dateNow) * 1000) + 1000;
+              console.log(timeToSleep);
+              sleep(timeToSleep).then(() => {
+                console.log("Starting script again");
+                growNewVillage(payload);
+              });
+            });
+          } else {
+            console.log("Not enough resources to lvl up warehouse:");
+            sendResourcesForGrowing(villageWhichGrow, merchants, villageToGrow, percent, payloadData.token).then(async result => {
+              if (result === 0)
+                await sleep(300 * 1000);
+              console.log("Starting script again");
+              growNewVillage(payload);
+            });
+          }
+        } else {
+          let granary = body.cache.find(x => x.name == "Collection:Building:" + villageToGrowId).data.cache.find(x => x.data.buildingType == "11");
+          if (granary) {
+            console.log("Granary lvl: " + granary.data.lvl);
+            if (granary.data.lvlNext <= granaryLvl) {
+              if (checkIfEnoughResources(granary.data.upgradeCosts, villageToGrow.storage)) {
+                console.log("Enough resources to lvl up granary:");
+                let options = {
+                  method: 'POST',
+                  headers: {
+                    'content-type': 'application/json;charset=UTF-8'
+                  },
+                  json: true,
+                  body: {
+                    "controller": "building",
+                    "action": "upgrade",
+                    "params": {
+                      "buildingType": 11,
+                      "locationId": granary.data.locationId,
+                      "villageId": villageToGrowId
+                    },
+                    "session": token
+                  },
+                  serverDomain: payload.serverDomain
+                };
+                httpRequest(options).then(body => {
+                  console.log("Granary building up started");
+                  let building = body.cache[0].data.queues['1'][0];
+                  let finish = building.finished;
+                  console.log("Time finish: " + finish);
+                  console.log("Check in   : " + new Date(finish * 1000));
+                  let dateNow = Date.now() / 1000;
+                  dateNow = dateNow - (dateNow % 1);
+                  let timeToSleep = ((finish - dateNow) * 1000) + 1000;
+                  console.log(timeToSleep)
+                  sleep(timeToSleep).then(() => {
+                    let dateNow = Date.now() / 1000;
+                    dateNow = dateNow - (dateNow % 1);
+                    console.log("Starting script again, " + new Date(dateNow * 1000));
+                    growNewVillage(payload);
+                  });
+                });
+              } else {
+                console.log("Not enough resources to lvl up granary:");
+                sendResourcesForGrowing(villageWhichGrow, merchants, villageToGrow, percent, payloadData.token).then(async result => {
+                  if (result === 0)
+                    await sleep(300 * 1000);
+                  console.log("Starting script again");
+                  growNewVillage(payload);
+                });
+              }
+            } else {
+              let resourceSlots = [];
+              let groupedBuildingsOfVillageToGrow = groupBuildings(buildingsOfVillageToGrow);
+              let minRes = findMinResourseId(villageToGrow.storage['1'], villageToGrow.storage['2'], villageToGrow.storage['3']);
+              switch (minRes) {
+                case 1:
+                  resourceSlots = resourceSlots.concat(groupedBuildingsOfVillageToGrow.woods);
+                  break;
+                case 2:
+                  resourceSlots = resourceSlots.concat(groupedBuildingsOfVillageToGrow.clays);
+                  break;
+                case 3:
+                  resourceSlots = resourceSlots.concat(groupedBuildingsOfVillageToGrow.irons);
+                  break;
+                default:
+                  resourceSlots = resourceSlots.concat(groupedBuildingsOfVillageToGrow.woods, groupedBuildingsOfVillageToGrow.clays, groupedBuildingsOfVillageToGrow.irons, groupedBuildingsOfVillageToGrow.crops);
+                  break;
+              }
+              let minLvlSlot = resourceSlots[0];
+              for (let i = 1; i < resourceSlots.length; i++) {
+                if (parseInt(resourceSlots[i].data.lvl) < parseInt(minLvlSlot.data.lvl) && resourceSlots[i].data.buildingType != 4)
+                  minLvlSlot = resourceSlots[i];
+              }
+              if (minLvlSlot.data.lvl < levelCap) {
+                if (checkIfEnoughResources(minLvlSlot.data.upgradeCosts, villageToGrow.storage)) {
+                  let options = {
+                    method: 'POST',
+                    headers: {
+                      'content-type': 'application/json;charset=UTF-8'
+                    },
+                    json: true,
+                    body: {
+                      "controller": "building",
+                      "action": "upgrade",
+                      "params": {
+                        "buildingType": minLvlSlot.data.buildingType,
+                        "locationId": minLvlSlot.data.locationId,
+                        "villageId": villageToGrowId
+                      },
+                      "session": token
+                    },
+                    serverDomain: payload.serverDomain
+                  };
+                  httpRequest(options).then(body => {
+                    console.log("Slot building started");
+                    let building = body.cache[0].data.queues['2'][0];
+                    let finish = building.finished;
+                    console.log("Time finish: " + finish);
+                    let dateNow = Date.now() / 1000;
+                    dateNow = dateNow - (dateNow % 1);
+                    console.log("Now        : " + dateNow);
+                    console.log("Check in   : " + new Date(finish * 1000));
+                    let timeToSleep = ((finish - dateNow) * 1000) + 1000;
+                    console.log(timeToSleep);
+                    sleep(timeToSleep).then(() => {
+                      console.log("Starting script again");
+                      growNewVillage(payload);
+                    });
+                  });
+                } else {
+                  resourceSlots = [];
+                  resourceSlots = resourceSlots.concat(groupedBuildingsOfVillageToGrow.woods, groupedBuildingsOfVillageToGrow.clays, groupedBuildingsOfVillageToGrow.irons, groupedBuildingsOfVillageToGrow.crops);
+                  let checkResult = checkIfEnoughForAny(villageToGrow.storage, resourceSlots);
+                  if (checkResult.result) {
+                    let options = {
+                      method: 'POST',
+                      headers: {
+                        'content-type': 'application/json;charset=UTF-8'
+                      },
+                      json: true,
+                      body: {
+                        "controller": "building",
+                        "action": "upgrade",
+                        "params": {
+                          "buildingType": checkResult.slot.data.buildingType,
+                          "locationId": checkResult.slot.data.locationId,
+                          "villageId": villageToGrowId
+                        },
+                        "session": token
+                      },
+                      serverDomain: payload.serverDomain
+                    };
+                    httpRequest(options).then(body => {
+                      console.log("Slot building started");
+                      let building = body.cache[0].data.queues['2'][0];
+                      let finish = building.finished;
+                      console.log("Time finish: " + finish);
+                      let dateNow = Date.now() / 1000;
+                      dateNow = dateNow - (dateNow % 1);
+                      console.log("Now        : " + dateNow);
+                      console.log("Check in   : " + new Date(finish * 1000));
+                      let timeToSleep = ((finish - dateNow) * 1000) + 1000;
+                      console.log("Time to sleep: " + timeToSleep);
+                      sleep(timeToSleep).then(() => {
+                        console.log("Starting script again");
+                        growNewVillage(payload);
+                      });
+                    });
+                  } else {
+                    console.log("Not enough resources to lvl up any slot:");
+                    sendResourcesForGrowing(villageWhichGrow, merchants, villageToGrow, percent, payloadData.token).then(async result => {
+                      if (result === 0)
+                        await sleep(300 * 1000);
+                      console.log("Starting script again");
+                      growNewVillage(payload);
+                    });
+                  }
+                }
+              } else {
+                resourceSlots = [];
+                resourceSlots = resourceSlots.concat(groupedBuildingsOfVillageToGrow.woods, groupedBuildingsOfVillageToGrow.clays, groupedBuildingsOfVillageToGrow.irons, groupedBuildingsOfVillageToGrow.crops);
+                let minLvlSlot = resourceSlots[0];
+                for (let i = 1; i < resourceSlots.length; i++) {
+                  if (parseInt(resourceSlots[i].data.lvl) < parseInt(minLvlSlot.data.lvl))
+                    minLvlSlot = resourceSlots[i];
+                }
+                if (minLvlSlot.data.lvl < levelCap) {
+                  if (checkIfEnoughResources(minLvlSlot.data.upgradeCosts, villageToGrow.storage)) {
+                    let options = {
+                      method: 'POST',
+                      headers: {
+                        'content-type': 'application/json;charset=UTF-8'
+                      },
+                      json: true,
+                      body: {
+                        "controller": "building",
+                        "action": "upgrade",
+                        "params": {
+                          "buildingType": minLvlSlot.data.buildingType,
+                          "locationId": minLvlSlot.data.locationId,
+                          "villageId": villageToGrowId
+                        },
+                        "session": token
+                      },
+                      serverDomain: payload.serverDomain
+                    };
+                    httpRequest(options).then(body => {
+                      console.log("Slot building started");
+                      let building = body.cache[0].data.queues['2'][0];
+                      let finish = building.finished;
+                      console.log("Time finish: " + finish);
+                      let dateNow = Date.now() / 1000;
+                      dateNow = dateNow - (dateNow % 1);
+                      console.log("Now        : " + dateNow);
+                      console.log("Check in   : " + new Date(finish * 1000));
+                      let timeToSleep = ((finish - dateNow) * 1000) + 1000;
+                      console.log(timeToSleep)
+                      sleep(timeToSleep).then(() => {
+                        console.log("Starting script again");
+                        growNewVillage(payload);
+                      });
+                    });
+                  } else {
+                    let checkResult = checkIfEnoughForAny(villageToGrow.storage, resourceSlots);
+                    if (checkResult.result) {
+                      let options = {
+                        method: 'POST',
+                        headers: {
+                          'content-type': 'application/json;charset=UTF-8'
+                        },
+                        json: true,
+                        body: {
+                          "controller": "building",
+                          "action": "upgrade",
+                          "params": {
+                            "buildingType": checkResult.slot.data.buildingType,
+                            "locationId": checkResult.slot.data.locationId,
+                            "villageId": villageToGrowId
+                          },
+                          "session": token
+                        },
+                        serverDomain: payload.serverDomain
+                      };
+                      httpRequest(options).then(body => {
+                        console.log("Slot building started");
+                        let building = body.cache[0].data.queues['2'][0];
+                        let finish = building.finished;
+                        console.log("Time finish: " + finish);
+                        let dateNow = Date.now() / 1000;
+                        dateNow = dateNow - (dateNow % 1);
+                        console.log("Now        : " + dateNow);
+                        console.log("Check in   : " + new Date(finish * 1000));
+                        let timeToSleep = ((finish - dateNow) * 1000) + 1000;
+                        console.log("Time to sleep: " + timeToSleep);
+                        sleep(timeToSleep).then(() => {
+                          console.log("Starting script again");
+                          growNewVillage(payload);
+                        });
+                      });
+                    } else {
+                      console.log("Not enough resources to lvl up any slot:");
+                      sendResourcesForGrowing(villageWhichGrow, merchants, villageToGrow, percent, payloadData.token).then(async result => {
+                        if (result === 0)
+                          await sleep(300 * 1000);
+                        console.log("Starting script again");
+                        growNewVillage(payload);
+                      });
+                    }
+                  }
+                } else {
+                  console.log("All resource slots reached " + levelCap + " lvl");
+                }
+              }
+            }
+          } else {
+            console.log("Granary lvl: 0");
+            let locationId = buildingsOfVillageToGrow.find(x => x.data.buildingType === 0).data.locationId;
+            let options = {
+              method: 'POST',
+              headers: {
+                'content-type': 'application/json;charset=UTF-8'
+              },
+              json: true,
+              body: {
+                "controller": "building",
+                "action": "upgrade",
+                "params": {
+                  "buildingType": 11,
+                  "locationId": locationId,
+                  "villageId": villageToGrowId
+                },
+                "session": token
+              },
+              serverDomain: payload.serverDomain
+            };
+            httpRequest(options).then(body => {
+              console.log("Granary building started");
+              let building = body.cache[0].data.queues['1'][0];
+              let finish = building.finished;
+              console.log("Time finish: " + finish);
+              let dateNow = Date.now() / 1000;
+              dateNow = dateNow - (dateNow % 1);
+              console.log("Now        : " + dateNow);
+              console.log("Check in   : " + new Date(finish * 1000));
+              let timeToSleep = ((finish - dateNow) * 1000) + 1000;
+              console.log(timeToSleep);
+              sleep(timeToSleep).then(() => {
+                console.log("Starting script again");
+                growNewVillage(payload);
+              });
+            });
+          }
+        }
+      } else {
+        console.log("Warehouse lvl: 0");
+        let locationId = buildingsOfVillageToGrow.find(x => x.data.buildingType === 0).data.locationId;
+        let options = {
+          method: 'POST',
+          headers: {
+            'content-type': 'application/json;charset=UTF-8'
+          },
+          json: true,
+          body: {
+            "controller": "building",
+            "action": "upgrade",
+            "params": {
+              "buildingType": buildingTypes.warehouse,
+              "locationId": locationId,
+              "villageId": villageToGrowId
+            },
+            "session": token
+          },
+          serverDomain: payload.serverDomain
+        };
+        httpRequest(options).then(body => {
+          console.log("Warehouse building started");
+          let building = body.cache[0].data.queues['1'][0];
+          let finish = building.finished;
+          console.log("Time finish: " + finish);
+          let dateNow = Date.now() / 1000;
+          dateNow = dateNow - (dateNow % 1);
+          console.log("Now        : " + dateNow);
+          console.log("Check in   : " + new Date(finish * 1000));
+          let timeToSleep = ((finish - dateNow) * 1000) + 1000;
+          console.log(timeToSleep)
+          sleep(timeToSleep).then(() => {
+            console.log("Starting script again");
+            growNewVillage(payload);
+          });
+        });
+      }
+    } else {
+      console.log("Already builds.");
+      let finish;
+      if (buildingHouses && buildingResources)
+        finish = buildingHouses.finished > buildingResources.finished ? buildingHouses.finished : buildingResources.finished;
+      else if (buildingHouses)
+        finish = buildingHouses.finished;
+      else
+        finish = buildingResources.finished;
+      console.log("Time finish: " + finish);
+      let dateNow = Date.now() / 1000;
+      dateNow = dateNow - (dateNow % 1);
+      console.log("Now        : " + dateNow);
+      console.log("Check in   : " + new Date(finish * 1000));
+      let timeToSleep = ((finish - dateNow) * 1000) + 1000;
+      console.log(timeToSleep);
+      sleep(timeToSleep).then(() => {
+        console.log("Starting script again");
+        growNewVillage(payload);
+      });
+    }
+  });
+}
+
+function findBuildingByBuildingType(buildingsList, buildingType) {
+  for (let building in buildingsList) {
+    if (building.data.buildingType === buildingType)
+      return building;
+  }
+}
+
+/**
+ * Returns an object that contains sorted and filtered arrays of buildings
+ * @param slots
+ * @returns {{crops: Array, woods: Array, clays: Array, irons: Array, houses: Array, empty_slots: Array}}
+ */
+
+function groupBuildings(slots) {
+  let groupedBildings = {
+    crops: [],
+    woods: [],
+    clays: [],
+    irons: [],
+    houses: [],
+    empty_slots: []
+  };
+  for (let i = 0; i < slots.length; i++) {
+    let slot = slots[i];
+    if (slot.data.buildingType === '1')
+      groupedBildings.woods.push(slot);
+    else if (slot.data.buildingType === '2')
+      groupedBildings.clays.push(slot);
+    else if (slot.data.buildingType === '3')
+      groupedBildings.irons.push(slot);
+    else if (slot.data.buildingType === '4')
+      groupedBildings.crops.push(slot);
+    else if (slot.data.buildingType !== '0')
+      groupedBildings.houses.push(slot);
+    else groupedBildings.empty_slots.push(slot);
+  }
+  return groupedBildings;
+}
+
+function checkIfEnoughForAny(storage, slots) {
+  let result = {
+    result: false
+  };
+  for (let i = 0; i < slots.length; i++) {
+    let slot = slots[i];
+    if (slot.data.buildingType !== 4 && checkIfEnoughResources(slot.data.upgradeCosts, storage)) {
+      result.result = true;
+      result.slot = slot;
+      return result;
+    }
+  }
+  return result;
+}
+
+async function sendResourcesForGrowing(villageWhichGrow, merchants, villageToGrow, percent, token) {
+  return new Promise((resolve) => {
+    if (villageWhichGrow.villageId == villageToGrow.villageId) {
+      resolve(0);
+    } else if (
+      villageWhichGrow.storage['1'] / villageWhichGrow.storageCapacity['1'] > percent / 100 &&
+      villageWhichGrow.storage['2'] / villageWhichGrow.storageCapacity['2'] > percent / 100 &&
+      villageWhichGrow.storage['3'] / villageWhichGrow.storageCapacity['3'] > percent / 100 &&
+      villageWhichGrow.storage['4'] / villageWhichGrow.storageCapacity['4'] > percent / 100
+    ) {
+      let howMuchToSend = calculateHowMuchToSend(villageToGrow);
+      let totalNeed = howMuchToSend[0] + howMuchToSend[1] + howMuchToSend[2] + howMuchToSend[3];
+      let ableToSend = (merchants.max - merchants.inOffers - merchants.inTransport) * merchants.carry;
+      if (ableToSend > 0) {
+        if (totalNeed > ableToSend) {
+          let coef = ableToSend / totalNeed;
+          for (let i = 0; i < howMuchToSend.length; i++)
+            howMuchToSend[i] = cutFloat(howMuchToSend[i] * coef);
+        }
+        totalNeed = howMuchToSend[0] + howMuchToSend[1] + howMuchToSend[2] + howMuchToSend[3];
+        if (totalNeed <= ableToSend) {
+          let forComparing = {
+            '1': howMuchToSend[0],
+            '2': howMuchToSend[1],
+            '3': howMuchToSend[2],
+            '4': howMuchToSend[3]
+          };
+          if (checkIfEnoughResources(forComparing, villageWhichGrow.storage)) {
+            let sendOptions = {
+              method: 'POST',
+              headers: {
+                'content-type': 'application/json;charset=UTF-8'
+              },
+              json: true,
+              body: {
+                "controller": "trade",
+                "action": "sendResources",
+                "params": {
+                  "destVillageId": villageToGrow.villageId,
+                  "recurrences": 1,
+                  "resources": forComparing,
+                  "sourceVillageId": villageWhichGrow.villageId
+                }, "session": token
+              },
+              serverDomain: serverDomain
+            };
+
+            httpRequest(sendOptions).then(async (body) => {
+              let data = body.cache[0].data;
+              let resources = data.movement.resources;
+              console.log("Recources sent:");
+              console.log("Wood: " + resources['1'] + ", clay: " + resources['2'] + ", iron: " + resources['3'] + ", crop: " + resources['4']);
+              let timeToSleep = (data.movement.timeFinish - data.movement.timeStart) * 1000 + 1000;
+              console.log("Wait: " + timeToSleep + " millis");
+              await sleep(timeToSleep);
+              resolve();
+            });
+          } else {
+            console.log("Not enough resources in village which grows");
+            resolve(0);
+          }
+        }
+      } else {
+        console.log("There are no merchants in village which grows");
+        resolve(0);
+      }
+    } else {
+      console.log("There are too low resources in village which grows");
+      resolve(0);
+    }
+  });
+}
+
+function cutFloat(value) {
+  return value - (value % 1);
+}
+
+function calculateHowMuchToSend(villageToGrow) {
+  let need = [
+    villageToGrow.storageCapacity['1'] - Math.trunc(villageToGrow.storage['1']) - (villageToGrow.production['1'] * 3),
+    villageToGrow.storageCapacity['2'] - Math.trunc(villageToGrow.storage['2']) - (villageToGrow.production['2'] * 3),
+    villageToGrow.storageCapacity['3'] - Math.trunc(villageToGrow.storage['3']) - (villageToGrow.production['3'] * 3),
+    villageToGrow.storageCapacity['4'] - Math.trunc(villageToGrow.storage['4']) - (villageToGrow.production['4'] * 3)
+  ];
+  for (let i = 0; i < need.length; i++)
+    if (need[i] < 0)
+      need[i] = 0;
+  return need;
+}
+
+function checkIfEnoughResources(required, exist) {
+  return required['1'] <= exist['1'] &&
+    required['2'] <= exist['2'] &&
+    required['3'] <= exist['3'] &&
+    required['4'] <= exist['4'];
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+
+let users = {
+  wahlbergCom2: {"session":"09ba34e71e066d50e2d2"},
+  wahlbergSpeed: {"session":"1bd605afa3a090bb280a"},
+  wahlberg: {"session":"dc32136ced55eb499c4f"},
+  rin: {"session":"a768fb8e08db828122dc"},
+  stechkin: {"session":"cdda9a7ce79e495d2803"},
+  quasi: {"session": "452024f09cdf8a0d7070"},
+  pashgun: {"session": "ee7b8deda68292ae6d84"},
+  your_papa: {"session": "a087f7bc233894c37ef4"},
+};
+
+let listPayload = {
+  wahlbergScript:   {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[7797, 7798],"villageId":537051121},"session":users.wahlbergCom2.session, "server": "com2"},
+  wahlbergExploit:  {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[7797, 7798],"villageId":536756212},"session":users.wahlbergCom2.session, "server": "com2"},
+  wahlbergCheats:   {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[7797, 7798],"villageId":537116670},"session":users.wahlbergCom2.session, "server": "com2"},
+  wahlbergWave:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[7797, 7798],"villageId":535183385},"session":users.wahlbergCom2.session, "server": "com2"},
+  Rin:          {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[7799, 7800],"villageId":536821756},"session":users.rin.session, "server": "com2"},
+  Pashgun:      {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[7793, 7794, 7795],"villageId":537313259},"session":users.pashgun.session, "server": "com2"},
+  Pashgun2:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[7793, 7794, 7795],"villageId":537083889},"session":users.pashgun.session, "server": "com2"},
+  Pashgun3:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[7793, 7794, 7795],"villageId":537444336},"session":users.pashgun.session, "server": "com2"},
+  quasi:        {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[7539, 7540, 7541],"villageId":536887294},"session":users.quasi.session, "server": "com2"},
+  quasi2:       {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[7539, 7540, 7541],"villageId":536788990},"session":users.quasi.session, "server": "com2"},
+  Diuse:        {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[7801,7802],"villageId":537640952},"session":"bc594f84ded28acc52af", "server": "com2"},
+  YourPapa:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[7550, 7551, 7552],"villageId":536854523},"session":users.your_papa.session, "server": "com2"},
+  YourPapa2:    {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[7550, 7551, 7552],"villageId":536821758},"session":users.your_papa.session, "server": "com2"},
+  hysteria:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[7542, 7543, 7544],"villageId":537313250},"session":"674f33b7c1967458b08b", "server": "com2"},
+  engal:        {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[7266, 7267, 7268, 7269],"villageId":537313280},"session":"dffb77641a45d83c1a87", "server": "com2"},
+  abaddon:      {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[7005, 7006, 7007, 7008, 7009],"villageId":537214965},"session":"bbee3a43e50aaf8582bc", "server": "com2"},
+  astaroth:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[7274, 7275, 7276, 7277],"villageId":536952818},"session":"58c57a4b27c0877661e4", "server": "com2"},
+  stechkin:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[7015, 7016, 7017, 7018, 7019],"villageId":537051127},"session":users.stechkin.session, "server": "com2"},
+  farmer228:    {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[7020, 7021, 7022, 7023, 7024],"villageId":537411563},"session":"a7f0bdb772a768482521", "server": "com2"},
+
+  wahlberg: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2090, 3057, 3183],"villageId":537018358},"session": users.wahlberg.session, "server": "test"},
+  wahlberg2: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[2090, 3056],"villageId":537018356},"session": users.wahlberg.session, "server": "test"},
+  greshnik: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[3096],"villageId":536887260},"session": '7f353164d2dad6b7731d', "server": "test"},
+  greshnik2: {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[3097],"villageId":536657875},"session": '7f353164d2dad6b7731d', "server": "test"},
+
+  desertir:      {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[1345, 1346],"villageId":537542616},"session":"8d693f2c1a8ace141bad", "server": "ru1x3"},
+  desertir2:     {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[1345, 1346],"villageId":536690641},"session":"8d693f2c1a8ace141bad", "server": "ru1x3"},
+  ann:           {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[1387, 1388],"villageId":536166424},"session":"f2a17f8eae10f86487d3", "server": "ru1x3"},//
+  ann2:          {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[1387, 1388],"villageId":536231956},"session":"f2a17f8eae10f86487d3", "server": "ru1x3"},//
+  ann3:          {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[1387, 1388],"villageId":536166423},"session":"f2a17f8eae10f86487d3", "server": "ru1x3"},//
+  ann4:          {"controller":"troops","action":"startFarmListRaid","params":{"listIds":[1387, 1388],"villageId":536231960},"session":"f2a17f8eae10f86487d3", "server": "ru1x3"},//
+};
+
+
+
+
+
+let cookie = userDate.cookie;
+let apiData = {
+  gameworld: null,
+  players: null,
+  alliances: null,
+  map: null,
+  fromGame: null,
+  crop: null
+};
+let apiKey = {};
+let timeForGame = 't' + Date.now();
+let token = userDate.token;
+let serverDomain = userDate.serverDomain;
+// node ./bin/wwwY
+//different = {less, equal, more}
+//value = value
+//TODO: вынести фильтры
+/**
+ * Примеры фильров
+ * @type {{players: {active: {different: string, value: string}}, villages: {population: {different: string, value: string}}}}
+ */
+let deathsFilterFrom60To150 = {
+  players: {
+    hasNoobProtection: {
+      different: "equal",
+      value: false,
+    },
+    kingdomId: {
+      different: "equal",
+      value: "0"
+    },
+    active: {
+      different: "equal",
+      value: "0"
+    },
+    population: {
+      different: "between",
+      valueTop: "149",
+      valueBottom: "40",
+    }
+  },
+  villages: {
+    population: {
+      different: "between",
+      valueTop: "149",
+      valueBottom: "60",
+    }
+  }
+};
+let deathsFilterFrom150 = {
+  players: {
+    active: {
+      different: "equal",
+      value: "0"
+    },
+    hasNoobProtection: {
+      different: "equal",
+      value: false,
+    },
+    kingdomId: {
+      different: "equal",
+      value: "0"
+    },
+  },
+  villages: {
+    population: {
+      different: "more",
+      value: "150"
+    }
+  }
+};
+let deathsFilter = {
+  players: {
+    active: {
+      different: "equal",
+      value: "0"
+    }
+  },
+  villages: {
+    population: {
+      different: "more",
+      value: "1"
+    }
+  }
+};
+let lowVillage = {
+  players: {
+    active: {
+      different: "equal",
+      value: "1"
+    },
+    hasNoobProtection: {
+      different: "equal",
+      value: false,
+    },
+    tribeId: {
+      different: "equal",
+      value: "2"
+    },
+  },
+  villages: {
+    population: {
+      different: "less",
+      value: "200"
+    }
+  },
+
+};
+let withoutKingdomsFilter = {
+  players: {
+    hasNoobProtection: {
+      different: "equal",
+      value: false,
+    },
+    kingdomId: {
+      different: "equal",
+      value: "0"
+    },
+    active: {
+      different: "equal",
+      value: "1"
+    },
+    population: {
+      different: "between",
+      valueTop: "199",
+      valueBottom: "40",
+    }
+  },
+  villages: {
+    population: {
+      different: "between",
+      valueTop: "199",
+      valueBottom: "40",
+    }
+  }
+};
+
+let withoutKingdomsFilter2 = {
+  players: {
+    hasNoobProtection: {
+      different: "equal",
+      value: false,
+    },
+    kingdomId: {
+      different: "equal",
+      value: "0"
+    },
+    active: {
+      different: "equal",
+      value: "1"
+    },
+  },
+  villages: {
+    population: {
+      different: "less",
+      value: "1200",
+    }
+  }
+};
+
+let checkAll = {
+  players: {
+    hasNoobProtection: {
+      different: "equal",
+      value: false,
+    },
+    kingdomId: {
+      different: "notEqual",
+      value: "189"
+    },
+    active: {
+      different: "equal",
+      value: "1"
+    },
+  },
+  villages: {
+    population: {
+      different: "less",
+      value: "400",
+    }
+  }
+};
+
+let kingdomsFilters = {
+  players: {
+    kingdomId: {
+      different: "equal",
+      value: "503"
+    },
+    active: {
+      different: "equal",
+      value: "1"
+    }
+  },
+  villages: {
+    population: {
+      different: "more",
+      value: "100"
+    }
+  }
+};
+
+let neutrals = {
+  players: {
+    kingdomId: {
+      different: "equal",
+      value: "0"
+    },
+    active: {
+      different: "equal",
+      value: "1"
+    }
+  },
+  villages: {
+    population: {
+      different: "more",
+      value: "1"
+    }
+  }
+};
+
+let soratnik = {
+  players: {
+    kingdomId: {
+      different: "equal",
+      value: "15"
+    },
+    active: {
+      different: "equal",
+      value: "1"
+    }
+  },
+  villages: {
+    population: {
+      different: "more",
+      value: "1"
+    }
+  }
+};
+
+let union = {
+  players: {
+    kingdomId: {
+      different: "equal",
+      value: "71"
+    },
+    active: {
+      different: "equal",
+      value: "1"
+    }
+  },
+  villages: {
+    population: {
+      different: "more",
+      value: "1"
+    }
+  }
+};
+
+let garem = {
+  players: {
+    kingdomId: {
+      different: "equal",
+      value: "33"
+    },
+    active: {
+      different: "equal",
+      value: "1"
+    }
+  },
+  villages: {
+    population: {
+      different: "more",
+      value: "1"
+    }
+  }
+};
+
+let soratnikLow = {
+  players: {
+    kingdomId: {
+      different: "equal",
+      value: "15"
+    },
+    active: {
+      different: "equal",
+      value: "1"
+    }
+  },
+  villages: {
+    population: {
+      different: "less",
+      value: "200"
+    }
+  }
+};
+
+let soratnikBig = {
+  players: {
+    kingdomId: {
+      different: "equal",
+      value: "15"
+    },
+    active: {
+      different: "equal",
+      value: "1"
+    }
+  },
+  villages: {
+    population: {
+      different: "more",
+      value: "200"
+    }
+  }
+};
+
+
+let BS = {
+  players: {
+    kingdomId: {
+      different: "equal",
+      value: "30"
+    },
+    active: {
+      different: "equal",
+      value: "1"
+    }
+  },
+  villages: {
+    population: {
+      different: "more",
+      value: "1"
+    }
+  }
+};
+let GoD = {
+  players: {
+    kingdomId: {
+      different: "equal",
+      value: "42"
+    },
+    active: {
+      different: "equal",
+      value: "1"
+    }
+  },
+  villages: {
+    population: {
+      different: "more",
+      value: "1"
+    }
+  }
+};
+let High5Inc = {
+  players: {
+    kingdomId: {
+      different: "equal",
+      value: "167"
+    },
+    active: {
+      different: "equal",
+      value: "1"
+    }
+  },
+  villages: {
+    population: {
+      different: "more",
+      value: "1"
+    }
+  }
+};
+let BSBS = {
+  players: {
+    kingdomId: {
+      different: "equal",
+      value: "269"
+    },
+    active: {
+      different: "equal",
+      value: "1"
+    }
+  },
+  villages: {
+    population: {
+      different: "more",
+      value: "1"
+    }
+  }
+};
+let Kelt = {
+  players: {
+    kingdomId: {
+      different: "equal",
+      value: "179"
+    },
+    active: {
+      different: "equal",
+      value: "1"
+    }
+  },
+  villages: {
+    population: {
+      different: "more",
+      value: "1"
+    }
+  }
+};
+
+let Bandits = {
+  players: {
+    kingdomId: {
+      different: "equal",
+      value: "27"
+    },
+    active: {
+      different: "equal",
+      value: "1"
+    }
+  },
+  villages: {
+    population: {
+      different: "more",
+      value: "120"
+    }
+  }
+};
+
+let SNGFilter = {
+  players: {
+    kingdomId: {
+      different: "equal",
+      value: "117"
+    },
+    active: {
+      different: "equal",
+      value: "1"
+    }
+  },
+  villages: {
+    population: {
+      different: "more",
+      value: "1"
+    }
+  }
+};
+
+let Aero2 = {
+  players: {
+    kingdomId: {
+      different: "equal",
+      value: "28"
+    },
+    active: {
+      different: "equal",
+      value: "1"
+    }
+  },
+  villages: {
+    population: {
+      different: "more",
+      value: "1"
+    },
+    isMainVillage: {
+      different: "equal",
+      value: false
+    },
+    isTown: {
+      different: "equal",
+      value: false
+    },
+  }
+};
+
+let Resolute = {
+  players: {
+    kingdomId: {
+      different: "equal",
+      value: "211"
+    },
+    active: {
+      different: "equal",
+      value: "1"
+    }
+  },
+  villages: {
+    population: {
+      different: "more",
+      value: "1"
+    }
+  }
+};
+
+
+let GF = {
+  players: {
+    kingdomId: {
+      different: "equal",
+      value: "6"
+    },
+    active: {
+      different: "equal",
+      value: "1"
+    }
+  },
+  villages: {
+    population: {
+      different: "more",
+      value: "1"
+    }
+  }
+};
+
+
+let USNC = {
+  players: {
+    kingdomId: {
+      different: "equal",
+      value: "20"
+    },
+    active: {
+      different: "equal",
+      value: "1"
+    }
+  },
+  villages: {
+    population: {
+      different: "more",
+      value: "1"
+    }
+  }
+};
+
+let FingertipAlbino = {
+  players: {
+    playerId: {
+      different: "equal",
+      value: "3201"
+    }
+  },
+  villages: {
+    name: {
+      different: "equal",
+      value: "Albino"
+    }
+  }
+};
+let FingertipBravisimo = {
+  players: {
+    playerId: {
+      different: "equal",
+      value: "3201"
+    }
+  },
+  villages: {
+    name: {
+      different: "equal",
+      value: "Albino"
+    }
+  }
+};
+
+//TODO: переписать на класс, добавить es6 , ts
 
 
 // let repeatFn = function(fn){
@@ -3253,10 +3946,66 @@ async function copyListsToAll(from, to, listName) {
 /**
  * Скан по условию
  */
-//
-// attackList(neutrals, -17, 7, {villageId: 537116655, session: '98fdfe0adc4a55be5b8c'});
+
+// attackList(unsc, 0, 0, {villageId: 536723457, session: 'a1a6b9d83af112f4d46c', units: {
+//     "1": 0,
+//     "2": 0,
+//     "3": 0,
+//     "4": 1,
+//     "5": 0,
+//     "6": 0,
+//     "7": 0,
+//     "8": 0,
+//     "9": 0,
+//     "10": 0,
+//     "11": 0
+//   }});
+
+
+// attackList(neutrals, -23, -18, {villageId: 536297449, session: users.wahlbergSpeed.session});
 // setInterval(() => {
-//   attackList(neutrals, -17, 7, {villageId: 537116655, session: '98fdfe0adc4a55be5b8c'});
+//   attackList(neutrals, -23, -18, {villageId: 536297449, session: users.wahlbergSpeed.session});
+// }, 4 * 3600 * 1000);
+attackList(union, -17, 13, {villageId: 537313263, session: '7a99b76d9c0de8d4c650', units: {
+  "1": 0,
+  "2": 0,
+  "3": 0,
+  "4": 1,
+  "5": 0,
+  "6": 0,
+  "7": 0,
+  "8": 0,
+  "9": 0,
+  "10": 0,
+  "11": 0
+}});
+// attackList(garem, -17, 13, {villageId: 537313263, session: '7a99b76d9c0de8d4c650', units: {
+//     "1": 0,
+//     "2": 0,
+//     "3": 0,
+//     "4": 1,
+//     "5": 0,
+//     "6": 0,
+//     "7": 0,
+//     "8": 0,
+//     "9": 0,
+//     "10": 0,
+//     "11": 0
+//   }});
+// setInterval(() => {
+//   attackList(neutrals, -17, 13, {villageId: 537313263, session: '7a99b76d9c0de8d4c650', units: {
+//       "1": 0,
+//       "2": 0,
+//       "3": 0,
+//       "4": 1,
+//       "5": 0,
+//       "6": 0,
+//       "7": 0,
+//       "8": 0,
+//       "9": 0,
+//       "10": 0,
+//       "11": 0
+//     }});
 // }, 4 * 3600 * 1000);
 
 // attackList(Ducheeze, 4, 27);
@@ -3297,17 +4046,9 @@ async function copyListsToAll(from, to, listName) {
  */
 
 let merchantPlayers = {
-  quasi: {
-      params: {percent: 85, villageId: 536887294, playerId: '350'},
-      cred: {session: users.quasi.session, serverDomain: 'com2'}
-  },
   wahlbergExploit: {
-    params: {percent: 85, villageId: 536756212, playerId: '103'},
-    cred: {session: users.wahlbergCom2.session, serverDomain: 'com2'}
-  },
-  wahlbergScript: {
-    params: {percent: 85, villageId: 537051121, playerId: '103'},
-    cred: {session: users.wahlbergCom2.session, serverDomain: 'com2'}
+    params: {percent: 85, villageId: 537542642, playerId: '1556'},
+    cred: {session: users.wahlberg.session, serverDomain: 'test'}
   },
   rin: {
     params: {percent: 85, villageId: 536821756, playerId: '125'},
@@ -3321,6 +4062,14 @@ let merchantPlayers = {
     params: {percent: 70, villageId: 537313259, playerId: '396'},
     cred: {session: users.pashgun.session, serverDomain: 'com2'}
   },
+  pashgun2: {
+    params: {percent: 70, villageId: 537083889, playerId: '396'},
+    cred: {session: users.pashgun.session, serverDomain: 'com2'}
+  },
+  pashgun3: {
+    params: {percent: 70, villageId: 537444336, playerId: '396'},
+    cred: {session: users.pashgun.session, serverDomain: 'com2'}
+  },
 };
 
 // merchants(merchantPlayers);
@@ -3329,97 +4078,70 @@ let merchantPlayers = {
  * Копирование списков
  */
 
-copyListsToAll(listPayload.wahlbergSpeed, [listPayload.wahlbergSpeed, listPayload.wahlbergSpeed], "25April_");
+// copyListsToAll(
+//   listPayload.Pashgun,
+//   [
+//     listPayload.wahlbergScript,
+//     listPayload.Rin,
+//     listPayload.Diuse,
+//     // listPayload.engal,
+//     listPayload.YourPapa,
+//     listPayload.hysteria,
+//   ],
+//   "14june__");
+// setTimeout(() => {
+//   copyListsToAll(
+//     listPayload.wahlberg,
+//     [
+//       listPayload.greshnik
+//     ],
+//     "09Sept_");
+// }, 100 * 1000)
+
 
 /**
  * Добавления юнитов по улсовиям
  */
-//
-// farmListCreator('60-149/', '0', '0', deathsFilterFrom60To150);
+
+// farmListCreator('soratnik/', '-10', '4', union);
+// farmListCreator('soratnik/', '-10', '4', soratnikLow);
+// farmListCreator('60-149/', '-10', '4', deathsFilterFrom60To150);
 // setTimeout(() => {
-//   farmListCreator('150/'  , '0', '0', deathsFilterFrom150);
+//  farmListCreator('150/'  , '-10', '4', deathsFilterFrom150);
 // }, 100 * 1000);
 
 /**
  * Фармлисты
  */
-//
-// setTimeout(() => {
-//   autoFarmList(2200, 600, listPayload.Starlord ,         'com2', true);
-//   autoFarmList(2200, 600, listPayload.Starlord2 ,         'com2', true);
-// }, 300 * 1000);
-//
-// setTimeout(() => {
-//   autoFarmList(3000, 600, listPayload.ann , 'ru1', true);
-//   autoFarmList(3000, 600, listPayload.ann2, 'ru1', true);
-//   autoFarmList(3000, 600, listPayload.ann3, 'ru1', true);
-//   autoFarmList(3000, 600, listPayload.ann4, 'ru1', true);
-// }, 200 * 1000)
-//
-// setTimeout(() => {
-//   autoFarmList(2200, 600, listPayload.Pashgun ,          'com2', true);
-// }, 100 * 1000);
-// setTimeout(() => {
-//   autoFarmList(2200, 600, listPayload.Pashgun2 ,          'com2', true);
-// }, 200 * 1000);
-// setTimeout(() => {
-//   autoFarmList(2200, 600, listPayload.Pashgun3 ,          'com2', true);
-// }, 300 * 1000);
-//
+
 // setTimeout(()=>{
-//   autoFarmList(1800, 600, listPayload.Rin ,              'com2', true);
-// }, 500 * 1000);
-//
-// setTimeout(()=>{
-//   autoFarmList(1800, 600, listPayload.wahlbergScript ,      'com2', true);
-//   autoFarmList(1800, 600, listPayload.wahlbergExploit ,      'com2', true);
-//   autoFarmList(1800, 600, listPayload.wahlbergCheats ,      'com2', true);
+//   autoFarmList(800, 300, listPayload.wahlberg ,      'test', true);
+//   autoFarmList(800, 300, listPayload.wahlberg2 ,      'test', true);
+//   autoFarmList(800, 300, listPayload.greshnik ,      'test', true);
+//   autoFarmList(800, 300, listPayload.greshnik2 ,      'test', true);
 // }, 400 * 1000);
 //
-// setTimeout(()=>{
-//   autoFarmList(2200, 600, listPayload.YourPapa, 'com2', true);
-//   autoFarmList(2200, 600, listPayload.abaddon, 'com2', true);
-//   autoFarmList(2200, 600, listPayload.astaroth, 'com2', true);
-// autoFarmList(1800, 600, listPayload.Diuse ,            'com2', true);
-// }, 200 * 1000);
-//
-// setTimeout(()=>{
-//   autoFarmList(2200, 600, listPayload.quasi, 'com2', true);
-//   autoFarmList(2200, 600, listPayload.hysteria, 'com2', true);
-// }, 700 * 1000);
-//
-// autoFarmList(2200, 600, listPayload.engal, 'com2', true);
-//
-//
-//
-// setTimeout(()=> {
-//   autoFarmList(1000, 300, listPayload.wahlbergSpeed, 'ru1x3', true);
-//   autoFarmList(1000, 300, listPayload.desertir, 'ru1x3', true);
-//   autoFarmList(1000, 300, listPayload.desertir2, 'ru1x3', true);
-// }, 600);
 
-// autoExtendLists(listPayload.wahlbergExp ,      deathsFilter, {x: 17, y: 9});
-// setTimeout(() => {
-//   autoExtendLists(listPayload.wahlbergScript ,   deathsFilterFrom150, {x: 17, y: 9});
-//   autoExtendLists(listPayload.hysteria,         deathsFilterFrom150, {x: 16, y: 11});
-// }, 3600 * 1000);
-// autoExtendLists(listPayload.wahlbergKop1 ,     deathsFilter, {x: 17, y: 9});
-// autoExtendLists(listPayload.wahlbergKop2 ,     deathsFilter, {x: 17, y: 9});
-// autoExtendLists(listPayload.wahlbergKop2 ,     deathsFilter, {x: 17, y: 9});
-
-// autoExtendLists(listPayload.malaoban1, deathsFilterFrom60To150, {x: 4, y: 27});
-// autoExtendLists(listPayload.malaoban3, deathsFilterFrom150, {x: 4, y: 27});
-// autoExtendLists(listPayload.malaoban3 ,      'com2', deathsFilter);
-// autoExtendLists(listPayload.Wahlberg ,       deathsFilter);
-// autoExtendLists(listPayload.Wahlberg2 ,       deathsFilter);
-// autoExtendLists(listPayload.krolik ,         deathsFilter);
-// autoExtendLists(listPayload.King ,         deathsFilter);
-// autoExtendLists(listPayload.julia,         deathsFilterFrom150, {x: 16, y: 11});
-// autoExtendLists(listPayload.krolik,         deathsFilterFrom150, {x: 56, y: -13});
-
+/**
+  Hero check
+ */
 // playerFarmList, filter, fixedTime, randomTime, server
 // heroChecker([537444369, 536952841, 537280520, 537444388, 537280521, 537575434, 537575439], 50, "cc00e59d239bf2fa21ed", 537247743);
-// heroChecker([537444360], 65, "8494ba670668ae064aa5", 537247743);
+// heroChecker([537444360], 150, "c9c2f8f2d1f6f12f5e86", 536723457,
+//   {
+//     "1": 0,
+//     "2": 0,
+//     "3": 0,
+//     "4": 1,
+//     "5": 0,
+//     "6": 0,
+//     "7": 0,
+//     "8": 0,
+//     "9": 0,
+//     "10": 0,
+//     "11": 0
+//   });
+
 // heroChecker([536920052, 536920054], 13, "75f543b65fa424807b92", 537051127,{
 //   "1": 0,
 //   "2": 0,
@@ -3447,6 +4169,25 @@ copyListsToAll(listPayload.wahlbergSpeed, [listPayload.wahlbergSpeed, listPayloa
 //   "11": 0
 // });
 // heroChecker([535838712], 100, "f192292c4346c1fead7a", 537247743);
+
+/**
+ * autobuild
+ * @type {{villageWhichGrowId: number, villageToGrowId: number, percentWarehouse: number, slotsLvlCap: number, warehouse: number, granary: number, token: string, playerId: number, serverDomain: string}}
+ */
+
+let payloadData = {
+  villageWhichGrowId: 537018358, // деревня, откуда шлём ресы (если надо, чтобы деревня росла на своём чвр - указать деревню, которую растим)
+  villageToGrowId: 537018356, // деревня, которую растим
+  percentWarehouse: 0, // процент содержания склада, если хоть один рес меньше процента - торгаши не шлются
+  slotsLvlCap: 7, // уровень полей
+  warehouse: 6, // уровень склада
+  granary: 6, // уровень амбара
+  token: '08110e8754131516abc8',
+  playerId: 333,
+  serverDomain: 'test'
+};
+
+// growNewVillage(payloadData);
 
 
 /**
