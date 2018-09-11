@@ -1876,9 +1876,9 @@ function searchEnemy(fn, xCor, yCor, filtersParam) {
       }
     };
 
-      let optionVillages = hackPlayer.cache[0].data.villages;
+    let optionVillages = hackPlayer.cache[0].data.villages;
 
-      let sortedVillagesByCoor = _.sortBy(villages,  (village) => {
+    let sortedVillagesByCoor = _.sortBy(optionVillages,  (village) => {
       let len = Math.sqrt(Math.pow(village.coordinates.x - xCor, 2) + Math.pow(village.coordinates.y - yCor, 2));
       return len;
     });
