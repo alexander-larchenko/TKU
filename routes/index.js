@@ -1629,6 +1629,8 @@ function searchEnemy(fn, xCor, yCor, filtersParam) {
     let allPlayers = players;
     let sortedPlayers;
     let sortedVillages;
+    let sortedOptions;
+    let villages = [];
 
 
     console.log(players);
@@ -1786,16 +1788,102 @@ function searchEnemy(fn, xCor, yCor, filtersParam) {
       sortedPlayers = Object.assign({}, hackPlayer);
     }
 
-    // console.log(hackPlayer.cache[0].data.villages[0])
+    villages = hackPlayer.cache[0].data.villages;
 
-    let villages = hackPlayer.cache[0].data.villages.cache;
-    let sortedVillagesByCoor = _.sortBy(villages,  (village) => {
+    // console.log(hackPlayer.cache[0].data.villages[0])
+      hackPlayer = {
+          cache: [
+              {
+                  data: {
+                      villages: []
+                  }
+              }
+          ]
+      };
+
+    if (filtersParam.options){
+      for (let filter in filtersParam.options) {
+          villages.map((village, index, array) => {
+              let len = Math.sqrt(Math.pow(village.coordinates.x - xCor, 2) + Math.pow(village.coordinates.y - yCor, 2));
+              village.lenToPoint = len;
+
+              sortedOptions = {
+                  cache: []
+              };
+
+              if (filtersParam.options[filter].different === 'equal') {
+                  sortedVillages.cache.forEach((item, i, arr) => {
+                      for (let j = 0; j < item.data.villages.length; j++) {
+                          let obj = item.data.villages[j];
+                          if (obj[filter] == filtersParam.options[filter].value) {
+                              sortedOptions.cache.push(obj);
+                          }
+                      }
+                  });
+              }
+
+              else if (filtersParam.options[filter].different === 'notEqual') {
+                  sortedVillages.cache.forEach((item, i, arr) => {
+                      for (let j = 0; j < item.data.villages.length; j++) {
+                          let obj = item.data.villages[j];
+                          if (obj[filter] != filtersParam.options[filter].value) {
+                              sortedOptions.cache.push(obj);
+                          }
+                      }
+                  });
+              }
+
+              else if (filtersParam.options[filter].different === 'less') {
+                  sortedVillages.cache.forEach((item, i, arr) => {
+                      for (let j = 0; j < item.data.villages.length; j++) {
+                          let obj = item.data.villages[j];
+                          if (parseInt(obj[filter]) < parseInt(filtersParam.options[filter].value)) {
+                              sortedOptions.cache.push(obj);
+                          }
+                      }
+                  });
+              }
+
+              else if (filtersParam.options[filter].different === 'more') {
+                  sortedVillages.cache.forEach((item, i, arr) => {
+                      for (let j = 0; j < item.data.villages.length; j++) {
+                          let obj = item.data.villages[j];
+                          if (parseInt(obj[filter]) > parseInt(filtersParam.options[filter].value)) {
+                              sortedOptions.cache.push(obj);
+                          }
+                      }
+                  });
+              }
+
+              else if (filtersParam.options[filter].different === 'between') {
+                  sortedVillages.cache.forEach((item, i, arr) => {
+                      for (let j = 0; j < item.data.villages.length; j++) {
+                          let obj = item.data.villages[j];
+                          if (
+                              parseInt(obj[filter]) > parseInt(filtersParam.options[filter].valueBottom) &&
+                              parseInt(obj[filter]) <= parseInt(filtersParam.options[filter].valueTop)
+                          ) {
+                              sortedOptions.cache.push(obj);
+                          }
+                      }
+                  });
+              }
+
+              hackPlayer.cache[0].data.villages = sortedVillages;
+              sortedVillages = Object.assign({}, hackPlayer);
+
+          })
+      }
+    };
+
+      let optionVillages = hackPlayer.cache[0].data.villages;
+
+      let sortedVillagesByCoor = _.sortBy(villages,  (village) => {
       let len = Math.sqrt(Math.pow(village.coordinates.x - xCor, 2) + Math.pow(village.coordinates.y - yCor, 2));
       return len;
     });
-    sortedVillagesByCoor.map((village, index, array) => {
-      village.lenToPoint = len;
-    });
+
+    //TODO: переписать когда появится соотвествующие функции
 
     console.log(`Количество ${sortedVillagesByCoor.length}`);
     fn(sortedVillagesByCoor);
