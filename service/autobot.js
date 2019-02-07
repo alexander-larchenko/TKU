@@ -233,7 +233,7 @@ class AutoBot{
                 .httpRequest(barackOptions)
                 .then(
                     (body) => {
-                        console.log('barack');
+                        console.log((new Date()).toLocaleString(), 'barack');
                         // console.log(body)
                     },
                     (error) => {
@@ -253,7 +253,7 @@ class AutoBot{
                 .then(
                     (body) => {
 
-                        console.log('stable')
+                        console.log((new Date()).toLocaleString(), 'stable')
                         // console.log(body)
                     },
                     (error) => {
@@ -278,7 +278,7 @@ class AutoBot{
         console.log('next Interation'.info);
     }
 }
-
+/*
 new AutoBot(
     1000,
     {
@@ -291,6 +291,6 @@ new AutoBot(
         strategy: 'build:warrior:defence'
     }
 );
-
+*/
 
 

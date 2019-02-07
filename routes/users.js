@@ -1,9 +1,21 @@
-var express = require('express');
-var router = express.Router();
+function Users() {
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+    this.Coss = {
+        session: '774e6c9c7ab71d5c8bc0',
+        village: '535707618'
+    };
 
-module.exports = router;
+    this.getUserNameBySession = (session) => {
+        let userKeys = Object.keys(this);
+        let userName = 'UnknownUser';
+        userKeys.forEach((userKey) => {
+            let user = this[userKey];
+            if (user.hasOwnProperty('session') && user['session'] == session) {
+                userName = userKey;
+            }
+        });
+        return userName;
+    }
+}
+
+module.exports = Users;

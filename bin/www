@@ -8,17 +8,14 @@ var app = require('../app');
 var debug = require('debug')('TKutils:server');
 var http = require('http');
 
-
-let portNumber = 3014;
-initServer(portNumber);
-
+initServer(3014);
 function initServer(port){
     /**
      * Get port from environment and store in Express.
      */
 
 
-    var port = normalizePort(process.env.PORT || portNumber);
+    var port = normalizePort(process.env.PORT || port);
     app.set('port', port);
 
     /**
@@ -75,9 +72,9 @@ function initServer(port){
                 process.exit(1);
                 break;
             case 'EADDRINUSE':
-                console.error(bind + ' is already in use');
-                portNumber++;
-                initServer(portNumber);
+                // console.error(bind + ' is already in use');
+                port++;
+                initServer(port);
                 break;
             default:
                 throw error;
@@ -93,6 +90,6 @@ function initServer(port){
         var bind = typeof addr === 'string'
             ? 'pipe ' + addr
             : 'port ' + addr.port;
-        debug('Listening on ' + bind);
+        console.log('Listening on ' + bind);
     }
 }
