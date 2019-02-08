@@ -1,5 +1,5 @@
 // auction cage price
-var cagePrice = 49;
+var cagePrice = 34.9;
 (function() {
     document.onclick = function (event) {
         if (event.target.className && event.target.className.indexOf('priceInput') === 0) {
@@ -20,7 +20,7 @@ var cagePrice = 49;
             // Actual price Per Item
             var actualPricePerItem = 0;
             if (amount > 1) {
-                actualPricePerItem = +parentRow.cells[4].getAttribute('tooltip-data').match(/\d+.\d+/)[0]
+                actualPricePerItem = +parentRow.cells[4].getAttribute('tooltip-data').match(/\d+.?\d+/)[0]
             } else {
                 actualPricePerItem = +parentRow.cells[4].textContent.match(/\d+/)[0];
             }
@@ -32,7 +32,7 @@ var cagePrice = 49;
             }
             // Set Amount into Price Cell
             if (actualPricePerItem < price) {
-                clickedPriceBox.value = amount * price;
+                clickedPriceBox.value = Math.round(amount * price);
                 clickedPriceBox.dispatchEvent(new Event('change'));
             } else {
                 clickedPriceBox.style.background = 'red';
