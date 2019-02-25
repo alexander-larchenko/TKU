@@ -1,7 +1,7 @@
 function Users() {
 
     this.Coss = {
-        session: '774e6c9c7ab71d5c8bc0',
+        session: '75142253b5b3bb8fa71b',
         village: '535707618'
     };
 
