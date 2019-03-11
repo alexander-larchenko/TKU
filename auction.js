@@ -1,6 +1,6 @@
 // auction cage price
 var cagePrice = 15.9;
-var smallBandagePrice = 6.9;
+var smallBandagePrice = 20;
 var bandagePrice = 10.1;
 var mazPrice = 17.5;
 (function() {

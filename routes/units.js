@@ -1,4 +1,5 @@
 const UnitTypes = {
+    // Rome
     1: 'Legioner',
     2: 'Pretorian',
     3: 'Imperian',
