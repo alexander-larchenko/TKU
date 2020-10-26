@@ -20,7 +20,6 @@ colors.setTheme({
 });
 
 //user data
-const userDate = require('./../config-coss.json');
 const Users = new (require('./users'))();
 const UnitTypes = (require('./units')).UnitTypes;
 const Unit = (require('./units')).Unit;
@@ -28,16 +27,14 @@ const UnitsBuildSetup = (require('./units')).UnitsBuildSetup;
 const listPayload = new (require('./farmLists'))();
 
 
-// use main user session token from Users object.
-userDate.token = Users.Coss.session;
-
 const debug = 3;
 // debug - 1, идут только необходимые логи, которые показывают процессы запуска.
 // debug - 2, идут логи из основных функций
 // debug - 3, идут полные логи
 
+const defaultUser = Users.Coss;
+let serverDomain = defaultUser.serverDomain;
 
-let cookie = userDate.cookie;
 let apiData = {
     gameworld: null,
     players: null,
@@ -47,9 +44,6 @@ let apiData = {
     crop: null
 };
 let apiKey = {};
-let timeForGame = 't' + Date.now();
-let token = userDate.token;
-let serverDomain = userDate.serverDomain;
 
 /** Генераторы времени
  * @param seconds
@@ -78,14 +72,19 @@ function randomTimeGenerator(seconds) {
 function setHttpHeaders(serverDomain, cookie, contentLength) {
 
     return {
-        'Content-Type': 'application/json;charset=UTF-8',
-        'Cookie': cookie,
-        'Host': serverDomain + '.kingdoms.com',
-        'Origin': 'http://' + serverDomain + '.kingdoms.com',
-        'Content-Length': contentLength,
-        'Pragma': 'no-cache',
-        'Referer': 'http://' + serverDomain + '.kingdoms.com',
-        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
+        'accept': 'application/json, text/plain, */*',
+        'accept-encoding': 'gzip, deflate, br',
+        'accept-language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7',
+        'content-length': contentLength,
+        'content-type': 'application/json;charset=UTF-8',
+        'cookie': cookie,
+        'dnt': 1,
+        'origin': 'https://' + serverDomain + '.kingdoms.com',
+        'referer': 'https://' + serverDomain + '.kingdoms.com/',
+        'sec-fetch-dest': 'empty',
+        'sec-fetch-mode': 'cors',
+        'sec-fetch-site': 'same-origin',
+        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36'
     }
 }
 
@@ -99,9 +98,9 @@ function httpRequest(opt) {
 
     //TODO: разобраться с тем нужно ли body или как
     let options = {
-        headers: setHttpHeaders(opt.serverDomain, opt.cookie || cookie, JSON.stringify(opt.body).length),
+        headers: setHttpHeaders(opt.serverDomain, opt.cookie || defaultUser.cookie, JSON.stringify(opt.body).length),
         method: opt.method || 'GET',
-        uri: `http://${opt.serverDomain}.kingdoms.com/api/?c=${opt.body.controller}&a=${opt.body.action}&${timeForGame}`,
+        uri: `https://${opt.serverDomain}.kingdoms.com/api/?c=${opt.body.controller}&a=${opt.body.action}&${timeForGame}`,
         body: opt.body,
         json: true // Automatically stringifies the body to JSON
     };
@@ -607,7 +606,7 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
 function getToken(callback) {
     let options = {
         method: 'GET',
-        uri: `http://${serverDomain}.kingdoms.com/api/external.php?action=requestApiKey&email=allin.nikita@yandex.ru&siteName=borsch&siteUrl=http://borsch-label.com&public=true`,
+        uri: `https://${serverDomain}.kingdoms.com/api/external.php?action=requestApiKey&email=icecoss@gmail.com&siteName=theicecoss&siteUrl=https://theicecoss.com&public=true`,
         json: true // Automatically stringifies the body to JSON
     };
 
@@ -634,7 +633,7 @@ function getMap(callback) {
                 headers: {
                     'content-type': 'application/x-www-form-urlencoded'
                 },
-                uri: `http://${serverDomain}.kingdoms.com/api/external.php?action=getMapData&privateApiKey=${token.response.privateApiKey}`,
+                uri: `https://${serverDomain}.kingdoms.com/api/external.php?action=getMapData&privateApiKey=${token.response.privateApiKey}`,
                 json: true // Automatically stringifies the body to JSON
             };
 
@@ -692,7 +691,7 @@ function getPlayers(callback) {
                 controller: 'cache',
                 action: 'get',
                 params: {names: playersBody},
-                session: token
+                session: defaultUser.session
             };
 
             let options = {
@@ -753,17 +752,14 @@ function getPlayers(callback) {
 /**
  * Получаем карту по условиям.
  * Скрипт требует переработки, ибо код гавно, которому 1.5 года
- * @param type
- * @param token
- * @param serverDomain
- * @param timeForGame
  */
-function getMapInfo(type, token, serverDomain, timeForGame) {
+function getMapInfo(type, token, serverDomain) {
     type = type || 'animal';
+    let timeForGame = 't' + Date.now();
     request
         .get({
             headers: {'content-type': 'application/x-www-form-urlencoded'},
-            url: 'http://' + serverDomain + '.kingdoms.com/api/external.php?action=requestApiKey&email=allin.nikita@yandex.ru&siteName=borsch&siteUrl=http://borsch-label.com&public=true'
+            url: 'https://' + serverDomain + '.kingdoms.com/api/external.php?action=requestApiKey&email=icecoss@gmail.com&siteName=theicecoss&siteUrl=https://theicecoss.com&public=true'
         }, (error, response, body) => {
 
             apiKey = JSON.parse(body);
@@ -773,7 +769,7 @@ function getMapInfo(type, token, serverDomain, timeForGame) {
             request
                 .get({
                     headers: {'content-type': 'application/x-www-form-urlencoded'},
-                    url: 'http://' + serverDomain + '.kingdoms.com/api/external.php?action=getMapData&privateApiKey=' + apiKey.response.privateApiKey
+                    url: 'https://' + serverDomain + '.kingdoms.com/api/external.php?action=getMapData&privateApiKey=' + apiKey.response.privateApiKey
                 }, (error, response, body) => {
                     //TODO: холишит блять
                     //Переделай, стыдно же людям такое показывать.
@@ -813,7 +809,7 @@ function getMapInfo(type, token, serverDomain, timeForGame) {
                                 headers: {
                                     'Content-Type': 'application/json'
                                 },
-                                url: 'http://' + serverDomain + '.kingdoms.com/api/?c=cache&a=get&' + timeForGame,
+                                url: 'https://' + serverDomain + '.kingdoms.com/api/?c=cache&a=get&' + timeForGame,
                                 body: JSON.stringify(session)
                             }, (error, response, body) => {
                                 //console.log(body);
@@ -980,7 +976,7 @@ function getMapInfo(type, token, serverDomain, timeForGame) {
                                                     'type': 3,
                                                     'color': 3,
                                                     'editType': 3,
-                                                    'ownerId': 1060,
+                                                    'ownerId': 1880,
                                                     'targetId': obj.id
                                                 }
                                             ],
@@ -989,7 +985,7 @@ function getMapInfo(type, token, serverDomain, timeForGame) {
                                                 'type': 5,
                                                 'duration': 12,
                                                 'cellId': obj.id,
-                                                'targetId': 1060
+                                                'targetId': 1880
                                             }
                                         },
                                         'session': token
@@ -1031,7 +1027,7 @@ function getMapInfo(type, token, serverDomain, timeForGame) {
                                                     'type': 3,
                                                     'color': 10,
                                                     'editType': 3,
-                                                    'ownerId': 1060,
+                                                    'ownerId': 1880,
                                                     'targetId': obj.id
                                                 }
                                             ],
@@ -1040,7 +1036,7 @@ function getMapInfo(type, token, serverDomain, timeForGame) {
                                                 'type': 5,
                                                 'duration': 12,
                                                 'cellId': obj.id,
-                                                'targetId': 1060
+                                                'targetId': 1880
                                             }
                                         },
                                         'session': token
@@ -1571,12 +1567,16 @@ function cropControl(session, villageId, callback) {
     }
 }
 
+// run tasks by executing
+// @example: npm start --animals
 const Tasks = {
     heroChecker: process.env.npm_config_check !== undefined,
     build: process.env.npm_config_build !== undefined,
     animals: process.env.npm_config_animals !== undefined,
     farm: process.env.npm_config_farm !== undefined,
-    cropControl: process.env.npm_config_cropc !== undefined
+    cropControl: process.env.npm_config_cropc !== undefined,
+    heroResources: process.env.npm_config_herores !== undefined,
+    cropMap9_15: process.env.npm_config_cropmap !== undefined,
 };
 
 const BuildForVillage = {
@@ -1605,6 +1605,10 @@ if (Tasks.build) {
     }
 }
 
+if (Tasks.heroResources) {
+    initResourcesGatheringStrategy(Users.Coss.session, 1440, [1, 1, 1, 0]);
+}
+
 if (Tasks.cropControl) {
     cropControl(Users.Coss.session, Users.Coss.village);
 }
@@ -1614,11 +1618,15 @@ if (Tasks.cropControl) {
  */
 if (Tasks.animals) {
     setInterval(function () {
-        getMapInfo('animal', token, serverDomain, timeForGame);
+        getMapInfo('animal', defaultUser.session, serverDomain);
     }, 635000);
-    getMapInfo('animal', token, serverDomain, timeForGame);
+    getMapInfo('animal', defaultUser.session, serverDomain);
 }
 
+/** Пометить Девятки Пятнашки */
+if (Tasks.cropMap9_15) {
+    getMapInfo('crop', defaultUser.session, serverDomain);
+}
 
 /**
  * Фармлисты
