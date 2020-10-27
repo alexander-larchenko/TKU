@@ -1,7 +1,8 @@
 // auction cage price
-var cagePrice = 34.9;
+var cagePrice = 15.9;
 var smallBandagePrice = 6.9;
 var bandagePrice = 10.1;
+var mazPrice = 17.5;
 (function() {
     document.onclick = function (event) {
         if (event.target.className && event.target.className.indexOf('priceInput') === 0) {
@@ -15,13 +16,15 @@ var bandagePrice = 10.1;
             if (nameAndQuantityCell.childElementCount > 1) {
                 amount = +nameAndQuantityCell.lastElementChild.textContent.match(/\d+/)[0];
             }
-            // Cage Price
+            // Set price for specific item type
             if (itemType === 119) {
                 price = window['cagePrice'];
             } else if (itemType === 117) {
                 price = window['smallBandagePrice'];
             } else if (itemType === 118) {
                 price = window['bandagePrice'];
+            } else if (itemType === 112) {
+                price = window['mazPrice'];
             }
             // Actual price Per Item
             var actualPricePerItem = 0;
