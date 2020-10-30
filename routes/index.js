@@ -73,7 +73,6 @@ function setHttpHeaders(serverDomain, cookie, contentLength) {
 
     return {
         'accept': 'application/json, text/plain, */*',
-        'accept-encoding': 'gzip, deflate, br',
         'accept-language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7',
         'content-length': contentLength,
         'content-type': 'application/json;charset=UTF-8',
@@ -495,17 +494,15 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
                 // console.log(body);
             },
             (err) => {
-                //console.error('Произошла ошибка');
-                //console.log(err);
-                //console.info('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session +'] отправлен');
-
+                console.error('Произошла ошибка');
+                console.log(err);
             }
         );
 
     };
 
     let checkList = (listPayload) => {
-        // console.log('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session +'] проверка');
+        console.log('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session +'] проверка');
 
         function start() {
 
@@ -539,7 +536,6 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
                     let list = listPayload.params.listIds[i];
                     checkBodyObj.params.names.push('Collection:FarmListEntry:' + list);
                 }
-                ;
 
                 let options = {
                     method: 'POST',
@@ -556,7 +552,6 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
                 httpRequest(options)
                     .then(
                         (body) => {
-                            console.log(listPayload);
                             if (!body.cache) {
                                 console.log(body);
                             } else {
@@ -586,12 +581,6 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
 
 
         };
-
-        // let options = {
-        //   serverDomain: serverDomain,
-        //   body: lastDataFromList
-        // };
-        //
         start();
 
     };
@@ -1632,28 +1621,19 @@ if (Tasks.cropMap9_15) {
  * Фармлисты
  */
 if (Tasks.farm) {
-    const startFarmOnRun = true; /*process.env.npm_config_init !== undefined*/
+    const startFarmOnRun = true;
+    // process.env.npm_config_init !== undefined;
 
-    if (process.env.npm_config_farm === '0') {
-        // All Fast
-        autoFarmList(2800, 10, listPayload.Coss_0, 'ru1x3', startFarmOnRun);
-    }
-    if (process.env.npm_config_farm === '1') {
-        // Kiril
-        // autoFarmList(2800, 50, listPayload.Coss_Kiril1, 'ru1x3', startFarmOnRun);
-        autoFarmList(3800, 50, listPayload.Coss_Kiril2, 'ru1x3', startFarmOnRun);
-    }
-    if (process.env.npm_config_farm === '2') {
-        // Alice
-        // autoFarmList(2800, 50, listPayload.Coss_Alice1, 'ru1x3', startFarmOnRun);
-        autoFarmList(3800, 50, listPayload.Coss_Alice2, 'ru1x3', startFarmOnRun);
-    }
-    if (process.env.npm_config_farm === '3') {
-        // Petka
-        // autoFarmList(2800, 50, listPayload.Coss_Petka1, 'ru1x3', startFarmOnRun);
-        autoFarmList(3800, 50, listPayload.Coss_Petka2, 'ru1x3', startFarmOnRun);
-    }
+    switch (process.env.npm_config_farm) {
+        case '0' : {
+            autoFarmList(1845, 10, listPayload.Coss_5_10, defaultUser.serverDomain, startFarmOnRun);
+            autoFarmList(4715, 10, listPayload.Coss_17_26, defaultUser.serverDomain, startFarmOnRun);
+            break;
+        }
+        case '1' : {
 
+        }
+    }
 }
 
 module.exports = router;
