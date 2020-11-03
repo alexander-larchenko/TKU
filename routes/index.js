@@ -63,6 +63,11 @@ function randomTimeGenerator(seconds) {
     return parseInt(getRandomInt(-1000, 1000) * seconds);
 }
 
+function logDate(dateIn) {
+    const date = dateIn || new Date();
+    return `${date.toLocaleDateString().replaceAll('/','-')} ${date.toTimeString().substring(0, 8)}`;
+}
+
 /**
  * Проставляет заголовки из конфига, требуется для защиты
  * @param serverDomain
@@ -444,8 +449,7 @@ function checkOnStatus(farmListsResponse, listPayload, now, fn, serverDomain) {
 
         },
         () => {
-            let now = new Date();
-            console.log('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session + '] запуск: [' + now.toString() + ']');
+            console.log(logDate() + ' Фармлист запуcк: \nlistIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session + ']');
             fn(listPayload);
         }
     )
@@ -481,7 +485,6 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
     let percentLose = 0.75;
 
     let startFarmListRaid = (listPayload) => {
-        //console.log(listPayload);
 
         let options = {
             serverDomain: serverDomain,
@@ -490,11 +493,11 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
 
         httpRequest(options).then(
             (body) => {
-                console.info('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session + '] отправлен');
+                console.info(logDate() + ' Фармлист отправлен \nlistIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session + ']');
                 // console.log(body);
             },
             (err) => {
-                console.error('Произошла ошибка');
+                console.error('Произошла ошибка при отправке фармлиста');
                 console.log(err);
             }
         );
@@ -502,7 +505,7 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
     };
 
     let checkList = (listPayload) => {
-        console.log('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session +'] проверка');
+        console.log(logDate() + ' Фармлист проверка \nlistIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session +']');
 
         function start() {
 
@@ -576,17 +579,14 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
                     )
             }
 
-            console.log('Фарм лист listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session + '] следующий запуск: [' + dateNext.toString() + ']');
+            console.log(logDate() + ' Фармлист следующий запуск: ' + logDate(dateNext));
+            console.log('listIds[' + listPayload.params.listIds + '], villageId[' + listPayload.params.villageId + '], session[' + listPayload.session + ']');
             init = true;
-
-
-        };
+        }
         start();
-
     };
-
     checkList(listPayload);
-};
+}
 
 /**
  * Получаем опенапи токен
@@ -1158,7 +1158,7 @@ function autoUnitsBuild(villageId, UnitsSetup, fixedTime, randomTime, session) {
             }
         });
 
-        console.log('Buildings placed: ', JSON.stringify(Buildings));
+        // console.log('Buildings placed: ', JSON.stringify(Buildings));
     }
 
     function getRecruitUnitsRequest(buildingName, units) {
@@ -1569,7 +1569,8 @@ const Tasks = {
 };
 
 const BuildForVillage = {
-    Coss_Main: process.env.npm_config_build == 'Coss_Main',
+    Coss_1: process.env.npm_config_build == '1',
+    Coss_2: process.env.npm_config_build == '2',
 };
 
 if (Tasks.heroChecker) {
@@ -1577,20 +1578,28 @@ if (Tasks.heroChecker) {
 }
 
 if (Tasks.build) {
-    var buildInterval = 1800;
-    resourceIteration = 600;
+    var buildInterval = 1743;
+    resourceIteration = 655;
 
-    if (BuildForVillage.Coss_Main) {
-        var unitsCossMain = new UnitsBuildSetup();
-        unitsCossMain.Barracks[Unit.Gauls.Swordsman] = 25; //22
-        unitsCossMain.Stables[Unit.Gauls.Thunder] = 15; //cesar: 19
-        unitsCossMain.Workshop[Unit.Gauls.Catapult] = 3; //5
-        // unitsCossMain.GreatBarracks[Unit.Rome.Imperian] = 25; //22
-        // unitsCossMain.GreatStables[Unit.Rome.Ceserian] = 5; //cesar: 19
+    if (BuildForVillage.Coss_1) {
+        var unitsCoss1 = new UnitsBuildSetup();
+        unitsCoss1.Barracks[Unit.Gauls.Swordsman] = 25;
+        unitsCoss1.Stables[Unit.Gauls.Thunder] = 20;
+        unitsCoss1.Workshop[Unit.Gauls.TapaH] = 5;
+        // unitsCossMain.GreatBarracks[Unit.Rome.Imperian] = 25;
+        // unitsCossMain.GreatStables[Unit.Rome.Ceserian] = 5;
 
-        autoUnitsBuild(Users.Coss.village, unitsCossMain, buildInterval, 10, Users.Coss.session);
+        autoUnitsBuild(Users.Coss.village, unitsCoss1, buildInterval, 10, Users.Coss.session);
 
         initResourcesGatheringStrategy(Users.Coss.session, 5000, [1, 1, 1, 0]);
+    }
+
+    if (BuildForVillage.Coss_2) {
+        var unitsCoss2 = new UnitsBuildSetup();
+        unitsCoss2.Barracks[Unit.Gauls.Phalanx] = 6;
+        unitsCoss2.Stables[Unit.Gauls.Druids] = 6;
+
+        autoUnitsBuild(Users.Coss.village2, unitsCoss2, buildInterval, 10, Users.Coss.session);
     }
 }
 
@@ -1624,14 +1633,27 @@ if (Tasks.farm) {
     const startFarmOnRun = true;
         // process.env.npm_config_init !== undefined;
 
-    switch (process.env.npm_config_farm) {
-        case '0' : {
-            autoFarmList(1845, 10, listPayload.Coss_5_10, defaultUser.serverDomain, startFarmOnRun);
-            autoFarmList(4715, 10, listPayload.Coss_17_26, defaultUser.serverDomain, startFarmOnRun);
-            break;
-        }
-        case '1' : {
+    function farm0() {
+        autoFarmList(1845, 10, listPayload.Coss_5_10, defaultUser.serverDomain, startFarmOnRun);
+    }
 
+    function farm1() {
+        autoFarmList(4715, 10, listPayload.Coss_17_26, defaultUser.serverDomain, startFarmOnRun);
+    }
+
+    function farm2() {
+        autoFarmList(3333, 10, listPayload.Coss_NightFarm, defaultUser.serverDomain, startFarmOnRun);
+    }
+
+    switch (process.env.npm_config_farm) {
+        case '0' : { farm0(); break; }
+        case '1' : { farm1(); break; }
+        case '2' : { farm2(); break; }
+        case 'all':
+        default: {
+            farm0();
+            farm1();
+            farm2();
         }
     }
 }
