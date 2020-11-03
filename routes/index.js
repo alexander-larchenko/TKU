@@ -1582,15 +1582,15 @@ if (Tasks.build) {
 
     if (BuildForVillage.Coss_Main) {
         var unitsCossMain = new UnitsBuildSetup();
-        unitsCossMain.Barracks[Unit.Rome.Imperian] = 25; //22
-        unitsCossMain.Stables[Unit.Rome.Ceserian] = 23; //cesar: 19
-        unitsCossMain.Workshop[Unit.Rome.Catapult] = 6; //5
-        unitsCossMain.GreatBarracks[Unit.Rome.Imperian] = 25; //22
-        unitsCossMain.GreatStables[Unit.Rome.Ceserian] = 5; //cesar: 19
+        unitsCossMain.Barracks[Unit.Gauls.Swordsman] = 25; //22
+        unitsCossMain.Stables[Unit.Gauls.Thunder] = 15; //cesar: 19
+        unitsCossMain.Workshop[Unit.Gauls.Catapult] = 3; //5
+        // unitsCossMain.GreatBarracks[Unit.Rome.Imperian] = 25; //22
+        // unitsCossMain.GreatStables[Unit.Rome.Ceserian] = 5; //cesar: 19
 
         autoUnitsBuild(Users.Coss.village, unitsCossMain, buildInterval, 10, Users.Coss.session);
 
-        // initResourcesGatheringStrategy(Users.Coss.session, 5000, [1, 2, 2, 0]);
+        initResourcesGatheringStrategy(Users.Coss.session, 5000, [1, 1, 1, 0]);
     }
 }
 
