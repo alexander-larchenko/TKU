@@ -1659,26 +1659,14 @@ if (Tasks.farm) {
         // process.env.npm_config_init !== undefined;
 
     function farm0() {
-        autoFarmList(1217, 10, listPayload.Coss_5_10, defaultUser.serverDomain, startFarmOnRun);
-    }
-
-    function farm1() {
-        autoFarmList(1223, 10, listPayload.Coss_17_26, defaultUser.serverDomain, startFarmOnRun);
-    }
-
-    function farm2() {
         autoFarmList(1229, 10, listPayload.Coss_NightFarm, defaultUser.serverDomain, startFarmOnRun);
     }
 
     switch (process.env.npm_config_farm) {
         case '0' : { farm0(); break; }
-        case '1' : { farm1(); break; }
-        case '2' : { farm2(); break; }
         case 'all':
         default: {
             farm0();
-            farm1();
-            farm2();
         }
     }
 }
