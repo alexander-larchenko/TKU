@@ -45,6 +45,8 @@ let apiData = {
 };
 let apiKey = {};
 
+const delay = process.env.npm_config_delay !== undefined ? +process.env.npm_config_delay : 0;
+
 /** Генераторы времени
  * @param seconds
  * @returns {Number}
@@ -65,7 +67,7 @@ function randomTimeGenerator(seconds) {
 
 function logDate(dateIn) {
     const date = dateIn || new Date();
-    return `${date.toLocaleDateString().replaceAll('/','-')} ${date.toTimeString().substring(0, 8)}`;
+    return `${date.toLocaleDateString()} ${date.toTimeString().substring(0, 8)}`;
 }
 
 /**
@@ -585,7 +587,13 @@ function autoFarmList(fixedTime, randomTime, listPayload, serverDomain, init) {
         }
         start();
     };
-    checkList(listPayload);
+
+    if (delay > 0) {
+        console.log(`Delaying ${delay} min`);
+    }
+    setTimeout(function() {
+        checkList(listPayload);
+    }, delay * 1000 * 60);
 }
 
 /**
@@ -1082,6 +1090,8 @@ function autoUnitsBuild(villageId, UnitsSetup, fixedTime, randomTime, session) {
     let stillHaveResources = true;
     let buildUntilNoResourcesLeft = process.env.npm_config_ner !== undefined;
     const withCropControl = process.env.npm_config_withcrop !== undefined;
+    const buildLessOnIteration = process.env.npm_config_less !== undefined;
+
 
     if (buildUntilNoResourcesLeft) {
         console.log('Building until no resources left');
@@ -1202,19 +1212,25 @@ function autoUnitsBuild(villageId, UnitsSetup, fixedTime, randomTime, session) {
 
                                 stillHaveResources = false;
 
-                                let newAmount =
-                                    units[Object.getOwnPropertyNames(units)[0]] - (1 + Math.round(Math.random() * 5));
+                                if (buildLessOnIteration) {
 
-                                if (newAmount > 0) {
-                                    let newUnits = {};
-                                    newUnits[Object.getOwnPropertyNames(units)[0]] = newAmount;
-                                    let timeout = 9000 + Math.round(Math.random() * 5000);
-                                    log += `NER: Building ${printUnits(newUnits)} in ${printTime(timeout / 1000)} ...`;
-                                    setTimeout(() => {
-                                        buildUnits(buildingName, newUnits);
-                                    }, timeout);
+                                    let newAmount =
+                                        units[Object.getOwnPropertyNames(units)[0]] - (1 + Math.round(Math.random() * 5));
+
+                                    if (newAmount > 0) {
+                                        let newUnits = {};
+                                        newUnits[Object.getOwnPropertyNames(units)[0]] = newAmount;
+                                        let timeout = 9000 + Math.round(Math.random() * 5000);
+                                        log += `NER: Building ${printUnits(newUnits)} in ${printTime(timeout / 1000)} ...`;
+                                        setTimeout(() => {
+                                            buildUnits(buildingName, newUnits);
+                                        }, timeout);
+                                    } else {
+                                        log += 'No Resources Left';
+                                    }
+
                                 } else {
-                                    log += 'No Resources Left';
+                                    console.log('Not enough resources. Skipping...')
                                 }
                             } else {
                                 log += JSON.stringify(body);
@@ -1485,7 +1501,7 @@ function cropControl(session, villageId, callback) {
                             +villageData.storageCapacity[StorageKeys.Clay] - villageData.storage[StorageKeys.Clay] +
                             +villageData.storageCapacity[StorageKeys.Metal] - villageData.storage[StorageKeys.Metal];
 
-                        if (cropCapacity - currentCropAmount <= 50000 &&
+                        if (currentCropAmount / cropCapacity > 0.95 &&
                             currentCropAmount <= otherResourcesFreeStorage) {
                             //Make NPC Trade call;
                             const totalResources = villageData.storage[StorageKeys.Crop] +
@@ -1571,6 +1587,7 @@ const Tasks = {
 const BuildForVillage = {
     Coss_1: process.env.npm_config_build == '1',
     Coss_2: process.env.npm_config_build == '2',
+    Coss_3: process.env.npm_config_build == '3',
 };
 
 if (Tasks.heroChecker) {
@@ -1583,23 +1600,31 @@ if (Tasks.build) {
 
     if (BuildForVillage.Coss_1) {
         var unitsCoss1 = new UnitsBuildSetup();
-        unitsCoss1.Barracks[Unit.Gauls.Swordsman] = 25;
-        unitsCoss1.Stables[Unit.Gauls.Thunder] = 20;
-        unitsCoss1.Workshop[Unit.Gauls.TapaH] = 5;
+        unitsCoss1.Barracks[Unit.Gauls.Swordsman] = 20;
+        unitsCoss1.Stables[Unit.Gauls.Thunder] = 15;
+        //unitsCoss1.Workshop[Unit.Gauls.Catapult] = 6;
         // unitsCossMain.GreatBarracks[Unit.Rome.Imperian] = 25;
         // unitsCossMain.GreatStables[Unit.Rome.Ceserian] = 5;
 
         autoUnitsBuild(Users.Coss.village, unitsCoss1, buildInterval, 10, Users.Coss.session);
 
-        initResourcesGatheringStrategy(Users.Coss.session, 5000, [1, 1, 1, 0]);
+        //initResourcesGatheringStrategy(Users.Coss.session, 5000, [1, 1, 1, 0]);
     }
 
     if (BuildForVillage.Coss_2) {
         var unitsCoss2 = new UnitsBuildSetup();
-        unitsCoss2.Barracks[Unit.Gauls.Phalanx] = 6;
-        unitsCoss2.Stables[Unit.Gauls.Druids] = 6;
+        unitsCoss2.Barracks[Unit.Gauls.Phalanx] = 22;
+        unitsCoss2.Stables[Unit.Gauls.Druids] = 8;
 
         autoUnitsBuild(Users.Coss.village2, unitsCoss2, buildInterval, 10, Users.Coss.session);
+    }
+
+    if (BuildForVillage.Coss_3) {
+        var unitsCoss3 = new UnitsBuildSetup();
+        unitsCoss3.Barracks[Unit.Gauls.Phalanx] = 22;
+        unitsCoss3.Stables[Unit.Gauls.Scout] = 16;
+
+        autoUnitsBuild(Users.Coss.village3, unitsCoss3, buildInterval, 10, Users.Coss.session);
     }
 }
 
@@ -1634,15 +1659,15 @@ if (Tasks.farm) {
         // process.env.npm_config_init !== undefined;
 
     function farm0() {
-        autoFarmList(1845, 10, listPayload.Coss_5_10, defaultUser.serverDomain, startFarmOnRun);
+        autoFarmList(1217, 10, listPayload.Coss_5_10, defaultUser.serverDomain, startFarmOnRun);
     }
 
     function farm1() {
-        autoFarmList(4715, 10, listPayload.Coss_17_26, defaultUser.serverDomain, startFarmOnRun);
+        autoFarmList(1223, 10, listPayload.Coss_17_26, defaultUser.serverDomain, startFarmOnRun);
     }
 
     function farm2() {
-        autoFarmList(3333, 10, listPayload.Coss_NightFarm, defaultUser.serverDomain, startFarmOnRun);
+        autoFarmList(1229, 10, listPayload.Coss_NightFarm, defaultUser.serverDomain, startFarmOnRun);
     }
 
     switch (process.env.npm_config_farm) {
