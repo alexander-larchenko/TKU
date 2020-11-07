@@ -156,7 +156,7 @@ function getPlayers(callback) {
             payloadArray.length,
             (loop) => {
                 let i = loop.iteration();
-                httpRequest(payloadArray[i]).then(
+                RequestHelper.httpRequest(payloadArray[i]).then(
                     (body) => {
                         console.log(body);
                         bodyAll.push(body);
@@ -302,7 +302,7 @@ function autoUnitsBuild(villageId, UnitsSetup, fixedTime, randomTime, session) {
 
         if (Buildings[buildingName].location) {
 
-            httpRequest(getRecruitUnitsRequest(buildingName, units))
+            RequestHelper.httpRequest(getRecruitUnitsRequest(buildingName, units))
                 .then(
                     (body) => {
 
@@ -348,7 +348,7 @@ function autoUnitsBuild(villageId, UnitsSetup, fixedTime, randomTime, session) {
         }
     }
 
-    httpRequest(getAllOptions)
+    RequestHelper.httpRequest(getAllOptions)
         .then(
             (body) => {
 
@@ -437,30 +437,7 @@ var ResourceGatheringType = {
 };
 var resourceIteration = 3600;
 
-function initResourcesGatheringStrategy(session, rate, strategy) {
-
-    function getResourceTypeRequest(resourceType) {
-        return {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json;charset=UTF-8'
-            },
-            json: true,
-            body: {
-                'controller': 'hero',
-                'action': 'addAttributePoints',
-                'params': {
-                    'attBonusPoints': 0,
-                    'defBonusPoints': 0,
-                    'fightStrengthPoints': 0,
-                    'resBonusPoints': 0,
-                    'resBonusType': resourceType
-                },
-                'session': session
-            },
-            serverDomain: serverDomain
-        }
-    }
+function initResourcesGatheringStrategy(user, rate, strategy) {
 
     //rate = 1440;
     //strategy = [1, 0.76, 0.35, 0];
@@ -470,7 +447,8 @@ function initResourcesGatheringStrategy(session, rate, strategy) {
     if (totalInterval === 0) return;
     var strategyIncome = [];
     strategy.forEach((time) => strategyIncome.push(Math.round(time * rate / totalInterval)));
-    var incomeMessage = `${Users.getUserNameBySession(session)} Hero income/h: `;
+    const userName = Users.getUserNameBySession(user.session);
+    var incomeMessage = `${userName} Hero income/h: `;
     strategyIncome.forEach((income, index) => {
         incomeMessage += `${ResourceGatheringType[index + 1]}:${income} `
     });
@@ -479,15 +457,10 @@ function initResourcesGatheringStrategy(session, rate, strategy) {
     var totalCycleTime = totalInterval * singleIterationTime;
 
     function sendRequest(type, timeActive) {
-        httpRequest(getResourceTypeRequest(type))
-            .then(
-                (body) => {
-                    console.log(`${new Date().toLocaleString()} ${Users.getUserNameBySession(session)} Resouce gathering set to: ${ResourceGatheringType[type]} for the next ${printTime(timeActive / 1000)}`);
-                },
-                (error) => {
-                    console.log(error);
-                }
-            )
+        RequestHelper.setHeroResource(type, user)
+            .then(() => {
+                console.log(`${TimeHelper.logDate()} ${userName} Resouce gathering set to: ${ResourceGatheringType[type]} for the next ${printTime(timeActive / 1000)}`);
+            }).catch(console.log)
     }
 
     function overAllAction() {
@@ -516,6 +489,68 @@ function initResourcesGatheringStrategy(session, rate, strategy) {
 
     overAllAction();
     setInterval(overAllAction, totalCycleTime);
+}
+
+function resourceGetTheLowest(user, villageId, minutes) {
+
+    const StorageKeys = {
+        Wood: 1,
+        Clay: 2,
+        Metal: 3,
+        Crop: 4
+    };
+
+    function checkResourcesAndSetHeroIncomeToLowest(body) {
+        body.cache.forEach((item) => {
+            if (item.name === `Collection:Village:own`) {
+                item.data.cache.forEach((village) => {
+                    if (village.name === `Village:${villageId}`) {
+
+                        //CossMainVillage
+
+                        // console.log('found main village', JSON.stringify(village));
+
+                        const villageData = village.data;
+
+                        const mainResources = [
+                            {name: 'Wood', key: StorageKeys.Wood, amount: +villageData.storage[StorageKeys.Wood]},
+                            {name: 'Clay', key: StorageKeys.Clay, amount: +villageData.storage[StorageKeys.Clay]},
+                            {name: 'Metal', key: StorageKeys.Metal, amount: +villageData.storage[StorageKeys.Metal]}
+                        ]
+
+                        // order by amount so first is the lowest
+                        const lowestResource = _.sortBy(mainResources, 'amount')[0];
+
+                        console.log(mainResources);
+                        console.log(`Lowest Resource: `, lowestResource);
+
+                        RequestHelper.setHeroResource(lowestResource.key, user)
+                            .then(() => {
+
+                                console.log(`${TimeHelper.logDate()} Set Hero Income to ${lowestResource.name}`);
+
+                            }).catch(console.log);
+                    }
+                })
+            }
+        });
+
+    }
+
+    console.log('calling getAll to check resources');
+
+    (function main() {
+
+        const timeout = TimeHelper.fixedTimeGenerator(minutes * 60) + TimeHelper.randomTimeGenerator(30);
+        const nextDate = new Date((new Date()).valueOf() + timeout);
+        console.log(`Next check ${TimeHelper.logDate(nextDate)}`);
+
+        RequestHelper.getAll(user)
+            .then(checkResourcesAndSetHeroIncomeToLowest)
+            .catch(console.log);
+
+        setTimeout(main, timeout);
+    })();
 }
 
 function cropControl(session, villageId, callback) {
@@ -586,7 +621,7 @@ function cropControl(session, villageId, callback) {
     }
 
     console.log('calling getAll for crop check');
-    httpRequest(getAllOptions)
+    RequestHelper.httpRequest(getAllOptions)
         .then(
             (body) => {
 
@@ -622,7 +657,7 @@ function cropControl(session, villageId, callback) {
             serverDomain: serverDomain
         };
 
-        httpRequest(NPCOptions).then(
+        RequestHelper.httpRequest(NPCOptions).then(
             () => {
                 console.log('NPC exchange passed successfully');
                 if (typeof callback === 'function') {
@@ -644,6 +679,7 @@ const Tasks = {
     farm: process.env.npm_config_farm !== undefined,
     cropControl: process.env.npm_config_cropc !== undefined,
     heroResources: process.env.npm_config_herores !== undefined,
+    heroResourcesLowest: process.env.npm_config_heroreslow !== undefined,
     cropMap9_15: process.env.npm_config_cropmap !== undefined,
 };
 
@@ -668,13 +704,13 @@ function main() {
             var unitsCoss1 = new UnitsBuildSetup();
             unitsCoss1.Barracks[Unit.Gauls.Swordsman] = 20;
             unitsCoss1.Stables[Unit.Gauls.Thunder] = 15;
-            //unitsCoss1.Workshop[Unit.Gauls.Catapult] = 6;
+            unitsCoss1.Workshop[Unit.Gauls.Catapult] = 6;
             // unitsCossMain.GreatBarracks[Unit.Rome.Imperian] = 25;
             // unitsCossMain.GreatStables[Unit.Rome.Ceserian] = 5;
 
             autoUnitsBuild(Users.Coss.village, unitsCoss1, buildInterval, 10, Users.Coss.session);
 
-            //initResourcesGatheringStrategy(Users.Coss.session, 5000, [1, 1, 1, 0]);
+            //initResourcesGatheringStrategy(Users.Coss, 5000, [1, 1, 1, 0]);
         }
 
         if (BuildForVillage.Coss_2) {
@@ -695,7 +731,11 @@ function main() {
     }
 
     if (Tasks.heroResources) {
-        initResourcesGatheringStrategy(Users.Coss.session, 1440, [1, 1, 1, 0]);
+        initResourcesGatheringStrategy(Users.Coss, 1440, [1, 1, 1, 0]);
+    }
+
+    if (Tasks.heroResourcesLowest) {
+        resourceGetTheLowest(Users.Coss, Users.Coss.village, 62);
     }
 
     if (Tasks.cropControl) {
@@ -723,7 +763,7 @@ function main() {
     if (Tasks.farm) {
 
         function farm0() {
-            FarmListController.autoFarmList(1229, [780], defaultUser);
+            FarmListController.autoFarmList(1011, [780], defaultUser);
         }
 
         switch (process.env.npm_config_farm) {

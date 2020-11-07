@@ -21,7 +21,7 @@ function FarmListController () {
     }
 
     function getMinUnitsAmountByPopulation(population) {
-        return Math.max(1, Math.round(population / 50) * 3);
+        return Math.max(1, Math.round(population / 50) * ( population < 400 ? 3 : 2)) + (population < 400 ? 0 : 5);
     }
 
     function checkOnStatus(farmListsResponse, listPayload, user, fn) {
@@ -189,7 +189,7 @@ function FarmListController () {
 
             },
             () => {
-                console.log(TimeHelper.logDate() + ' Фармлист запуcк: listIds[' + listPayload.params.listIds + ']');
+                // console.log(TimeHelper.logDate() + ' Фармлист запуcк: listIds[' + listPayload.params.listIds + ']');
                 fn(listPayload);
             }
         )
@@ -219,7 +219,7 @@ function FarmListController () {
 
         let checkList = (listPayload) => {
 
-            console.log(TimeHelper.logDate() + ' Фармлист проверка listIds[' + listPayload.params.listIds + ']');
+            // console.log(TimeHelper.logDate() + ' Фармлист проверка listIds[' + listPayload.params.listIds + ']');
 
             function start() {
 

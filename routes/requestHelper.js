@@ -119,6 +119,56 @@ function RequestHelper() {
         return httpRequest(getFarmListCacheOptions);
     }
 
+    // Set Hero Resource Income Type
+
+    this.setHeroResource = function (resourceType, user) {
+
+        const setHeroResourceRequestOptions = {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json;charset=UTF-8'
+            },
+            json: true,
+            body: {
+                'controller': 'hero',
+                'action': 'addAttributePoints',
+                'params': {
+                    'attBonusPoints': 0,
+                    'defBonusPoints': 0,
+                    'fightStrengthPoints': 0,
+                    'resBonusPoints': 0,
+                    'resBonusType': resourceType
+                },
+                'session': user.session
+            },
+            serverDomain: user.serverDomain
+        }
+
+        return httpRequest(setHeroResourceRequestOptions);
+    }
+
+    // Get All
+
+    this.getAll = function (user) {
+
+        let getAllOptions = {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json;charset=UTF-8'
+            },
+            json: true,
+            body: {
+                'controller': 'player',
+                'action': 'getAll',
+                'params': {deviceDimension: '1920:1080'},
+                'session': user.session
+            },
+            serverDomain: user.serverDomain
+        };
+
+        return httpRequest(getAllOptions);
+    }
+
     /**
      * http request для травиан кингдомса, возвращает promise
      * @param opt: request options
