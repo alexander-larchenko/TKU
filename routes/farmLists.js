@@ -1,4 +1,4 @@
-const Users = new (require('./users'))();
+const Users = require('./users');
 
 function FarmLists() {
 
@@ -11,4 +11,4 @@ function FarmLists() {
     };
 }
 
-module.exports = FarmLists;
+module.exports = new FarmLists();

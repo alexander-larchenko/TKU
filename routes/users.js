@@ -22,4 +22,4 @@ function Users() {
     }
 }
 
-module.exports = Users;
+module.exports = new Users();
