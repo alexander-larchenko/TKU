@@ -277,6 +277,30 @@ function autoUnitsBuild(villageId, UnitsSetup, fixedTime, randomTime, session) {
         var locationId = Buildings[buildingName].location;
         var buildingType = Buildings[buildingName].typeId;
 
+        console.log(`${TimeHelper.logDate()} ${Users.getUserNameBySession(session)} ${buildingName}: ${printUnits(units)} `);
+
+        //random amount
+        function unitRand(amount) {
+            if (amount < 3) {
+                return 0;
+            } else if (amount < 6) {
+                return Math.round(Math.random() - 1);
+            }
+            const arg = Math.round(amount / 5);
+            return Math.round(Math.random()*(arg*2)) - arg;
+        }
+
+        const newUnits = Object.assign({}, units);
+
+        for (const unitKey in newUnits) {
+            let unitAmount = +newUnits[unitKey];
+            if (unitAmount > 0) {
+                unitAmount = unitAmount + unitRand(unitAmount);
+                newUnits[unitKey] = unitAmount;
+                console.log('Randomized amount:', unitAmount);
+            }
+        }
+
         return {
             method: 'POST',
             headers: {
@@ -290,7 +314,7 @@ function autoUnitsBuild(villageId, UnitsSetup, fixedTime, randomTime, session) {
                     'villageId': villageId,
                     'locationId': locationId,
                     'buildingType': buildingType,
-                    'units': units
+                    'units': newUnits
                 },
                 'session': session
             },
@@ -306,7 +330,7 @@ function autoUnitsBuild(villageId, UnitsSetup, fixedTime, randomTime, session) {
                 .then(
                     (body) => {
 
-                        let log = `${(new Date()).toLocaleString()} ${Users.getUserNameBySession(session)} ${buildingName}: ${printUnits(units)} `;
+                        let log = '';
 
                         if (body.response && body.response.errors) {
                             if (body.response.errors instanceof Array &&
@@ -687,6 +711,8 @@ const BuildForVillage = {
     Coss_1: process.env.npm_config_build == '1',
     Coss_2: process.env.npm_config_build == '2',
     Coss_3: process.env.npm_config_build == '3',
+    Coss_4: process.env.npm_config_build == '4',
+    Coss_5: process.env.npm_config_build == '5',
 };
 
 //=============================================================
@@ -702,9 +728,9 @@ function main() {
 
         if (BuildForVillage.Coss_1) {
             var unitsCoss1 = new UnitsBuildSetup();
-            unitsCoss1.Barracks[Unit.Gauls.Swordsman] = 20;
-            unitsCoss1.Stables[Unit.Gauls.Thunder] = 15;
-            unitsCoss1.Workshop[Unit.Gauls.Catapult] = 6;
+            unitsCoss1.Barracks[Unit.Gauls.Swordsman] = 22;
+            unitsCoss1.Stables[Unit.Gauls.Thunder] = 18;
+            unitsCoss1.Workshop[Unit.Gauls.TapaH] = 6;
             // unitsCossMain.GreatBarracks[Unit.Rome.Imperian] = 25;
             // unitsCossMain.GreatStables[Unit.Rome.Ceserian] = 5;
 
@@ -715,8 +741,8 @@ function main() {
 
         if (BuildForVillage.Coss_2) {
             var unitsCoss2 = new UnitsBuildSetup();
-            unitsCoss2.Barracks[Unit.Gauls.Phalanx] = 22;
-            unitsCoss2.Stables[Unit.Gauls.Druids] = 8;
+            unitsCoss2.Barracks[Unit.Gauls.Phalanx] = 24;
+            unitsCoss2.Stables[Unit.Gauls.Druids] = 10;
 
             autoUnitsBuild(Users.Coss.village2, unitsCoss2, buildInterval, 10, Users.Coss.session);
         }
@@ -727,6 +753,22 @@ function main() {
             unitsCoss3.Stables[Unit.Gauls.Scout] = 16;
 
             autoUnitsBuild(Users.Coss.village3, unitsCoss3, buildInterval, 10, Users.Coss.session);
+        }
+
+        if (BuildForVillage.Coss_4) {
+            var unitsCoss4 = new UnitsBuildSetup();
+            unitsCoss4.Barracks[Unit.Gauls.Phalanx] = 22;
+            unitsCoss4.Stables[Unit.Gauls.Druids] = 8;
+
+            autoUnitsBuild(Users.Coss.village4, unitsCoss4, buildInterval, 10, Users.Coss.session);
+        }
+
+        if (BuildForVillage.Coss_5) {
+            var unitsCoss5 = new UnitsBuildSetup();
+            unitsCoss5.Barracks[Unit.Gauls.Phalanx] = 22;
+            unitsCoss5.Stables[Unit.Gauls.Druids] = 8;
+
+            autoUnitsBuild(Users.Coss.village5, unitsCoss5, buildInterval, 10, Users.Coss.session);
         }
     }
 
@@ -763,7 +805,7 @@ function main() {
     if (Tasks.farm) {
 
         function farm0() {
-            FarmListController.autoFarmList(1011, [780], defaultUser);
+            FarmListController.autoFarmList(863, [780], defaultUser);
         }
 
         switch (process.env.npm_config_farm) {
@@ -776,9 +818,12 @@ function main() {
     }
 }
 
+let delayMs = 0
 if (delay > 0) {
-    console.log(`Delaying ${delay} min until ${TimeHelper.logDate((new Date()).valueOf() + delay * 1000 * 60)}`);
+    delayMs = delay * 1000 * 60;
+    const actualStartDate = new Date((new Date()).valueOf() + delayMs);
+    console.log(`Delaying ${delay} min until ${TimeHelper.logDate(actualStartDate)}`);
 }
-setTimeout(main, delay);
+setTimeout(main, delayMs);
 
 module.exports = router;

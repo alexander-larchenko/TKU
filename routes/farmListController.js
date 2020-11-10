@@ -21,7 +21,8 @@ function FarmListController () {
     }
 
     function getMinUnitsAmountByPopulation(population) {
-        return Math.max(1, Math.round(population / 50) * ( population < 400 ? 3 : 2)) + (population < 400 ? 0 : 5);
+        return Math.max(
+            1, Math.round(Math.round(population / 50) * ( population < 400 ? 2 : 1.5)) + (population < 400 ? 0 : 3));
     }
 
     function checkOnStatus(farmListsResponse, listPayload, user, fn) {
