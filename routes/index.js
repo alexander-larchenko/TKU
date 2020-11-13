@@ -713,6 +713,7 @@ const BuildForVillage = {
     Coss_3: process.env.npm_config_build == '3',
     Coss_4: process.env.npm_config_build == '4',
     Coss_5: process.env.npm_config_build == '5',
+    Coss_6: process.env.npm_config_build == '6',
 };
 
 //=============================================================
@@ -729,10 +730,10 @@ function main() {
         if (BuildForVillage.Coss_1) {
             var unitsCoss1 = new UnitsBuildSetup();
             unitsCoss1.Barracks[Unit.Gauls.Swordsman] = 22;
-            unitsCoss1.Stables[Unit.Gauls.Thunder] = 18;
-            unitsCoss1.Workshop[Unit.Gauls.TapaH] = 6;
-            // unitsCossMain.GreatBarracks[Unit.Rome.Imperian] = 25;
-            // unitsCossMain.GreatStables[Unit.Rome.Ceserian] = 5;
+            unitsCoss1.Stables[Unit.Gauls.Thunder] = 12;
+            unitsCoss1.Workshop[Unit.Gauls.TapaH] = 5;
+            // unitsCoss1.GreatBarracks[Unit.Gauls.Swordsman] = 25;
+            // unitsCoss1.GreatStables[Unit.Gauls.Thunder] = 2;
 
             autoUnitsBuild(Users.Coss.village, unitsCoss1, buildInterval, 10, Users.Coss.session);
 
@@ -741,8 +742,8 @@ function main() {
 
         if (BuildForVillage.Coss_2) {
             var unitsCoss2 = new UnitsBuildSetup();
-            unitsCoss2.Barracks[Unit.Gauls.Phalanx] = 24;
-            unitsCoss2.Stables[Unit.Gauls.Druids] = 10;
+            unitsCoss2.Barracks[Unit.Gauls.Phalanx] = 26;
+            unitsCoss2.Stables[Unit.Gauls.Druids] = 12;
 
             autoUnitsBuild(Users.Coss.village2, unitsCoss2, buildInterval, 10, Users.Coss.session);
         }
@@ -769,6 +770,15 @@ function main() {
             unitsCoss5.Stables[Unit.Gauls.Druids] = 8;
 
             autoUnitsBuild(Users.Coss.village5, unitsCoss5, buildInterval, 10, Users.Coss.session);
+        }
+
+        if (BuildForVillage.Coss_6) {
+            var unitsCoss6 = new UnitsBuildSetup();
+            unitsCoss6.Barracks[Unit.Gauls.Swordsman] = 10;
+            unitsCoss6.Stables[Unit.Gauls.Thunder] = 7;
+            unitsCoss6.Workshop[Unit.Gauls.Catapult] = 3;
+
+            autoUnitsBuild(Users.Coss.village6, unitsCoss6, buildInterval, 10, Users.Coss.session);
         }
     }
 
@@ -808,11 +818,24 @@ function main() {
             FarmListController.autoFarmList(863, [780], defaultUser);
         }
 
+        function farm1() {
+            FarmListController.autoFarmList(1521, [881], defaultUser, defaultUser.village6);
+        }
+
+        function farm2() {
+            FarmListController.autoFarmList(2457, [886], defaultUser);
+        }
+
+
         switch (process.env.npm_config_farm) {
             case '0' : { farm0(); break; }
+            case '1' : { farm1(); break; }
+            case '2' : { farm2(); break; }
             case 'all':
             default: {
                 farm0();
+                farm1();
+                farm2();
             }
         }
     }
