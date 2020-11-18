@@ -732,9 +732,9 @@ function main() {
             var unitsCoss1 = new UnitsBuildSetup();
             unitsCoss1.Barracks[Unit.Gauls.Swordsman] = 23;
             unitsCoss1.Stables[Unit.Gauls.Thunder] = 13;
-            unitsCoss1.Workshop[Unit.Gauls.TapaH] = 6;
-            unitsCoss1.GreatBarracks[Unit.Gauls.Swordsman] = 15;
-            unitsCoss1.GreatStables[Unit.Gauls.Thunder] = 10;
+            // unitsCoss1.Workshop[Unit.Gauls.TapaH] = 6;
+            // unitsCoss1.GreatBarracks[Unit.Gauls.Swordsman] = 15;
+            // unitsCoss1.GreatStables[Unit.Gauls.Thunder] = 10;
 
             autoUnitsBuild(Users.Coss.village, unitsCoss1, buildInterval, 10, Users.Coss.session);
 
@@ -775,9 +775,10 @@ function main() {
 
         if (BuildForVillage.Coss_6 || BuildForVillage.Coss_sec) {
             var unitsCoss6 = new UnitsBuildSetup();
-            unitsCoss6.Barracks[Unit.Gauls.Swordsman] = 15;
-            unitsCoss6.Stables[Unit.Gauls.Thunder] = 13;
-            unitsCoss6.Workshop[Unit.Gauls.Catapult] = 4;
+            unitsCoss6.Barracks[Unit.Gauls.Swordsman] = 22;
+            unitsCoss6.Stables[Unit.Gauls.Thunder] = 15;
+            unitsCoss6.Workshop[Unit.Gauls.TapaH] = 8;
+            unitsCoss6.GreatBarracks[Unit.Gauls.Swordsman] = 10;
 
             autoUnitsBuild(Users.Coss.village6, unitsCoss6, buildInterval, 10, Users.Coss.session);
         }
@@ -816,15 +817,15 @@ function main() {
     if (Tasks.farm) {
 
         function farm0() {
-            FarmListController.autoFarmList(763, [780], defaultUser);
+            FarmListController.autoFarmList(963, [780], defaultUser, defaultUser.village6);
         }
 
         function farm1() {
-            FarmListController.autoFarmList(1221, [881], defaultUser, defaultUser.village6);
+            FarmListController.autoFarmList(1021, [881], defaultUser, defaultUser.village6);
         }
 
         function farm2() {
-            // FarmListController.autoFarmList(2457, [886], defaultUser);
+            // FarmListController.autoFarmList(1121, [948], defaultUser, defaultUser.village6);
         }
 
 
