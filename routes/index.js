@@ -794,10 +794,11 @@ function main() {
      * Животные в оазисах
      */
     if (Tasks.animals) {
+        const user = process.env.npm_config_test !== undefined ? Users.CossTest : Users.Coss;
         setInterval(function () {
-            MapHelper.getAnimalsData(defaultUser);
+            MapHelper.getAnimalsData(user);
         }, 635000);
-        MapHelper.getAnimalsData(defaultUser);
+        MapHelper.getAnimalsData(user);
     }
 
     /** Пометить Девятки Пятнашки */
