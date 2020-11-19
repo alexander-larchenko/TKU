@@ -707,15 +707,9 @@ const Tasks = {
     cropMap9_15: process.env.npm_config_cropmap !== undefined,
 };
 
-const BuildForVillage = {
-    Coss_1: process.env.npm_config_build == '1',
-    Coss_sec: process.env.npm_config_build == 'sec',
-    Coss_2: process.env.npm_config_build == '2',
-    Coss_3: process.env.npm_config_build == '3',
-    Coss_4: process.env.npm_config_build == '4',
-    Coss_5: process.env.npm_config_build == '5',
-    Coss_6: process.env.npm_config_build == '6',
-};
+function weBuildIn(param) {
+  return process.env.npm_config_build === param.toString();
+}
 
 //=============================================================
 
@@ -728,20 +722,19 @@ function main() {
         const buildInterval = 1743;
         resourceIteration = 655;
 
-        if (BuildForVillage.Coss_1) {
+        if (weBuildIn(1)) {
             var unitsCoss1 = new UnitsBuildSetup();
             unitsCoss1.Barracks[Unit.Gauls.Swordsman] = 23;
             unitsCoss1.Stables[Unit.Gauls.Thunder] = 13;
-            // unitsCoss1.Workshop[Unit.Gauls.TapaH] = 6;
-            // unitsCoss1.GreatBarracks[Unit.Gauls.Swordsman] = 15;
-            // unitsCoss1.GreatStables[Unit.Gauls.Thunder] = 10;
+            unitsCoss1.Workshop[Unit.Gauls.TapaH] = 6;
+            unitsCoss1.GreatBarracks[Unit.Gauls.Swordsman] = 15;
+            unitsCoss1.GreatStables[Unit.Gauls.Thunder] = 10;
 
             autoUnitsBuild(Users.Coss.village, unitsCoss1, buildInterval, 10, Users.Coss.session);
 
-            //initResourcesGatheringStrategy(Users.Coss, 5000, [1, 1, 1, 0]);
         }
 
-        if (BuildForVillage.Coss_2 || BuildForVillage.Coss_sec) {
+        if (weBuildIn(2) || weBuildIn('def')) {
             var unitsCoss2 = new UnitsBuildSetup();
             unitsCoss2.Barracks[Unit.Gauls.Phalanx] = 28;
             unitsCoss2.Stables[Unit.Gauls.Druids] = 12;
@@ -749,7 +742,7 @@ function main() {
             autoUnitsBuild(Users.Coss.village2, unitsCoss2, buildInterval, 10, Users.Coss.session);
         }
 
-        if (BuildForVillage.Coss_3 || BuildForVillage.Coss_sec) {
+        if (weBuildIn(3) || weBuildIn('def')) {
             var unitsCoss3 = new UnitsBuildSetup();
             unitsCoss3.Barracks[Unit.Gauls.Phalanx] = 23;
             unitsCoss3.Stables[Unit.Gauls.Scout] = 18;
@@ -757,7 +750,7 @@ function main() {
             autoUnitsBuild(Users.Coss.village3, unitsCoss3, buildInterval, 10, Users.Coss.session);
         }
 
-        if (BuildForVillage.Coss_4 || BuildForVillage.Coss_sec) {
+        if (weBuildIn(4) || weBuildIn('def')) {
             var unitsCoss4 = new UnitsBuildSetup();
             unitsCoss4.Barracks[Unit.Gauls.Phalanx] = 22;
             unitsCoss4.Stables[Unit.Gauls.Druids] = 9;
@@ -765,7 +758,7 @@ function main() {
             autoUnitsBuild(Users.Coss.village4, unitsCoss4, buildInterval, 10, Users.Coss.session);
         }
 
-        if (BuildForVillage.Coss_5 || BuildForVillage.Coss_sec) {
+        if (weBuildIn(5) || weBuildIn('def')) {
             var unitsCoss5 = new UnitsBuildSetup();
             unitsCoss5.Barracks[Unit.Gauls.Phalanx] = 22;
             unitsCoss5.Stables[Unit.Gauls.Druids] = 9;
@@ -773,12 +766,13 @@ function main() {
             autoUnitsBuild(Users.Coss.village5, unitsCoss5, buildInterval, 10, Users.Coss.session);
         }
 
-        if (BuildForVillage.Coss_6 || BuildForVillage.Coss_sec) {
+        if (weBuildIn(6)) {
             var unitsCoss6 = new UnitsBuildSetup();
             unitsCoss6.Barracks[Unit.Gauls.Swordsman] = 22;
             unitsCoss6.Stables[Unit.Gauls.Thunder] = 15;
-            unitsCoss6.Workshop[Unit.Gauls.TapaH] = 8;
+            unitsCoss6.Workshop[Unit.Gauls.Catapult] = 5;
             unitsCoss6.GreatBarracks[Unit.Gauls.Swordsman] = 10;
+            unitsCoss6.GreatStables[Unit.Gauls.Thunder] = 7;
 
             autoUnitsBuild(Users.Coss.village6, unitsCoss6, buildInterval, 10, Users.Coss.session);
         }
@@ -816,28 +810,28 @@ function main() {
      */
     if (Tasks.farm) {
 
-        function farm0() {
-            FarmListController.autoFarmList(963, [780], defaultUser, defaultUser.village6);
-        }
-
         function farm1() {
-            FarmListController.autoFarmList(1021, [881], defaultUser, defaultUser.village6);
+            FarmListController.autoFarmList(863, [780], defaultUser);
         }
 
         function farm2() {
-            // FarmListController.autoFarmList(1121, [948], defaultUser, defaultUser.village6);
+            FarmListController.autoFarmList(921, [881], defaultUser, defaultUser.village6);
+        }
+
+        function farm3() {
+            FarmListController.autoFarmList(3369, [948], defaultUser, defaultUser.village6);
         }
 
 
         switch (process.env.npm_config_farm) {
-            case '0' : { farm0(); break; }
             case '1' : { farm1(); break; }
             case '2' : { farm2(); break; }
+            case '3' : { farm3(); break; }
             case 'all':
             default: {
-                farm0();
                 farm1();
                 farm2();
+                farm3();
             }
         }
     }
