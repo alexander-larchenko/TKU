@@ -169,6 +169,34 @@ function RequestHelper() {
         return httpRequest(getAllOptions);
     }
 
+    // Send Resources
+
+    this.sendResources = function (user, sourceVillage, destVillage, resources, recurrences) {
+
+        const sendResourcesOptions = {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json;charset=UTF-8'
+            },
+            json: true,
+            body: {
+                "controller": "trade",
+                "action": "sendResources",
+                "params": {
+                    "sourceVillageId": +sourceVillage,
+                    "resources": resources, //[0, 0, 0, 0, 1800]
+                    "destVillageId": +destVillage, //536723458
+                    "recurrences": recurrences || 1
+                },
+                "session": user.session
+            },
+            serverDomain: user.serverDomain
+        };
+
+        return httpRequest(sendResourcesOptions);
+
+    }
+
     /**
      * http request для травиан кингдомса, возвращает promise
      * @param opt: request options
