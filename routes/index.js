@@ -725,6 +725,7 @@ const Tasks = {
     heroResourcesLowest: process.env.npm_config_heroreslow !== undefined,
     cropMap9_15: process.env.npm_config_cropmap !== undefined,
     sendResources: process.env.npm_config_sendres !== undefined,
+    wonder: process.env.npm_config_wonder !== undefined,
 };
 
 function weBuildIn(param) {
@@ -748,11 +749,11 @@ function main() {
 
             if (weBuildIn(1)) {
                 var unitsCoss1 = new UnitsBuildSetup();
-                unitsCoss1.Barracks[Unit.Gauls.Swordsman] = 23;
-                unitsCoss1.Stables[Unit.Gauls.Thunder] = 13;
-                unitsCoss1.Workshop[Unit.Gauls.TapaH] = 6;
-                unitsCoss1.GreatBarracks[Unit.Gauls.Swordsman] = 15;
-                unitsCoss1.GreatStables[Unit.Gauls.Thunder] = 10;
+                unitsCoss1.Barracks[Unit.Gauls.Swordsman] = 30;
+                unitsCoss1.Stables[Unit.Gauls.Thunder] = 20;
+                unitsCoss1.Workshop[Unit.Gauls.TapaH] = 10;
+                unitsCoss1.GreatBarracks[Unit.Gauls.Swordsman] = 30;
+                unitsCoss1.GreatStables[Unit.Gauls.Thunder] = 20;
 
                 autoUnitsBuild(Users.Coss.village, unitsCoss1, buildInterval, 10, Users.Coss);
 
@@ -792,11 +793,11 @@ function main() {
 
             if (weBuildIn(6)) {
                 var unitsCoss6 = new UnitsBuildSetup();
-                unitsCoss6.Barracks[Unit.Gauls.Swordsman] = 22;
-                unitsCoss6.Stables[Unit.Gauls.Thunder] = 15;
-                unitsCoss6.Workshop[Unit.Gauls.Catapult] = 5;
-                unitsCoss6.GreatBarracks[Unit.Gauls.Swordsman] = 10;
-                unitsCoss6.GreatStables[Unit.Gauls.Thunder] = 7;
+                unitsCoss6.Barracks[Unit.Gauls.Swordsman] = 30;
+                unitsCoss6.Stables[Unit.Gauls.Thunder] = 20;
+                unitsCoss6.Workshop[Unit.Gauls.Catapult] = 10;
+                unitsCoss6.GreatBarracks[Unit.Gauls.Swordsman] = 30;
+                unitsCoss6.GreatStables[Unit.Gauls.Thunder] = 20;
 
                 autoUnitsBuild(Users.Coss.village6, unitsCoss6, buildInterval, 10, Users.Coss);
             }
@@ -807,11 +808,11 @@ function main() {
 
             if (weBuildIn(1)) {
                 var unitsCoss1 = new UnitsBuildSetup();
-                unitsCoss1.Barracks[Unit.Gauls.Swordsman] = 7;
-                unitsCoss1.Stables[Unit.Gauls.Thunder] = 7;
-                // unitsCoss1.Workshop[Unit.Gauls.TapaH] = 6;
-                // unitsCoss1.GreatBarracks[Unit.Gauls.Swordsman] = 15;
-                // unitsCoss1.GreatStables[Unit.Gauls.Thunder] = 10;
+                unitsCoss1.Barracks[Unit.Gauls.Swordsman] = 50;
+                unitsCoss1.Stables[Unit.Gauls.Thunder] = 32;
+                unitsCoss1.Workshop[Unit.Gauls.Catapult] = 6;
+                unitsCoss1.GreatBarracks[Unit.Gauls.Swordsman] = 10;
+                unitsCoss1.GreatStables[Unit.Gauls.Thunder] = 10;
 
                 autoUnitsBuild(Users.CossTest.village, unitsCoss1, buildInterval, 10, Users.CossTest);
 
@@ -836,9 +837,37 @@ function main() {
     }
 
     if (Tasks.sendResources) {
-        const destVillage = 536723458;
-        sendResources(Users.Fanta, 60, Users.Fanta.village, destVillage, [0, 0, 0, 0, 11000]);
-        sendResources(Users.Fanta, 60, Users.Fanta.village2, destVillage, [0, 0, 0, 0, 11000]);
+        const wonderVillage = 536887296;
+
+        switch (process.env.npm_config_sendres) {
+            case '0': {
+                sendResources(Users.Coss, 60, Users.Coss.village7, wonderVillage, [0, 1500, 1500, 1500, 6300], 2);
+                sendResources(Users.Coss, 60, Users.Coss.village8, wonderVillage, [0, 3000, 1500, 2000, 3700], 2);
+                sendResources(Users.Coss, 60, Users.Coss.village9, wonderVillage, [0, 1500, 3200, 2000, 3200], 2);
+                sendResources(Users.Coss, 60, Users.Coss.village11, wonderVillage, [0, 1500, 1500, 1500, 5000], 2);
+                break;
+            }
+            case '1': {
+                sendResources(Users.Coss, 35, Users.Coss.village, Users.Coss.village6, [0, 10000, 10000, 10000, 30760], 1);
+                break;
+            }
+            case 'fant': {
+                sendResources(Users.Fanta, 60, Users.Fanta.village, wonderVillage, [0, 0, 0, 0, 36456]);
+                sendResources(Users.Fanta, 60, Users.Fanta.village2, wonderVillage, [0, 0, 0, 0, 30943]);
+                break;
+            }
+        }
+    }
+
+    if (Tasks.wonder) {
+        const action = function () {
+            RequestHelper.buildWonder(Users.Acrom).then(function(response) {
+                console.log(TimeHelper.logDate(), ' Built Wonder!');
+                console.log(JSON.stringify(response));
+            });
+        }
+        action();
+        setInterval(action, TimeHelper.fixedTimeGenerator(3000))
     }
 
     /**
@@ -863,15 +892,15 @@ function main() {
     if (Tasks.farm) {
 
         function farm1() {
-            FarmListController.autoFarmList(863, [780], defaultUser);
+            FarmListController.autoFarmList(663, [780], defaultUser, defaultUser.village6);
         }
 
         function farm2() {
-            FarmListController.autoFarmList(921, [881], defaultUser, defaultUser.village6);
+            FarmListController.autoFarmList(692, [881], defaultUser, defaultUser.village6);
         }
 
         function farm3() {
-            FarmListController.autoFarmList(3369, [948], defaultUser, defaultUser.village6);
+            FarmListController.autoFarmList(8760, [948], defaultUser);
         }
 
 

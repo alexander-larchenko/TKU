@@ -197,6 +197,28 @@ function RequestHelper() {
 
     }
 
+    // Build Wonder
+
+    this.buildWonder = function (user) {
+        const buildWonderBody = {
+            "controller": "building",
+            "action": "useMasterBuilder",
+            "params": {"villageId": +user.villageWonder, "locationId": 20, "buildingType": 40, "reserveResources": true},
+            "session": user.session
+        };
+        const buildWonderOptions = {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json;charset=UTF-8'
+            },
+            json: true,
+            body: buildWonderBody,
+            serverDomain: user.serverDomain
+        }
+
+        return httpRequest(buildWonderOptions);
+    }
+
     /**
      * http request для травиан кингдомса, возвращает promise
      * @param opt: request options
