@@ -1,22 +1,23 @@
 function Users() {
 
     this.Coss = {
-        session: '4f5d3f47c89c7e407c6f',
-        village: '536723478',
-        village2: '536690708',
-        village3: '536789008',
-        village4: '536723475',
-        village5: '536592403',
-        village6: '536854537',
-        village7: '536952836',
-        village8: '536821765',
-        village9: '536920074',
-        village10: '536461333',
-        village11: '536952837',
-        village12: '537051161',
-        village13: '536625187',
-        serverDomain: 'ru3x3',
-        cookie: 't5mu=HJWM1YTTKZjcLdFM; CookieConsent={stamp:%27oyu8X/qe3/KfCz+Ow3za8DxMH2p4RYtXEu4vYdMEnCaBMAKcu3pmBg==%27%2Cnecessary:true%2Cpreferences:true%2Cstatistics:true%2Cmarketing:true%2Cver:1%2Cutc:1603671008647%2Cregion:%27ua%27}; desktopNotifications=%7B%22action%22%3A%22accept%22%2C%22timestamp%22%3A1603749710190%7D; _ga=GA1.2.1713705520.1604534467; _fbp=fb.1.1604534466767.1715183015; msid=6dimqoui9pmvi48u4mimlvsic0; gl5SessionKey=%7B%22key%22%3A%22d0bdca310a6bb1aa788b%22%2C%22id%22%3A%221140788%22%7D; gl5PlayerId=1140788; __cmpconsentx17155=CO90wgOO90wgOAfSDBRUBCCgAAAAAAAAAAigAAANzgAgNzAA; __cmpcvcx17155=__s94_s64_s1469_s65_s23_s69_s1433_c6085_s135_s1409_s24_s1475_c5973_c6446_s1078_U__; __cmpcpcx17155=__51__; t5SessionKey=%7B%22key%22%3A%224f5d3f47c89c7e407c6f%22%2C%22id%22%3A%221880%22%7D; t5socket=%22client5fc8dfd8dff0e%22'
+        session: '2109108cacdc8416dfa8',
+        village: '536625141',
+        clientId: '63d6fe6534ae1',
+        //village2: '536690708',
+        //village3: '536789008',
+        //village4: '536723475',
+        // village5: '536592403',
+        // village6: '536854537',
+        // village7: '536952836',
+        // village8: '536821765',
+        // village9: '536920074',
+        // village10: '536461333',
+        // village11: '536952837',
+        // village12: '537051161',
+        // village13: '536625187',
+        serverDomain: 'es2x3',
+        cookie: '_ga=GA1.2.446006017.1668635635; msid=gjsq15bmoe8kn8g90uikgdbf76; __cmpconsentx17155=CPmSt3APmSt3AAfSDBENC1CgAP_AAH_AAAigJLNf_X__b3_v-_7___t0eY1f9_7__-0zjhfdt-8N3f_X_L8X_2M7vF36tr4KuR4ku3bBIUdtHOncTUmx6olVrzPsb02cr7NKJ_Pkmnsbe2dYGH9_n9_z-ZKZ7______7__________________________________________________________________9___BJZr_6__7e_9_3_f__9ujzGr_v_f__2mccL7tv3hu7_6_5fi_-xnd4u_VtfBVyPEl27YJCjto507iak2PVEqteZ9jemzlfZpRP58k09jb2zrAw_v8_v-fzJTPf______f__________________________________________________________________v__4AA; __cmpcccx17155=aBPmSxPogAwAzADcDuAAIABgAHgAUABYADoALgAwABqADoAPQAgACKAEgASgAoABcADEAGgAPIAgACCAEkAJoAVwAvQB7AHwAQ4AxACCgEaAI6ATgA0IByQG-gOCAcSA5IB5YD0QIOAQ2AiSBEwCKAFgQLMgWiAt6BcEC4YGagM8AahA68CHQERAI3wSMAkoBMECY4E3gKFAUaAIBdVC72F8WL-4v9BkujKsMr4cig6ZiAjF2KUFEqa1tvG3Ctw63EFuIm4jtyU3JYA; _gid=GA1.2.1397286177.1674858200; gl5SessionKey=%7B%22key%22%3A%228d98d837ff801fbbbdfa%22%2C%22id%22%3A%221140788%22%7D; gl5PlayerId=1140788; t5SessionKey=%7B%22key%22%3A%222109108cacdc8416dfa8%22%2C%22id%22%3A%22833%22%7D; t5mu=ZJykuCrLcM4P'
     };
 
     this.Fanta = {

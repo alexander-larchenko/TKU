@@ -1,6 +1,8 @@
 const request = require('request');
 const TimeHelper = require('./timeHelper');
+const Utils = require('./utils');
 const Users = require('./users');
+const RequestHelper = require('./requestHelper');
 const _ = require('underscore');
 
 function MapHelper() {
@@ -254,24 +256,12 @@ function MapHelper() {
 
     // Пометить кроповые клетки 9 15
     this.markCropCells = function (user) {
-
+        // before run - make this call in browser and save ownerId/targetId
+        // from payload.params.
 
         function crop(mapCellsData) {
 
-            //const map openApiData.response.map.cells
-
-            let cropArray = [];
-
-            // console.log(map);
-
-            // console.log(map.length);
-
-            // obj.path = Math.sqrt(Math.pow((obj.x-custom.x),2) + Math.pow((obj.y-custom.y), 2));
-            // obj.path = obj.path.toFixed(3);
-            // if(obj.path.length==5){obj.path='0'+obj.path}
-            // cropArray.push(obj);
-
-            asyncLoop(
+            Utils.asyncLoop(
                 mapCellsData.length,
                 (loop) => {
 
@@ -288,6 +278,7 @@ function MapHelper() {
                         let listObj = {
                             'controller': 'map',
                             'action': 'editMapMarkers',
+                            'clientId': user.clientId,
                             'params': {
                                 'markers': [
                                     {
@@ -295,7 +286,7 @@ function MapHelper() {
                                         'type': 3,
                                         'color': 3,
                                         'editType': 3,
-                                        'ownerId': 1880,
+                                        'ownerId': 833,
                                         'targetId': obj.id
                                     }
                                 ],
@@ -304,7 +295,7 @@ function MapHelper() {
                                     'type': 5,
                                     'duration': 12,
                                     'cellId': obj.id,
-                                    'targetId': 1880
+                                    'targetId': 833
                                 }
                             },
                             'session': user.session
@@ -320,7 +311,7 @@ function MapHelper() {
                             body: listObj
                         };
 
-                        httpRequest(options)
+                        RequestHelper.httpRequest(options)
                             .then(
                                 (body) => {
                                     console.log(body)
@@ -339,6 +330,7 @@ function MapHelper() {
                         let listObj = {
                             'controller': 'map',
                             'action': 'editMapMarkers',
+                            'clientId': user.clientId,
                             'params': {
                                 'markers': [
                                     {
@@ -346,7 +338,7 @@ function MapHelper() {
                                         'type': 3,
                                         'color': 10,
                                         'editType': 3,
-                                        'ownerId': 1880,
+                                        'ownerId': 833,
                                         'targetId': obj.id
                                     }
                                 ],
@@ -355,7 +347,7 @@ function MapHelper() {
                                     'type': 5,
                                     'duration': 12,
                                     'cellId': obj.id,
-                                    'targetId': 1880
+                                    'targetId': 833
                                 }
                             },
                             'session': user.session
@@ -371,7 +363,7 @@ function MapHelper() {
                             body: listObj
                         };
 
-                        httpRequest(options)
+                        RequestHelper.httpRequest(options)
                             .then(
                                 (body) => {
                                     console.log(body);
@@ -392,6 +384,11 @@ function MapHelper() {
                 }
             );
         }
+
+        getMapInfo(user).then(openApiData => {
+            const mapCells = openApiData.response.map.cells;
+            crop(mapCells)
+        });
     }
 
 }

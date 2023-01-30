@@ -287,7 +287,7 @@ function autoUnitsBuild(villageId, UnitsSetup, fixedTime, randomTime, user) {
                 return Math.round(Math.random() - 1);
             }
             const arg = Math.round(amount / 5);
-            return Math.round(Math.random()*(arg*2)) - arg;
+            return Math.round(Math.random() * (arg * 2)) - arg;
         }
 
         const newUnits = Object.assign({}, units);
@@ -704,7 +704,7 @@ function sendResources(user, minutes, sourceVillage, destVillage, resources, rec
 
         RequestHelper.sendResources(user, sourceVillage, destVillage, resources, recurrences)
             .then(function () {
-                console.log(resources, 'sent from ', sourceVillage, ' to village ', destVillage );
+                console.log(resources, 'sent from ', sourceVillage, ' to village ', destVillage);
             })
             .catch(console.log);
 
@@ -726,117 +726,104 @@ const Tasks = {
     cropMap9_15: process.env.npm_config_cropmap !== undefined,
     sendResources: process.env.npm_config_sendres !== undefined,
     wonder: process.env.npm_config_wonder !== undefined,
+    xxx: process.env.npm_config_xxx !== undefined,
 };
 
 function weBuildIn(param) {
-  return process.env.npm_config_build === param.toString();
+    return process.env.npm_config_build === param.toString();
 }
 
-const isTest = process.env.npm_config_test !== undefined;
+// const isTest = process.env.npm_config_test !== undefined;
 
 //=============================================================
 
 function main() {
     if (Tasks.heroChecker) {
+        // sends attack or scan with 1 unit and checks if hero experience has changed
+        // example: heroChecker([535838712], 100, Users.DOGMA.session, Users.DOGMA.village1);
         heroChecker([535838712], 100, Users.DOGMA.session, Users.DOGMA.village1);
     }
 
     if (Tasks.build) {
+        //periodically builds units in villages to keep production and save resources
         const buildInterval = 1743;
         resourceIteration = 655;
 
-        if (!isTest) {
+        if (weBuildIn(1)) {
+            var unitsCoss1 = new UnitsBuildSetup();
+            unitsCoss1.Barracks[Unit.Gauls.Swordsman] = 30;
+            unitsCoss1.Stables[Unit.Gauls.Thunder] = 20;
+            unitsCoss1.Workshop[Unit.Gauls.TapaH] = 10;
+            unitsCoss1.GreatBarracks[Unit.Gauls.Swordsman] = 30;
+            unitsCoss1.GreatStables[Unit.Gauls.Thunder] = 20;
 
-            if (weBuildIn(1)) {
-                var unitsCoss1 = new UnitsBuildSetup();
-                unitsCoss1.Barracks[Unit.Gauls.Swordsman] = 30;
-                unitsCoss1.Stables[Unit.Gauls.Thunder] = 20;
-                unitsCoss1.Workshop[Unit.Gauls.TapaH] = 10;
-                unitsCoss1.GreatBarracks[Unit.Gauls.Swordsman] = 30;
-                unitsCoss1.GreatStables[Unit.Gauls.Thunder] = 20;
-
-                autoUnitsBuild(Users.Coss.village, unitsCoss1, buildInterval, 10, Users.Coss);
-
-            }
-
-            if (weBuildIn(2) || weBuildIn('def')) {
-                var unitsCoss2 = new UnitsBuildSetup();
-                unitsCoss2.Barracks[Unit.Gauls.Phalanx] = 28;
-                unitsCoss2.Stables[Unit.Gauls.Druids] = 12;
-
-                autoUnitsBuild(Users.Coss.village2, unitsCoss2, buildInterval, 10, Users.Coss);
-            }
-
-            if (weBuildIn(3) || weBuildIn('def')) {
-                var unitsCoss3 = new UnitsBuildSetup();
-                unitsCoss3.Barracks[Unit.Gauls.Phalanx] = 23;
-                unitsCoss3.Stables[Unit.Gauls.Scout] = 18;
-
-                autoUnitsBuild(Users.Coss.village3, unitsCoss3, buildInterval, 10, Users.Coss);
-            }
-
-            if (weBuildIn(4) || weBuildIn('def')) {
-                var unitsCoss4 = new UnitsBuildSetup();
-                unitsCoss4.Barracks[Unit.Gauls.Phalanx] = 22;
-                unitsCoss4.Stables[Unit.Gauls.Druids] = 9;
-
-                autoUnitsBuild(Users.Coss.village4, unitsCoss4, buildInterval, 10, Users.Coss);
-            }
-
-            if (weBuildIn(5) || weBuildIn('def')) {
-                var unitsCoss5 = new UnitsBuildSetup();
-                unitsCoss5.Barracks[Unit.Gauls.Phalanx] = 22;
-                unitsCoss5.Stables[Unit.Gauls.Druids] = 9;
-
-                autoUnitsBuild(Users.Coss.village5, unitsCoss5, buildInterval, 10, Users.Coss);
-            }
-
-            if (weBuildIn(6)) {
-                var unitsCoss6 = new UnitsBuildSetup();
-                unitsCoss6.Barracks[Unit.Gauls.Swordsman] = 30;
-                unitsCoss6.Stables[Unit.Gauls.Thunder] = 20;
-                unitsCoss6.Workshop[Unit.Gauls.Catapult] = 10;
-                unitsCoss6.GreatBarracks[Unit.Gauls.Swordsman] = 30;
-                unitsCoss6.GreatStables[Unit.Gauls.Thunder] = 20;
-
-                autoUnitsBuild(Users.Coss.village6, unitsCoss6, buildInterval, 10, Users.Coss);
-            }
-
-
-        } else {
-
-
-            if (weBuildIn(1)) {
-                var unitsCoss1 = new UnitsBuildSetup();
-                unitsCoss1.Barracks[Unit.Gauls.Swordsman] = 50;
-                unitsCoss1.Stables[Unit.Gauls.Thunder] = 32;
-                unitsCoss1.Workshop[Unit.Gauls.Catapult] = 6;
-                unitsCoss1.GreatBarracks[Unit.Gauls.Swordsman] = 10;
-                unitsCoss1.GreatStables[Unit.Gauls.Thunder] = 10;
-
-                autoUnitsBuild(Users.CossTest.village, unitsCoss1, buildInterval, 10, Users.CossTest);
-
-            }
+            autoUnitsBuild(Users.Coss.village, unitsCoss1, buildInterval, 10, Users.Coss);
 
         }
 
+        if (weBuildIn(2) || weBuildIn('def')) {
+            var unitsCoss2 = new UnitsBuildSetup();
+            unitsCoss2.Barracks[Unit.Gauls.Phalanx] = 28;
+            unitsCoss2.Stables[Unit.Gauls.Druids] = 12;
+
+            autoUnitsBuild(Users.Coss.village2, unitsCoss2, buildInterval, 10, Users.Coss);
+        }
+
+        if (weBuildIn(3) || weBuildIn('def')) {
+            var unitsCoss3 = new UnitsBuildSetup();
+            unitsCoss3.Barracks[Unit.Gauls.Phalanx] = 23;
+            unitsCoss3.Stables[Unit.Gauls.Scout] = 18;
+
+            autoUnitsBuild(Users.Coss.village3, unitsCoss3, buildInterval, 10, Users.Coss);
+        }
+
+        if (weBuildIn(4) || weBuildIn('def')) {
+            var unitsCoss4 = new UnitsBuildSetup();
+            unitsCoss4.Barracks[Unit.Gauls.Phalanx] = 22;
+            unitsCoss4.Stables[Unit.Gauls.Druids] = 9;
+
+            autoUnitsBuild(Users.Coss.village4, unitsCoss4, buildInterval, 10, Users.Coss);
+        }
+
+        if (weBuildIn(5) || weBuildIn('def')) {
+            var unitsCoss5 = new UnitsBuildSetup();
+            unitsCoss5.Barracks[Unit.Gauls.Phalanx] = 22;
+            unitsCoss5.Stables[Unit.Gauls.Druids] = 9;
+
+            autoUnitsBuild(Users.Coss.village5, unitsCoss5, buildInterval, 10, Users.Coss);
+        }
+
+        if (weBuildIn(6)) {
+            var unitsCoss6 = new UnitsBuildSetup();
+            unitsCoss6.Barracks[Unit.Gauls.Swordsman] = 30;
+            unitsCoss6.Stables[Unit.Gauls.Thunder] = 20;
+            unitsCoss6.Workshop[Unit.Gauls.Catapult] = 10;
+            unitsCoss6.GreatBarracks[Unit.Gauls.Swordsman] = 30;
+            unitsCoss6.GreatStables[Unit.Gauls.Thunder] = 20;
+
+            autoUnitsBuild(Users.Coss.village6, unitsCoss6, buildInterval, 10, Users.Coss);
+        }
 
     }
 
     if (Tasks.heroResources) {
+        // keeps changing hero resources income to support better gathering
         initResourcesGatheringStrategy(Users.Coss, 1440, [1, 1, 1, 0]);
     }
 
     if (Tasks.heroResourcesLowest) {
-        const user = isTest ? Users.CossTest : Users.Coss;
+        // simpe logic: periodically checks resources and sets hero income to the lowest
+        const user = Users.Coss;
         resourceGetTheLowest(user, user.village, 47);
     }
 
     if (Tasks.cropControl) {
+        // ensures the village has enough crop (uses NPC trade to exchange for crop if not enough)
         cropControl(Users.Coss, Users.Coss.village);
     }
 
     if (Tasks.sendResources) {
+        // automatic trade routes)
         const wonderVillage = 536887296;
 
         switch (process.env.npm_config_sendres) {
@@ -860,8 +847,11 @@ function main() {
     }
 
     if (Tasks.wonder) {
+        // auto build wonder
+        const user = Users.Acrom;
+
         const action = function () {
-            RequestHelper.buildWonder(Users.Acrom).then(function(response) {
+            RequestHelper.buildWonder(user).then(function (response) {
                 console.log(TimeHelper.logDate(), ' Built Wonder!');
                 console.log(JSON.stringify(response));
             });
@@ -870,11 +860,17 @@ function main() {
         setInterval(action, TimeHelper.fixedTimeGenerator(3000))
     }
 
+    if (Tasks.xxx) {
+        // TODO
+
+    }
+
     /**
      * Животные в оазисах
      */
     if (Tasks.animals) {
-        const user = isTest ? Users.CossTest : Users.Coss;
+        // get
+        const user = Users.Coss;
         setInterval(function () {
             MapHelper.getAnimalsData(user);
         }, 635000);
@@ -883,13 +879,16 @@ function main() {
 
     /** Пометить Девятки Пятнашки */
     if (Tasks.cropMap9_15) {
-        // getMapInfo('crop', defaultUser.session, serverDomain);
+        // marks the 9/15 crop fields on the map
+        MapHelper.markCropCells(defaultUser);
+        //getMapInfo('crop', defaultUser.session, serverDomain);
     }
 
     /**
      * Фармлисты
      */
     if (Tasks.farm) {
+        //periodically sends farm lists
 
         function farm1() {
             FarmListController.autoFarmList(663, [780], defaultUser, defaultUser.village6);
@@ -905,9 +904,18 @@ function main() {
 
 
         switch (process.env.npm_config_farm) {
-            case '1' : { farm1(); break; }
-            case '2' : { farm2(); break; }
-            case '3' : { farm3(); break; }
+            case '1' : {
+                farm1();
+                break;
+            }
+            case '2' : {
+                farm2();
+                break;
+            }
+            case '3' : {
+                farm3();
+                break;
+            }
             case 'all':
             default: {
                 farm1();
