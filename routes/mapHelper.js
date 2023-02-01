@@ -179,12 +179,12 @@ function MapHelper() {
                         }
                     }
 
-                    if (avgAllDpsInfantry / troopsCounter < 100 || avgAllDpsMounted / troopsCounter < 100) {
-                        return;
-                    }
-
                     avgAllDpsInfantry = (avgAllDpsInfantry / troopsCounter).toFixed(1);
                     avgAllDpsMounted = (avgAllDpsMounted / troopsCounter).toFixed(1);
+
+                    // if (avgAllDpsInfantry < 100 || avgAllDpsMounted < 100) {
+                    //     return;
+                    // }
 
                     if (avgAllDpsInfantry.length < 5) {
                         avgAllDpsInfantry = '0' + avgAllDpsInfantry
@@ -200,15 +200,24 @@ function MapHelper() {
 
                     const oasisMapCell = mapCells.find((cell) => cell.id === oasisCache.data.troops.villageId);
 
-                    oasisDetailsData.push({
+                    const oasisData = {
                         x: oasisMapCell.x,
                         y: oasisMapCell.y,
                         animal: oasisTroops.units,
                         counterAnimalType: counterAnimalType,
                         avgAllDps: avgAllDpsInfantry + '/' + avgAllDpsMounted,
                         avgAllDpsInfantry: avgAllDpsInfantry,
-                        avgAllDpsMounted: avgAllDpsMounted
-                    });
+                        avgAllDpsMounted: avgAllDpsMounted,
+                        distance: 0
+                    }
+
+                    if (user.coords) {
+                        oasisData.distance = Math.sqrt(
+                            Math.pow(Math.abs(oasisMapCell.x - user.coords.x), 2) + Math.pow(Math.abs(oasisMapCell.y - user.coords.y), 2)
+                        ).toFixed(1);
+                    }
+
+                    oasisDetailsData.push(oasisData);
                 })
 
                 oasisDetailsData = _.sortBy(oasisDetailsData, 'avgAllDpsInfantry').reverse();
@@ -228,15 +237,16 @@ function MapHelper() {
 
                 console.log(TimeHelper.logDate(), ' Animal Data Updated');
 
+                // Rich oasis to capture
                 const averageMinDps = 150;
                 const filteredOasisDetailsData = oasisDetailsData.filter(oasisData => oasisData.avgAllDpsInfantry >= averageMinDps || oasisData.avgAllDpsMounted >= averageMinDps);
                 if (filteredOasisDetailsData.length) {
 
-                    console.log('\x1b[31m%s\x1b[0m', `We Have ${averageMinDps}+ Animals`);
+                    console.log('\x1b[31m%s\x1b[0m', `We Have ${averageMinDps}+ Animals to capture`);
 
                     filteredOasisDetailsData.forEach(richOasisData => {
 
-                        let log = `[${richOasisData.avgAllDpsInfantry}|${richOasisData.avgAllDpsMounted}](${richOasisData.counterAnimalType}) on  (${richOasisData.x}|${richOasisData.y}) `;
+                        let log = `[${richOasisData.avgAllDpsInfantry}|${richOasisData.avgAllDpsMounted}](${richOasisData.counterAnimalType}) on  (${richOasisData.x}|${richOasisData.y}), distance:${richOasisData.distance}`;
 
                         Object.keys(richOasisData.animal).forEach((key) => {
                             let name = AnimalsById[+key];
@@ -248,6 +258,31 @@ function MapHelper() {
 
                 } else {
                     console.log(TimeHelper.logDate(), `No Rich Oasis with ${averageMinDps}+ animals`);
+                }
+
+                // Low oasis to farm
+                const maxAvgDpsForFarm = 30;
+                const oasisForFarmData = oasisDetailsData.filter(oasisData => oasisData.avgAllDpsInfantry < maxAvgDpsForFarm && oasisData.distance < 25);
+                if (oasisForFarmData.length) {
+
+                    console.log('\x1b[31m%s\x1b[0m', `We Have ${maxAvgDpsForFarm}+ Animals to farm`);
+
+                    if (oasisForFarmData.distance < 10) {
+                        oasisForFarmData.distance = '0' + oasisForFarmData.distance;
+                    }
+
+                    const sortedOasisForFarmData = _.sortBy(oasisForFarmData, 'distance');
+
+                    sortedOasisForFarmData.forEach(oasisData => {
+                        let log = `[${oasisData.avgAllDpsInfantry}|${oasisData.avgAllDpsMounted}](${oasisData.counterAnimalType}) on  (${oasisData.x}|${oasisData.y}), distance:${oasisData.distance}`;
+
+                        Object.keys(oasisData.animal).forEach((key) => {
+                            let name = AnimalsById[+key];
+                            log += `{${name}: ${oasisData.animal[key]}} `;
+                        });
+
+                        console.log(log);
+                    })
                 }
 
             }).catch(console.log)
