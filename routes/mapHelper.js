@@ -212,9 +212,10 @@ function MapHelper() {
                     }
 
                     if (user.coords) {
-                        oasisData.distance = Math.sqrt(
+                        const distance = Math.sqrt(
                             Math.pow(Math.abs(oasisMapCell.x - user.coords.x), 2) + Math.pow(Math.abs(oasisMapCell.y - user.coords.y), 2)
                         ).toFixed(1);
+                        oasisData.distance = `${distance < 10 ? '0' : '' }${distance}`;
                     }
 
                     oasisDetailsData.push(oasisData);
@@ -246,7 +247,7 @@ function MapHelper() {
 
                     filteredOasisDetailsData.forEach(richOasisData => {
 
-                        let log = `[${richOasisData.avgAllDpsInfantry}|${richOasisData.avgAllDpsMounted}](${richOasisData.counterAnimalType}) on  (${richOasisData.x}|${richOasisData.y}), distance:${richOasisData.distance}`;
+                        let log = `[${richOasisData.avgAllDpsInfantry}|${richOasisData.avgAllDpsMounted}](${richOasisData.counterAnimalType}), ~${richOasisData.distance} on (${richOasisData.x}|${richOasisData.y}) `;
 
                         Object.keys(richOasisData.animal).forEach((key) => {
                             let name = AnimalsById[+key];
@@ -267,14 +268,12 @@ function MapHelper() {
 
                     console.log('\x1b[31m%s\x1b[0m', `We Have ${maxAvgDpsForFarm}+ Animals to farm`);
 
-                    if (oasisForFarmData.distance < 10) {
-                        oasisForFarmData.distance = '0' + oasisForFarmData.distance;
-                    }
+                    oasisForFarmData.distance = `${oasisForFarmData.distance < 10 ? '0' : '' }${oasisForFarmData.distance}`;
 
                     const sortedOasisForFarmData = _.sortBy(oasisForFarmData, 'distance');
 
                     sortedOasisForFarmData.forEach(oasisData => {
-                        let log = `[${oasisData.avgAllDpsInfantry}|${oasisData.avgAllDpsMounted}](${oasisData.counterAnimalType}) on  (${oasisData.x}|${oasisData.y}), distance:${oasisData.distance}`;
+                        let log = `[${oasisData.avgAllDpsInfantry}|${oasisData.avgAllDpsMounted}](${oasisData.counterAnimalType}), ~${oasisData.distance} on (${oasisData.x}|${oasisData.y}) `;
 
                         Object.keys(oasisData.animal).forEach((key) => {
                             let name = AnimalsById[+key];

@@ -1,10 +1,10 @@
 function Users() {
 
     this.Coss = {
-        session: 'ae0151cdf8221335c55d',
+        session: '7ee452cf392f4c5860c9',
         village: '536625141',
         coords: { x: -11, y: -8 },
-        clientId: '63da728df5bf5',
+        clientId: '63daa50514deb',
         //village2: '536690708',
         //village3: '536789008',
         //village4: '536723475',
@@ -18,7 +18,7 @@ function Users() {
         // village12: '537051161',
         // village13: '536625187',
         serverDomain: 'es2x3',
-        cookie: ' __cmpconsentx17155=CPmPa7APmPa7AAfSDBENC1CgAP_AAH_AAAigJLNf_X__b3_v-_7___t0eY1f9_7__-0zjhfdt-8N3f_X_L8X_2M7vF36tr4KuR4ku3bBIUdtHOncTUmx6olVrzPsb02cr7NKJ_Pkmnsbe2dYGH9_n9_z-ZKZ7______7__________________________________________________________________9___BJZr_6__7e_9_3_f__9ujzGr_v_f__2mccL7tv3hu7_6_5fi_-xnd4u_VtfBVyPEl27YJCjto507iak2PVEqteZ9jemzlfZpRP58k09jb2zrAw_v8_v-fzJTPf______f__________________________________________________________________v__4AA; __cmpcccx17155=aBPmR99-gAwAzADcDuAAIABgAHgAUABYADoALgAwABqADoAPQAgACKAEgASgAoABcADEAGgAPIAgACCAEkAJoAVwAvQB7AHwAQ4AxACCgEaAI6ATgA0IByQG-gOCAcSA5IB5YD0QIOAQ2AiSBEwCKAFgQLMgWiAt6BcEC4YGagM8AahA68CHQERAI3wSMAkoBMECY4E3gKFAUaAIBdVC72F8WL-4v9BkujKsMr4cig6ZiAjF2KUFEqa1tvG3Ctw63EFuIm4jtyU3JYA; _ga=GA1.2.564880542.1674837212; t5mu=5lREx3HQRBNs; village=536625141; _gid=GA1.2.1787914562.1675253235; gl5SessionKey=%7B%22key%22%3A%22e32727843adeb040e3b2%22%2C%22id%22%3A%221140788%22%7D; gl5PlayerId=1140788; msid=qtrdf2ve0qik6jdu8ojsko4bd2; t5SessionKey=%7B%22key%22%3A%22ae0151cdf8221335c55d%22%2C%22id%22%3A%22833%22%7D'
+        cookie: '__cmpconsentx17155=CPmPa7APmPa7AAfSDBENC1CgAP_AAH_AAAigJLNf_X__b3_v-_7___t0eY1f9_7__-0zjhfdt-8N3f_X_L8X_2M7vF36tr4KuR4ku3bBIUdtHOncTUmx6olVrzPsb02cr7NKJ_Pkmnsbe2dYGH9_n9_z-ZKZ7______7__________________________________________________________________9___BJZr_6__7e_9_3_f__9ujzGr_v_f__2mccL7tv3hu7_6_5fi_-xnd4u_VtfBVyPEl27YJCjto507iak2PVEqteZ9jemzlfZpRP58k09jb2zrAw_v8_v-fzJTPf______f__________________________________________________________________v__4AA; __cmpcccx17155=aBPmR99-gAwAzADcDuAAIABgAHgAUABYADoALgAwABqADoAPQAgACKAEgASgAoABcADEAGgAPIAgACCAEkAJoAVwAvQB7AHwAQ4AxACCgEaAI6ATgA0IByQG-gOCAcSA5IB5YD0QIOAQ2AiSBEwCKAFgQLMgWiAt6BcEC4YGagM8AahA68CHQERAI3wSMAkoBMECY4E3gKFAUaAIBdVC72F8WL-4v9BkujKsMr4cig6ZiAjF2KUFEqa1tvG3Ctw63EFuIm4jtyU3JYA; _ga=GA1.2.564880542.1674837212; t5mu=5lREx3HQRBNs; village=536625141; _gid=GA1.2.1787914562.1675253235; gl5SessionKey=%7B%22key%22%3A%22e32727843adeb040e3b2%22%2C%22id%22%3A%221140788%22%7D; gl5PlayerId=1140788; msid=qtrdf2ve0qik6jdu8ojsko4bd2; t5SessionKey=%7B%22key%22%3A%22ae0151cdf8221335c55d%22%2C%22id%22%3A%22833%22%7D'
     };
 
     this.Fanta = {
