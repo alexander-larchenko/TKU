@@ -719,6 +719,7 @@ const Tasks = {
     heroChecker: process.env.npm_config_check !== undefined,
     build: process.env.npm_config_build !== undefined,
     animals: process.env.npm_config_animals !== undefined,
+    animals2: process.env.npm_config_animals2 !== undefined,
     farm: process.env.npm_config_farm !== undefined,
     cropControl: process.env.npm_config_cropc !== undefined,
     heroResources: process.env.npm_config_herores !== undefined,
@@ -873,7 +874,19 @@ function main() {
         const user = Users.Coss;
         setInterval(function () {
             MapHelper.getAnimalsData(user);
-        }, 635000);
+        }, 335000);
+        MapHelper.getAnimalsData(user);
+    }
+
+    /**
+     * Животные в оазисах
+     */
+    if (Tasks.animals2) {
+        // get
+        const user = Users.AlexCoss;
+        setInterval(function () {
+            MapHelper.getAnimalsData(user);
+        }, 335000);
         MapHelper.getAnimalsData(user);
     }
 

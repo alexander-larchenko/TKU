@@ -1,10 +1,10 @@
 function Users() {
 
     this.Coss = {
-        session: '7ee452cf392f4c5860c9',
-        village: '536625141',
-        coords: { x: -11, y: -8 },
-        clientId: '63daa50514deb',
+        session: '48ec9b5e62d10e588f67',
+        village: '538394616',
+        coords: { x: -8, y: 46 },
+        clientId: '63dcecf62bb7e',
         //village2: '536690708',
         //village3: '536789008',
         //village4: '536723475',
@@ -17,16 +17,17 @@ function Users() {
         // village11: '536952837',
         // village12: '537051161',
         // village13: '536625187',
-        serverDomain: 'es2x3',
-        cookie: '__cmpconsentx17155=CPmPa7APmPa7AAfSDBENC1CgAP_AAH_AAAigJLNf_X__b3_v-_7___t0eY1f9_7__-0zjhfdt-8N3f_X_L8X_2M7vF36tr4KuR4ku3bBIUdtHOncTUmx6olVrzPsb02cr7NKJ_Pkmnsbe2dYGH9_n9_z-ZKZ7______7__________________________________________________________________9___BJZr_6__7e_9_3_f__9ujzGr_v_f__2mccL7tv3hu7_6_5fi_-xnd4u_VtfBVyPEl27YJCjto507iak2PVEqteZ9jemzlfZpRP58k09jb2zrAw_v8_v-fzJTPf______f__________________________________________________________________v__4AA; __cmpcccx17155=aBPmR99-gAwAzADcDuAAIABgAHgAUABYADoALgAwABqADoAPQAgACKAEgASgAoABcADEAGgAPIAgACCAEkAJoAVwAvQB7AHwAQ4AxACCgEaAI6ATgA0IByQG-gOCAcSA5IB5YD0QIOAQ2AiSBEwCKAFgQLMgWiAt6BcEC4YGagM8AahA68CHQERAI3wSMAkoBMECY4E3gKFAUaAIBdVC72F8WL-4v9BkujKsMr4cig6ZiAjF2KUFEqa1tvG3Ctw63EFuIm4jtyU3JYA; _ga=GA1.2.564880542.1674837212; t5mu=5lREx3HQRBNs; village=536625141; _gid=GA1.2.1787914562.1675253235; gl5SessionKey=%7B%22key%22%3A%22e32727843adeb040e3b2%22%2C%22id%22%3A%221140788%22%7D; gl5PlayerId=1140788; msid=qtrdf2ve0qik6jdu8ojsko4bd2; t5SessionKey=%7B%22key%22%3A%22ae0151cdf8221335c55d%22%2C%22id%22%3A%22833%22%7D'
+        serverDomain: 'testx5',
+        cookie: '_ga=GA1.2.446006017.1668635635; __cmpconsentx17155=CPmSt3APmSt3AAfSDBENC1CgAP_AAH_AAAigJLNf_X__b3_v-_7___t0eY1f9_7__-0zjhfdt-8N3f_X_L8X_2M7vF36tr4KuR4ku3bBIUdtHOncTUmx6olVrzPsb02cr7NKJ_Pkmnsbe2dYGH9_n9_z-ZKZ7______7__________________________________________________________________9___BJZr_6__7e_9_3_f__9ujzGr_v_f__2mccL7tv3hu7_6_5fi_-xnd4u_VtfBVyPEl27YJCjto507iak2PVEqteZ9jemzlfZpRP58k09jb2zrAw_v8_v-fzJTPf______f__________________________________________________________________v__4AA; __cmpcccx17155=aBPmSxPogAwAzADcDuAAIABgAHgAUABYADoALgAwABqADoAPQAgACKAEgASgAoABcADEAGgAPIAgACCAEkAJoAVwAvQB7AHwAQ4AxACCgEaAI6ATgA0IByQG-gOCAcSA5IB5YD0QIOAQ2AiSBEwCKAFgQLMgWiAt6BcEC4YGagM8AahA68CHQERAI3wSMAkoBMECY4E3gKFAUaAIBdVC72F8WL-4v9BkujKsMr4cig6ZiAjF2KUFEqa1tvG3Ctw63EFuIm4jtyU3JYA; _gid=GA1.2.1065979640.1675273455; t5mu=c55EkSin6OlZ; gl5SessionKey=%7B%22key%22%3A%22dbd7e34ccc53f2d1baaf%22%2C%22id%22%3A%221142177%22%7D; gl5PlayerId=1142177; msid=4hgsuo6sgmfhddl23ucj7oakg6; t5SessionKey=%7B%22key%22%3A%2248ec9b5e62d10e588f67%22%2C%22id%22%3A%22249%22%7D; village=538394616'
     };
 
-    this.Fanta = {
-        session: 'a96c83830a56c886ac26',
-        village: '536690709',
-        village2: '536657940',
-        serverDomain: 'ru3x3',
-        cookie: '__cmpconsentx17155=CO92Nt5O92Nt5AfSDBRUBCCgAAAAAAAAAAigAAANzgAgNzAA; __cmpcvcx17155=__s94_s64_s1469_s65_s23_s69_s1433_c6085_s135_s1409_s24_s1475_c5973_c6446_s1078_U__; __cmpcpcx17155=__51__; gl5SessionKey=%7B%22key%22%3A%2212007476e33605c68acb%22%2C%22id%22%3A%221168898%22%7D; gl5PlayerId=1168898; msid=4cc9c00vrro713uegetbmkqnu5; t5mu=HNHTvVGMtlEcGZTM; t5SessionKey=%7B%22key%22%3A%22a96c83830a56c886ac26%22%2C%22id%22%3A%221160%22%7D; t5socket=%22client5fc8e2d8eecf6%22; village=536690709; desktopNotifications=%7B%22action%22%3A%22cancel%22%2C%22timestamp%22%3A1607000953327%7D'
+    this.AlexCoss = {
+        session: 'e58f3bae365c00962c39',
+        village: '536625141',
+        coords: { x: -11, y: -8 },
+        clientId: '63dd28f9d257c',
+        serverDomain: 'es2x3',
+        cookie: '__cmpcc=1; __cmpconsentx17155=CPmmffAPmmffAAfSDBENC2CgAP_AAH_AAAigJLNf_X__b3_v-_7___t0eY1f9_7__-0zjhfdt-8N3f_X_L8X_2M7vF36tr4KuR4ku3bBIUdtHOncTUmx6olVrzPsb02cr7NKJ_Pkmnsbe2dYGH9_n9_z-ZKZ7______7__________________________________________________________________9___BJZr_6__7e_9_3_f__9ujzGr_v_f__2mccL7tv3hu7_6_5fi_-xnd4u_VtfBVyPEl27YJCjto507iak2PVEqteZ9jemzlfZpRP58k09jb2zrAw_v8_v-fzJTPf______f__________________________________________________________________v__4AA; __cmpcccx17155=aBPmo5e-gAwAzADcDuAAIABgAHgAUABYADoALgAwABqADoAPQAgACKAEgASgAoABcADEAGgAPIAgACCAEkAJoAVwAvQB7AHwAQ4AxACCgEaAI6ATgA0IByQG-gOCAcSA5IB5YD0QIOAQ2AiSBEwCKAFgQLMgWiAt6BcEC4YGagM8AahA68CHQERAI3wSMAkoBMECY4E3gKFAUaAIBdVC72F8WL-4v9BkujKsMr4cig6ZiAjF2KUFEqa1tvG3Ctw63EFuIm4jtyU3JYA; _ga=GA1.2.342668809.1675438279; _gid=GA1.2.202867293.1675438279; _fbp=fb.1.1675438278981.1367452248; gl5SessionKey=%7B%22key%22%3A%222f3bd0cbf52c11150ec0%22%2C%22id%22%3A%221140788%22%7D; gl5PlayerId=1140788; msid=3lo2v1opag88dg3diiglvqdue6; t5SessionKey=%7B%22key%22%3A%22e58f3bae365c00962c39%22%2C%22id%22%3A%22833%22%7D; t5mu=i1E9wAi1Voqc; village=536625141'
     };
 
     this.Acrom = {

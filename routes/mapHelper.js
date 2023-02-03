@@ -266,7 +266,7 @@ function MapHelper() {
                 const oasisForFarmData = oasisDetailsData.filter(oasisData => oasisData.avgAllDpsInfantry < maxAvgDpsForFarm && oasisData.distance < 25);
                 if (oasisForFarmData.length) {
 
-                    console.log('\x1b[31m%s\x1b[0m', `We Have ${maxAvgDpsForFarm}+ Animals to farm`);
+                    console.log('\x1b[33m%s\x1b[0m', `We Have ${maxAvgDpsForFarm}+ Animals to farm`);
 
                     oasisForFarmData.distance = `${oasisForFarmData.distance < 10 ? '0' : '' }${oasisForFarmData.distance}`;
 
@@ -320,7 +320,7 @@ function MapHelper() {
                                         'type': 3,
                                         'color': 3,
                                         'editType': 3,
-                                        'ownerId': 833,
+                                        'ownerId': 249,
                                         'targetId': obj.id
                                     }
                                 ],
@@ -329,7 +329,7 @@ function MapHelper() {
                                     'type': 5,
                                     'duration': 12,
                                     'cellId': obj.id,
-                                    'targetId': 833
+                                    'targetId': 249
                                 }
                             },
                             'session': user.session
@@ -349,7 +349,7 @@ function MapHelper() {
                             .then(
                                 (body) => {
                                     console.log(body)
-                                    setTimeout(loop.next, 10);
+                                    setTimeout(loop.next, 1000);
                                 },
                                 (error) => {
                                     console.log(error)
@@ -401,7 +401,7 @@ function MapHelper() {
                             .then(
                                 (body) => {
                                     console.log(body);
-                                    setTimeout(loop.next, 10);
+                                    setTimeout(loop.next, 1000);
                                 },
                                 (error) => {
                                     console.log(error)
