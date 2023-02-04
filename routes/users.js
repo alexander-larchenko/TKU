@@ -7,7 +7,7 @@ function Users() {
         village: '538394616',
         coords: { x: -8, y: 46 },
         village2: '538427383',
-        village3: '53678900822',
+        village3: '536789008',
         //village4: '536723475',
         // village5: '536592403',
         // village6: '536854537',
