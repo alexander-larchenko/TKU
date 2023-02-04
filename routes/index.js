@@ -236,7 +236,8 @@ function autoUnitsBuild(villageId, UnitsSetup, fixedTime, randomTime, user) {
             'controller': 'player',
             'action': 'getAll',
             'params': {deviceDimension: '1920:1080'},
-            'session': user.session
+            'session': user.session,
+            'clientId': user.clientId
         },
         serverDomain: user.serverDomain
     };
@@ -316,7 +317,8 @@ function autoUnitsBuild(villageId, UnitsSetup, fixedTime, randomTime, user) {
                     'buildingType': buildingType,
                     'units': newUnits
                 },
-                'session': user.session
+                'session': user.session,
+                'clientId': user.clientId
             },
             serverDomain: user.serverDomain
         }
@@ -361,6 +363,8 @@ function autoUnitsBuild(villageId, UnitsSetup, fixedTime, randomTime, user) {
                             } else {
                                 log += JSON.stringify(body);
                             }
+                        } else {
+                            log += 'Build request is successful!'
                         }
                         console.log(log);
                         // console.log(body)
@@ -747,16 +751,16 @@ function main() {
 
     if (Tasks.build) {
         //periodically builds units in villages to keep production and save resources
-        const buildInterval = 1743;
+        const buildInterval = 1527;
         resourceIteration = 655;
 
         if (weBuildIn(1)) {
             var unitsCoss1 = new UnitsBuildSetup();
-            unitsCoss1.Barracks[Unit.Gauls.Swordsman] = 30;
-            unitsCoss1.Stables[Unit.Gauls.Thunder] = 20;
-            unitsCoss1.Workshop[Unit.Gauls.TapaH] = 10;
-            unitsCoss1.GreatBarracks[Unit.Gauls.Swordsman] = 30;
-            unitsCoss1.GreatStables[Unit.Gauls.Thunder] = 20;
+            unitsCoss1.Barracks[Unit.Gauls.Phalanx] = 8;
+            // unitsCoss1.Stables[Unit.Gauls.Thunder] = 0;
+            // unitsCoss1.Workshop[Unit.Gauls.TapaH] = 0;
+            // unitsCoss1.GreatBarracks[Unit.Gauls.Swordsman] = 30;
+            // unitsCoss1.GreatStables[Unit.Gauls.Thunder] = 20;
 
             autoUnitsBuild(Users.Coss.village, unitsCoss1, buildInterval, 10, Users.Coss);
 

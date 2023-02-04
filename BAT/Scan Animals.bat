@@ -1,4 +1,4 @@
-cd D:\Work\EzTexting\TKU
+cd ..
 set title=%~nx0
 call npm start --animals
 pause
