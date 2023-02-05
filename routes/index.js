@@ -751,13 +751,13 @@ function main() {
 
     if (Tasks.build) {
         //periodically builds units in villages to keep production and save resources
-        const buildInterval = 1527;
+        const buildInterval = 1597;
         resourceIteration = 655;
 
         if (weBuildIn(1)) {
             var unitsCoss1 = new UnitsBuildSetup();
-            unitsCoss1.Barracks[Unit.Gauls.Phalanx] = 8;
-            // unitsCoss1.Stables[Unit.Gauls.Thunder] = 0;
+            unitsCoss1.Barracks[Unit.Gauls.Phalanx] = 12;
+            unitsCoss1.Stables[Unit.Gauls.Druids] = 5;
             // unitsCoss1.Workshop[Unit.Gauls.TapaH] = 0;
             // unitsCoss1.GreatBarracks[Unit.Gauls.Swordsman] = 30;
             // unitsCoss1.GreatStables[Unit.Gauls.Thunder] = 20;
