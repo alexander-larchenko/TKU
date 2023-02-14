@@ -7,10 +7,21 @@ const _ = require('underscore');
 
 function MapHelper() {
 
+    let privateApiKey;
+
     function getApiKey(user) {
 
+        if (privateApiKey) {
+            console.log('using saved privateApiKey');
+            return new Promise((resolve) => {
+                resolve(privateApiKey);
+            })
+        } else {
+            console.log('requesting ApiKey');
+        }
+
         const userName = Users.getUserNameBySession(user.session).toLowerCase();
-        const email = `${userName}@gmail.com`;
+        const email = `myaccount${userName}@gmail.com`;
         const siteName = `the${userName}`;
         const siteUrl = `https://the${userName}.com`;
         const getApiKeyURL = `https://${user.serverDomain}.kingdoms.com/api/external.php?action=requestApiKey&email=${email}&siteName=${siteName}&siteUrl=${siteUrl}&public=true`;
@@ -30,6 +41,7 @@ function MapHelper() {
 
                 if (bodyParsed && bodyParsed.response && bodyParsed.response.privateApiKey) {
 
+                    privateApiKey = bodyParsed.response.privateApiKey;
                     resolve(bodyParsed.response.privateApiKey)
 
                 } else {
@@ -179,6 +191,10 @@ function MapHelper() {
                         }
                     }
 
+                    if (troopsCounter === 0) {
+                        return;
+                    }
+
                     avgAllDpsInfantry = (avgAllDpsInfantry / troopsCounter).toFixed(1);
                     avgAllDpsMounted = (avgAllDpsMounted / troopsCounter).toFixed(1);
 
@@ -194,16 +210,13 @@ function MapHelper() {
                         avgAllDpsMounted = '0' + avgAllDpsMounted
                     }
 
-                    if (troopsCounter === 0) {
-                        return;
-                    }
-
                     const oasisMapCell = mapCells.find((cell) => cell.id === oasisCache.data.troops.villageId);
 
                     const oasisData = {
                         x: oasisMapCell.x,
                         y: oasisMapCell.y,
                         animal: oasisTroops.units,
+                        totalTroopsAmount: troopsCounter,
                         counterAnimalType: counterAnimalType,
                         avgAllDps: avgAllDpsInfantry + '/' + avgAllDpsMounted,
                         avgAllDpsInfantry: avgAllDpsInfantry,
@@ -261,9 +274,13 @@ function MapHelper() {
                     console.log(TimeHelper.logDate(), `No Rich Oasis with ${averageMinDps}+ animals`);
                 }
 
-                // Low oasis to farm
-                const maxAvgDpsForFarm = 30;
-                const oasisForFarmData = oasisDetailsData.filter(oasisData => oasisData.avgAllDpsInfantry < maxAvgDpsForFarm && oasisData.distance < 25);
+                // weak oasis to farm
+                const maxAvgDpsForFarm = 70;
+                const oasisForFarmData = oasisDetailsData.filter(oasisData =>
+                    oasisData.avgAllDpsMounted <= maxAvgDpsForFarm
+                    && oasisData.totalTroopsAmount >= 800
+                    && oasisData.distance < 45
+                );
                 if (oasisForFarmData.length) {
 
                     console.log('\x1b[33m%s\x1b[0m', `We Have ${maxAvgDpsForFarm}+ Animals to farm`);
@@ -273,7 +290,7 @@ function MapHelper() {
                     const sortedOasisForFarmData = _.sortBy(oasisForFarmData, 'distance');
 
                     sortedOasisForFarmData.forEach(oasisData => {
-                        let log = `[${oasisData.avgAllDpsInfantry}|${oasisData.avgAllDpsMounted}](${oasisData.counterAnimalType}), ~${oasisData.distance} on (${oasisData.x}|${oasisData.y}) `;
+                        let log = `[${oasisData.avgAllDpsInfantry}|${oasisData.avgAllDpsMounted}](${oasisData.counterAnimalType})[${oasisData.totalTroopsAmount}], ~${oasisData.distance} on (${oasisData.x}|${oasisData.y}) `;
 
                         Object.keys(oasisData.animal).forEach((key) => {
                             let name = AnimalsById[+key];

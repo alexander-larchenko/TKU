@@ -1,13 +1,12 @@
 function Users() {
 
     this.Coss = {
-        session: 'ffd23f0ad273038bde38',
-        clientId: '63e037b70a871',
-        cookie: '__cmpconsentx17155=CPmpybAPmpybAAfSDBENC2CgAP_AAH_AAAigJLNf_X__b3_v-_7___t0eY1f9_7__-0zjhfdt-8N3f_X_L8X_2M7vF36tr4KuR4ku3bBIUdtHOncTUmx6olVrzPsb02cr7NKJ_Pkmnsbe2dYGH9_n9_z-ZKZ7______7__________________________________________________________________9___BJZr_6__7e_9_3_f__9ujzGr_v_f__2mccL7tv3hu7_6_5fi_-xnd4u_VtfBVyPEl27YJCjto507iak2PVEqteZ9jemzlfZpRP58k09jb2zrAw_v8_v-fzJTPf______f__________________________________________________________________v__4AA; __cmpcccx17155=aBPmtDQTgAwAzADcDuAAIABgAHgAUABYADoALgAwABqADoAPQAgACKAEgASgAoABcADEAGgAPIAgACCAEkAJoAVwAvQB7AHwAQ4AxACCgEaAI6ATgA0IByQG-gOCAcSA5IB5YD0QIOAQ2AiSBEwCKAFgQLMgWiAt6BcEC4YGagM8AahA68CHQERAI3wSMAkoBMECY4E3gKFAUaAIBdVC72F8WL-4v9BkujKsMr4cig6ZiAjF2KUFEqa1tvG3Ctw63EFuIm4jtyU3JYA; _ga=GA1.2.359649246.1675547138; _gid=GA1.2.85319506.1675547138; _fbp=fb.1.1675547138475.1097894229; t5mu=1F72gLkNya47; gl5SessionKey=%7B%22key%22%3A%22360091dbcc7785a0f6ad%22%2C%22id%22%3A%221142177%22%7D; gl5PlayerId=1142177; msid=7s8s5eeq407ofj4c7pqsaou6f2; t5SessionKey=%7B%22key%22%3A%22ffd23f0ad273038bde38%22%2C%22id%22%3A%22249%22%7D; desktopNotifications=%7B%22action%22%3A%22cancel%22%2C%22timestamp%22%3A1675637790572%7D; village=538394616',
+        session: '841b5affa6ff8e1b4196',
+        clientId: '63eab8389aba8',
+        cookie: '__cmpconsentx17155=CPmpybAPmpybAAfSDBENC2CgAP_AAH_AAAigJLNf_X__b3_v-_7___t0eY1f9_7__-0zjhfdt-8N3f_X_L8X_2M7vF36tr4KuR4ku3bBIUdtHOncTUmx6olVrzPsb02cr7NKJ_Pkmnsbe2dYGH9_n9_z-ZKZ7______7__________________________________________________________________9___BJZr_6__7e_9_3_f__9ujzGr_v_f__2mccL7tv3hu7_6_5fi_-xnd4u_VtfBVyPEl27YJCjto507iak2PVEqteZ9jemzlfZpRP58k09jb2zrAw_v8_v-fzJTPf______f__________________________________________________________________v__4AA; __cmpcccx17155=aBPmslrzgAwAzADcDuAAIABgAHgAUABYADoALgAwABqADoAPQAgACKAEgASgAoABcADEAGgAPIAgACCAEkAJoAVwAvQB7AHwAQ4AxACCgEaAI6ATgA0IByQG-gOCAcSA5IB5YD0QIOAQ2AiSBEwCKAFgQLMgWiAt6BcEC4YGagM8AahA68CHQERAI3wSMAkoBMECY4E3gKFAUaAIBdVC72F8WL-4v9BkujKsMr4cig6ZiAjF2KUFEqa1tvG3Ctw63EFuIm4jtyU3JYA; _ga=GA1.2.870411420.1675535026; _fbp=fb.1.1675535026800.2088965874; t5mu=DeXoBV1jOj4n; _gid=GA1.2.895459834.1675624055; gl5SessionKey=%7B%22key%22%3A%22aae4818d249d28530ba5%22%2C%22id%22%3A%221142177%22%7D; gl5PlayerId=1142177; msid=s88pv298m4a7dikqda9ua6fke6; t5SessionKey=%7B%22key%22%3A%22841b5affa6ff8e1b4196%22%2C%22id%22%3A%22249%22%7D; desktopNotifications=%7B%22action%22%3A%22cancel%22%2C%22timestamp%22%3A1676327009470%7D; village=538394616',
         village: '538394616',
         coords: { x: -8, y: 46 },
         village2: '538427383',
-        coords2: { x: -9, y: 47 },
         village3: '536789008',
         //village4: '536723475',
         // village5: '536592403',
