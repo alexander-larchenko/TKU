@@ -7,7 +7,17 @@ const _ = require('underscore');
 
 function MapHelper() {
 
-    let privateApiKey;
+    /*
+     Make a manual request to the Kingdoms API to get the private API key.
+     This is required to make any requests to the Kingdoms API.
+     Save it here or leave it blank for script to request a new key itself
+     */
+    /*
+    meanwhile
+    https://com1nx3.kingdoms.com/api/external.php?action=requestApiKey&email=icecoss@gmail.com&siteName=thegettertools.com&siteUrl=https://gettertools.com&public=true
+    {"time":1757863067949,"response":{"privateApiKey":"25f870cd9b13bde17827237358228f65","publicSiteKey":"ac9750b55f5802c6bd6b0ffc2f076284"}}
+     */
+    let privateApiKey = '25f870cd9b13bde17827237358228f65';
 
     function getApiKey(user) {
 
@@ -278,7 +288,7 @@ function MapHelper() {
                 const maxAvgDpsForFarm = 70;
                 const oasisForFarmData = oasisDetailsData.filter(oasisData =>
                     oasisData.avgAllDpsMounted <= maxAvgDpsForFarm
-                    && oasisData.totalTroopsAmount >= 800
+                    && oasisData.totalTroopsAmount >= 500
                     && oasisData.distance < 45
                 );
                 if (oasisForFarmData.length) {

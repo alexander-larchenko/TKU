@@ -1,11 +1,11 @@
 function Users() {
 
     this.Coss = {
-        session: '841b5affa6ff8e1b4196',
-        clientId: '63eab8389aba8',
-        cookie: '__cmpconsentx17155=CPmpybAPmpybAAfSDBENC2CgAP_AAH_AAAigJLNf_X__b3_v-_7___t0eY1f9_7__-0zjhfdt-8N3f_X_L8X_2M7vF36tr4KuR4ku3bBIUdtHOncTUmx6olVrzPsb02cr7NKJ_Pkmnsbe2dYGH9_n9_z-ZKZ7______7__________________________________________________________________9___BJZr_6__7e_9_3_f__9ujzGr_v_f__2mccL7tv3hu7_6_5fi_-xnd4u_VtfBVyPEl27YJCjto507iak2PVEqteZ9jemzlfZpRP58k09jb2zrAw_v8_v-fzJTPf______f__________________________________________________________________v__4AA; __cmpcccx17155=aBPmslrzgAwAzADcDuAAIABgAHgAUABYADoALgAwABqADoAPQAgACKAEgASgAoABcADEAGgAPIAgACCAEkAJoAVwAvQB7AHwAQ4AxACCgEaAI6ATgA0IByQG-gOCAcSA5IB5YD0QIOAQ2AiSBEwCKAFgQLMgWiAt6BcEC4YGagM8AahA68CHQERAI3wSMAkoBMECY4E3gKFAUaAIBdVC72F8WL-4v9BkujKsMr4cig6ZiAjF2KUFEqa1tvG3Ctw63EFuIm4jtyU3JYA; _ga=GA1.2.870411420.1675535026; _fbp=fb.1.1675535026800.2088965874; t5mu=DeXoBV1jOj4n; _gid=GA1.2.895459834.1675624055; gl5SessionKey=%7B%22key%22%3A%22aae4818d249d28530ba5%22%2C%22id%22%3A%221142177%22%7D; gl5PlayerId=1142177; msid=s88pv298m4a7dikqda9ua6fke6; t5SessionKey=%7B%22key%22%3A%22841b5affa6ff8e1b4196%22%2C%22id%22%3A%22249%22%7D; desktopNotifications=%7B%22action%22%3A%22cancel%22%2C%22timestamp%22%3A1676327009470%7D; village=538394616',
-        village: '538394616',
-        coords: { x: -8, y: 46 },
+        session: 'f0a1f5fa7106bc03ce0a',
+        clientId: '68c9438c6896a',
+        cookie: 't5mu=uwSSRpnp1v0Q; __cmpconsentx17155=CQXN0fAQXN0fAAfSDDENB6FsAIAAAAAAAAYgLeQIgAcADNAIcAZ8BEoCPAEqgNmAdsA88CCgENgIjARMAiwBGkCRAEjAJKASjAmSBQMChQFDgKLAUcAqkBVkCsAFcwK-gWKAtWBbwFvIC4AOABmgGfAR4AlUB2wDzwIKARpAkQBJQCUYEyQKLAUcAqkBVkCsAFcwK-gWKAtWBbwAAA; _gid=GA1.2.152502522.1757073371; msid=37tpia0vcgqicke543qccvbu84; gl5PlayerId=1140788; t5SessionKey=%7B%22key%22%3A%22f0a1f5fa7106bc03ce0a%22%2C%22id%22%3A%221260%22%7D; _ga=GA1.2.1439441964.1755787947; gl5SessionKey=%7B%22key%22%3A%22ddf1d9a0f36de52075a4%22%2C%22id%22%3A%221140788%22%7D; _ga_KC5JEQ0CQR=GS2.1.s1757887379$o4$g1$t1757887381$j58$l0$h0; village=535707612; _gat=1; __cmpcccx17155=aCQX3KOBgAqWFDePbMPemtNGMDVqYLLDDg8IxlgMwZDWmWLTAZmlgxDEMFllpDSYGTBeV5YWUNINCzMNRpqwjImsYmTSyBlZGhhpePQZWQYTEaGVkw4vSMzVoashrzyGMTXbMMtMrLJiwEyoyRMhGJaXLzExNJmjSzRNZWDMmTI0Hr0MywzS5PMGhh3rRiOvWGayxpo95TKjBYayVrAGUpCyE0kGVVZJEiaClQw',
+        village: '535740381',
+        coords: { x: -35, y: -35 },
         village2: '538427383',
         village3: '536789008',
         //village4: '536723475',
@@ -18,7 +18,7 @@ function Users() {
         // village11: '53695283722',
         // village12: '537051161',
         // village13: '536625187',
-        serverDomain: 'testx5'
+        serverDomain: 'com1nx3'
     };
 
     this.AlexCoss = {
