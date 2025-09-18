@@ -22,6 +22,22 @@ function TimeHelper() {
     function getRandomInt(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
+
+    this.formatTime = function(seconds) {
+        // Ensure non-negative and integer
+        seconds = Math.max(0, Math.ceil(seconds));
+
+        const hrs = Math.floor(seconds / 3600);
+        const mins = Math.floor((seconds % 3600) / 60);
+        const secs = seconds % 60;
+
+        // Pad with leading zeros if needed
+        const hh = String(hrs).padStart(2, "0");
+        const mm = String(mins).padStart(2, "0");
+        const ss = String(secs).padStart(2, "0");
+
+        return `${hh}:${mm}:${ss}`;
+    }
 }
 
 module.exports = new TimeHelper();

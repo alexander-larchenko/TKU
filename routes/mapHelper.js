@@ -222,6 +222,35 @@ function MapHelper() {
 
                     const oasisMapCell = mapCells.find((cell) => cell.id === oasisCache.data.troops.villageId);
 
+                    // Oasis Type Human Readable
+                    let oasisType = '???';
+                    switch (oasisCache.data.oasisType.toString()) {
+                        case '10':
+                            oasisType = 'W';
+                            break;
+                        case '20':
+                            oasisType = 'C';
+                            break;
+                        case '30':
+                            oasisType = 'S';
+                            break;
+                        case '40':
+                            oasisType = 'G';
+                            break;
+                        case '11':
+                            oasisType = 'W+';
+                            break;
+                        case '21':
+                            oasisType = 'C+';
+                            break;
+                        case '31':
+                            oasisType = 'S+';
+                            break;
+                        case '41':
+                            oasisType = 'G+';
+                            break;
+                    }
+
                     const oasisData = {
                         x: oasisMapCell.x,
                         y: oasisMapCell.y,
@@ -231,7 +260,9 @@ function MapHelper() {
                         avgAllDps: avgAllDpsInfantry + '/' + avgAllDpsMounted,
                         avgAllDpsInfantry: avgAllDpsInfantry,
                         avgAllDpsMounted: avgAllDpsMounted,
-                        distance: 0
+                        distance: 0,
+                        travelTime: '',
+                        oasisType: oasisType,
                     }
 
                     if (user.coords) {
@@ -239,6 +270,11 @@ function MapHelper() {
                             Math.pow(Math.abs(oasisMapCell.x - user.coords.x), 2) + Math.pow(Math.abs(oasisMapCell.y - user.coords.y), 2)
                         ).toFixed(1);
                         oasisData.distance = `${distance < 10 ? '0' : '' }${distance}`;
+
+                        // calculate travel time for the specified unit speed
+                        const unitSpeed = 26;
+                        const travelTimeSec = distance / unitSpeed * 3600;
+                        oasisData.travelTime = TimeHelper.formatTime(travelTimeSec);
                     }
 
                     oasisDetailsData.push(oasisData);
@@ -300,7 +336,7 @@ function MapHelper() {
                     const sortedOasisForFarmData = _.sortBy(oasisForFarmData, 'distance');
 
                     sortedOasisForFarmData.forEach(oasisData => {
-                        let log = `[${oasisData.avgAllDpsInfantry}|${oasisData.avgAllDpsMounted}](${oasisData.counterAnimalType})[${oasisData.totalTroopsAmount}], ~${oasisData.distance} on (${oasisData.x}|${oasisData.y}) `;
+                        let log = `[${oasisData.avgAllDpsInfantry}|${oasisData.avgAllDpsMounted}](${oasisData.counterAnimalType})[${String(oasisData.totalTroopsAmount).padStart(4,' ')}], ~${oasisData.distance} [${oasisData.travelTime}] ${String(oasisData.oasisType).padEnd(2,' ')} on (${oasisData.x}|${oasisData.y}) `;
 
                         Object.keys(oasisData.animal).forEach((key) => {
                             let name = AnimalsById[+key];
