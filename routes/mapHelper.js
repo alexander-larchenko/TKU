@@ -16,13 +16,17 @@ function MapHelper() {
     meanwhile
     https://com1nx3.kingdoms.com/api/external.php?action=requestApiKey&email=icecoss@gmail.com&siteName=thegettertools.com&siteUrl=https://gettertools.com&public=true
     {"time":1757863067949,"response":{"privateApiKey":"25f870cd9b13bde17827237358228f65","publicSiteKey":"ac9750b55f5802c6bd6b0ffc2f076284"}}
+    https://tr2x3.kingdoms.com/api/external.php?action=requestApiKey&email=icecoss@gmail.com&siteName=thegettertools.com&siteUrl=https://gettertools.com&public=true
+    {"time":1758244006588,"response":{"privateApiKey":"5a8deb5770a68741783f206a7f69b483","publicSiteKey":"041dbdf6526299ad280fb38bb866f697"}}
      */
-    let privateApiKey = '25f870cd9b13bde17827237358228f65';
+    let privateApiKey = '';
 
     function getApiKey(user) {
 
-        if (privateApiKey) {
-            console.log('using saved privateApiKey');
+        const userName = Users.getUserNameBySession(user.session).toLowerCase();
+
+        if ((userName === 'Coss' && user.privateApiKey)) {
+            console.log(`using saved privateApiKey of ${userName}: ${user.privateApiKey ?? privateApiKey}`);
             return new Promise((resolve) => {
                 resolve(privateApiKey);
             })
@@ -30,10 +34,9 @@ function MapHelper() {
             console.log('requesting ApiKey');
         }
 
-        const userName = Users.getUserNameBySession(user.session).toLowerCase();
-        const email = `myaccount${userName}@gmail.com`;
-        const siteName = `the${userName}`;
-        const siteUrl = `https://the${userName}.com`;
+        const email = `icecoss@gmail.com`;
+        const siteName = `thegettertools.com`;
+        const siteUrl = `https://gettertools.com`;
         const getApiKeyURL = `https://${user.serverDomain}.kingdoms.com/api/external.php?action=requestApiKey&email=${email}&siteName=${siteName}&siteUrl=${siteUrl}&public=true`;
 
         return new Promise((resolve, reject) => {
@@ -298,34 +301,34 @@ function MapHelper() {
                 console.log(TimeHelper.logDate(), ' Animal Data Updated');
 
                 // Rich oasis to capture
-                const averageMinDps = 150;
-                const filteredOasisDetailsData = oasisDetailsData.filter(oasisData => oasisData.avgAllDpsInfantry >= averageMinDps || oasisData.avgAllDpsMounted >= averageMinDps);
-                if (filteredOasisDetailsData.length) {
-
-                    console.log('\x1b[31m%s\x1b[0m', `We Have ${averageMinDps}+ Animals to capture`);
-
-                    filteredOasisDetailsData.forEach(richOasisData => {
-
-                        let log = `[${richOasisData.avgAllDpsInfantry}|${richOasisData.avgAllDpsMounted}](${richOasisData.counterAnimalType}), ~${richOasisData.distance} on (${richOasisData.x}|${richOasisData.y}) `;
-
-                        Object.keys(richOasisData.animal).forEach((key) => {
-                            let name = AnimalsById[+key];
-                            log += `{${name}: ${richOasisData.animal[key]}} `;
-                        });
-
-                        console.log(log);
-                    })
-
-                } else {
-                    console.log(TimeHelper.logDate(), `No Rich Oasis with ${averageMinDps}+ animals`);
-                }
+                // const averageMinDps = 150;
+                // const filteredOasisDetailsData = oasisDetailsData.filter(oasisData => oasisData.avgAllDpsInfantry >= averageMinDps || oasisData.avgAllDpsMounted >= averageMinDps);
+                // if (filteredOasisDetailsData.length) {
+                //
+                //     console.log('\x1b[31m%s\x1b[0m', `We Have ${averageMinDps}+ Animals to capture`);
+                //
+                //     filteredOasisDetailsData.forEach(richOasisData => {
+                //
+                //         let log = `[${richOasisData.avgAllDpsInfantry}|${richOasisData.avgAllDpsMounted}](${richOasisData.counterAnimalType}), ~${richOasisData.distance} on (${richOasisData.x}|${richOasisData.y}) `;
+                //
+                //         Object.keys(richOasisData.animal).forEach((key) => {
+                //             let name = AnimalsById[+key];
+                //             log += `{${name}: ${richOasisData.animal[key]}} `;
+                //         });
+                //
+                //         console.log(log);
+                //     })
+                //
+                // } else {
+                //     console.log(TimeHelper.logDate(), `No Rich Oasis with ${averageMinDps}+ animals`);
+                // }
 
                 // weak oasis to farm
-                const maxAvgDpsForFarm = 70;
+                const maxAvgDpsForFarm = 100;
                 const oasisForFarmData = oasisDetailsData.filter(oasisData =>
                     oasisData.avgAllDpsMounted <= maxAvgDpsForFarm
-                    && oasisData.totalTroopsAmount >= 500
-                    && oasisData.distance < 45
+                    && oasisData.totalTroopsAmount >= 400
+                    && oasisData.distance < 26*5
                 );
                 if (oasisForFarmData.length) {
 
@@ -336,12 +339,18 @@ function MapHelper() {
                     const sortedOasisForFarmData = _.sortBy(oasisForFarmData, 'distance');
 
                     sortedOasisForFarmData.forEach(oasisData => {
-                        let log = `[${oasisData.avgAllDpsInfantry}|${oasisData.avgAllDpsMounted}](${oasisData.counterAnimalType})[${String(oasisData.totalTroopsAmount).padStart(4,' ')}], ~${oasisData.distance} [${oasisData.travelTime}] ${String(oasisData.oasisType).padEnd(2,' ')} on (${oasisData.x}|${oasisData.y}) `;
+                        let troopsData = `[${oasisData.avgAllDpsInfantry}|${oasisData.avgAllDpsMounted}](${oasisData.counterAnimalType})[${String(oasisData.totalTroopsAmount).padStart(4,' ')}]`;
+                        let oasisTypeString = String(oasisData.oasisType.startsWith('C') ? `[b]${oasisData.oasisType}[/b]` : oasisData.oasisType).padEnd(2,' ');
+                        let oasisCoords = `(${oasisData.x}|${oasisData.y})`;
 
+                        let animalsDetails = '';
                         Object.keys(oasisData.animal).forEach((key) => {
                             let name = AnimalsById[+key];
-                            log += `{${name}: ${oasisData.animal[key]}} `;
+                            animalsDetails += `{${name}: ${oasisData.animal[key]}} `;
                         });
+
+                        // [046.3|050.9](3)[ 502], ~35.1 [01:21:00] W on (0|-33) {Spider: 188} {Snake: 157} {Bat: 157}
+                        let log = `${troopsData}, ~${oasisData.distance} [${oasisData.travelTime}] ${oasisTypeString} on ${oasisCoords} ${animalsDetails}`;
 
                         console.log(log);
                     })
@@ -356,7 +365,12 @@ function MapHelper() {
         // before run - make this call in browser and save ownerId/targetId
         // from payload.params.
 
+        // Взять ownderId из предварительного запроса вручную.
+        const ownderId = 823;
+
         function crop(mapCellsData) {
+
+            console.log(JSON.stringify(mapCellsData));
 
             Utils.asyncLoop(
                 mapCellsData.length,
@@ -365,6 +379,13 @@ function MapHelper() {
                     let i = loop.iteration();
 
                     let obj = mapCellsData[i];
+
+
+                    const fieldColors = {
+                        '9': 10, // фиолетовый
+                        '15': 2, // оранжевый
+                        '7': 7 // ярко зеленый
+                    }
 
                     if (obj.resType == '3339' && obj.oasis == 0 && obj.kingdomId == 0) {
 
@@ -381,9 +402,9 @@ function MapHelper() {
                                     {
                                         'owner': 1,
                                         'type': 3,
-                                        'color': 3,
+                                        'color': fieldColors['9'],
                                         'editType': 3,
-                                        'ownerId': 249,
+                                        'ownerId': ownderId,
                                         'targetId': obj.id
                                     }
                                 ],
@@ -392,7 +413,7 @@ function MapHelper() {
                                     'type': 5,
                                     'duration': 12,
                                     'cellId': obj.id,
-                                    'targetId': 249
+                                    'targetId': ownderId
                                 }
                             },
                             'session': user.session
@@ -433,9 +454,9 @@ function MapHelper() {
                                     {
                                         'owner': 1,
                                         'type': 3,
-                                        'color': 10,
+                                        'color': fieldColors['15'],
                                         'editType': 3,
-                                        'ownerId': 833,
+                                        'ownerId': ownderId,
                                         'targetId': obj.id
                                     }
                                 ],
@@ -444,7 +465,59 @@ function MapHelper() {
                                     'type': 5,
                                     'duration': 12,
                                     'cellId': obj.id,
-                                    'targetId': 833
+                                    'targetId': ownderId
+                                }
+                            },
+                            'session': user.session
+                        };
+
+                        let options = {
+                            method: 'POST',
+                            headers: {
+                                'content-type': 'application/json;charset=UTF-8'
+                            },
+                            serverDomain: user.serverDomain,
+                            json: true,
+                            body: listObj
+                        };
+
+                        RequestHelper.httpRequest(options)
+                            .then(
+                                (body) => {
+                                    console.log(body);
+                                    setTimeout(loop.next, 1000);
+                                },
+                                (error) => {
+                                    console.log(error)
+                                }
+                            );
+
+                    } else if (obj.resType.length === 4 && obj.resType[3] == '7' && obj.oasis == 0 && obj.kingdomId == 0) {
+
+                        console.log('7ka')
+
+                        //7ka добавлена
+                        let listObj = {
+                            'controller': 'map',
+                            'action': 'editMapMarkers',
+                            'clientId': user.clientId,
+                            'params': {
+                                'markers': [
+                                    {
+                                        'owner': 1,
+                                        'type': 3,
+                                        'color': fieldColors['7'],
+                                        'editType': 3,
+                                        'ownerId': ownderId,
+                                        'targetId': obj.id
+                                    }
+                                ],
+                                'fieldMessage': {
+                                    'text': '',
+                                    'type': 5,
+                                    'duration': 12,
+                                    'cellId': obj.id,
+                                    'targetId': ownderId
                                 }
                             },
                             'session': user.session
@@ -483,6 +556,7 @@ function MapHelper() {
         }
 
         getMapInfo(user).then(openApiData => {
+            console.log(JSON.stringify(openApiData));
             const mapCells = openApiData.response.map.cells;
             crop(mapCells)
         });

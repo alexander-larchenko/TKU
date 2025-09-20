@@ -896,8 +896,9 @@ function main() {
 
     /** Пометить Девятки Пятнашки */
     if (Tasks.cropMap9_15) {
+        const user = Users.CossTR;
         // marks the 9/15 crop fields on the map
-        MapHelper.markCropCells(defaultUser);
+        MapHelper.markCropCells(user);
         //getMapInfo('crop', defaultUser.session, serverDomain);
     }
 
