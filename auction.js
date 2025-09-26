@@ -1,8 +1,9 @@
 // auction cage price
 var cagePrice = 29.9;
-var smallBandagePrice = 15.9;
+var smallBandagePrice = 8.75;
 var bandagePrice = 19.9;
 var mazPrice = 19.9;
+var troopsCapacityHideIfLess = 2000;
 (function() {
     document.onclick = function (event) {
         if (event.target.className && event.target.className.indexOf('priceInput') === 0) {
@@ -92,9 +93,32 @@ var mazPrice = 19.9;
         });
     }
 
+    function performIncomingTroopsLowBalanceHide() {
+        var troopsCapacityHideTreshhold = troopsCapacityHideIfLess ?? 2000;
+        var troopContainers = document.querySelectorAll('.troopsDetailContainer');
+        troopContainers.forEach(troopContainer => {
+                var icon = troopContainer.querySelector('.carryCapacity i');
+                if (icon) {
+                    // tooltip-data="percent:6,used:14,max:247"
+                    var capacityAttributeMatch = icon.getAttribute('tooltip-data').match(/used:(\d+)/)
+                    if (capacityAttributeMatch) {
+                        const usedCapacityNumber = capacityAttributeMatch[1];
+                        if (Number(usedCapacityNumber) < troopsCapacityHideTreshhold) {
+                            troopContainer.style.display = 'none';
+                        }
+                    }
+                }
+            }
+        )
+    }
+
     function doHelper() {
         if (getAuctionTableRows().length) {
             performItemsCheck();
+
+        }
+        if (document.querySelector('.troopsDetailContainer')) {
+            performIncomingTroopsLowBalanceHide();
         }
     }
 
