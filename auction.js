@@ -1,6 +1,6 @@
 // auction cage price
 var cagePrice = 29.9;
-var smallBandagePrice = 8.75;
+var smallBandagePrice = 5;
 var bandagePrice = 19.9;
 var mazPrice = 19.9;
 var troopsCapacityHideIfLess = 2000;
